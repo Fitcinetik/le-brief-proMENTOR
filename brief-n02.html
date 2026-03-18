@@ -353,26 +353,16 @@
   .check-sub { font-size: 12px; color: var(--gray); line-height: 1.6; }
   .check-item.done .check-title { text-decoration: line-through; opacity: 0.5; }
 
-  /* ── SEPARATEUR IA ── */
-  .ia-separator {
-    margin: 32px -32px 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--teal), #2a8a86);
-  }
-
   /* ── SECTION IA ── */
-  .ia-section {
-    margin: 0 -32px;
-    background: var(--ia-bg);
-    padding: 28px 32px 36px;
-  }
+  .ia-section { padding: 0; }
+
   .ia-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 22px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid rgba(72,193,188,0.2);
+    padding: 20px 0 14px;
+    border-bottom: 2px solid var(--gray-light);
+    margin-bottom: 4px;
   }
   .ia-header-left {
     display: flex;
@@ -380,23 +370,25 @@
     gap: 10px;
   }
   .ia-bar {
-    width: 4px; height: 28px;
+    width: 4px; height: 22px;
     background: var(--teal);
     border-radius: 2px;
+    flex-shrink: 0;
   }
   .ia-title-block {}
   .ia-title-label {
-    font-size: 9px;
+    font-size: 11px;
     font-weight: 700;
-    color: var(--teal);
+    color: var(--black);
     letter-spacing: 2.5px;
     text-transform: uppercase;
   }
   .ia-title-main {
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--white);
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--gray);
     margin-top: 2px;
+    letter-spacing: 0.3px;
   }
   .ia-new-pill {
     background: var(--teal);
@@ -409,75 +401,85 @@
     text-transform: uppercase;
   }
 
-  /* IA Articles */
-  .ia-article { padding: 18px 0; border-bottom: 1px solid rgba(255,255,255,0.07); }
+  /* IA Articles — même style que les articles normaux */
+  .ia-article { padding: 20px 0; border-bottom: 1px solid var(--gray-mid); }
   .ia-article:last-child { border-bottom: none; }
   .ia-kicker {
-    font-size: 9px;
+    font-size: 9.5px;
     font-weight: 700;
     color: var(--teal);
     letter-spacing: 2px;
     text-transform: uppercase;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .ia-kicker::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--teal);
+    opacity: 0.25;
   }
   .ia-article-title {
     font-family: 'Playfair Display', serif;
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--white);
-    line-height: 1.3;
+    font-size: 21px;
+    font-weight: 900;
+    color: var(--black);
+    line-height: 1.22;
     margin-bottom: 10px;
+    letter-spacing: -0.3px;
   }
   .ia-article-body {
-    font-size: 13px;
+    font-size: 13.5px;
     line-height: 1.7;
-    color: rgba(255,255,255,0.65);
+    color: var(--gray);
     margin-bottom: 12px;
   }
   .ia-insight-box {
-    background: rgba(72,193,188,0.08);
+    background: var(--teal-light);
     border-left: 3px solid var(--teal);
-    padding: 12px 14px;
+    padding: 11px 14px;
     border-radius: 0 5px 5px 0;
     font-size: 12.5px;
     line-height: 1.6;
-    color: var(--teal);
+    color: #1a4f4d;
   }
-  .ia-insight-box strong { color: #7de8e4; }
+  .ia-insight-box strong { color: var(--teal-dark); }
 
   /* IA Steps */
   .ia-steps { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; }
   .ia-step {
-    background: var(--ia-card);
+    background: var(--gray-light);
     border-radius: 8px;
-    padding: 14px 16px 14px 14px;
+    padding: 14px 16px;
     border-left: 3px solid var(--teal);
-    position: relative;
   }
   .ia-step-title {
     font-size: 12.5px;
     font-weight: 700;
-    color: var(--white);
+    color: var(--black);
     margin-bottom: 5px;
   }
   .ia-step-body {
     font-size: 12px;
-    color: rgba(255,255,255,0.55);
+    color: var(--gray);
     line-height: 1.6;
   }
 
   /* IA Tip box */
   .ia-tip-box {
-    background: rgba(72,193,188,0.12);
-    border: 1px solid rgba(72,193,188,0.3);
-    border-radius: 8px;
+    background: var(--teal-light);
+    border-left: 4px solid var(--teal);
+    border-radius: 0 8px 8px 0;
     padding: 14px 16px;
     margin-top: 16px;
     font-size: 12.5px;
     line-height: 1.65;
-    color: rgba(255,255,255,0.75);
+    color: #1a4f4d;
   }
-  .ia-tip-box strong { color: var(--teal); }
+  .ia-tip-box strong { color: var(--teal-dark); }
 
   /* ── RETENIR ── */
   .retenir-box {
@@ -721,10 +723,8 @@
 
   </div><!-- /content -->
 
-  <!-- SÉPARATEUR IA -->
-  <div class="ia-separator reveal"></div>
-
   <!-- SECTION IA -->
+  <div class="content">
   <section class="ia-section">
 
     <div class="ia-header reveal">
@@ -744,12 +744,12 @@
       <div class="ia-article-title">Claude dépasse ChatGPT, et ça change quelque chose pour toi</div>
       <p class="ia-article-body">En mars 2026, Claude d'Anthropic a dépassé ChatGPT au classement des apps les plus téléchargées sur l'App Store américain. Depuis janvier, les utilisateurs gratuits ont bondi de +60% et les abonnés payants ont plus que doublé.</p>
 
-      <button class="accordion-toggle" onclick="toggleAccordionIA(this)" style="color: var(--teal); margin-bottom: 12px;">
-        <span class="arrow" style="color: var(--teal);">▼</span> <span style="color: rgba(255,255,255,0.7); font-size:12px;">Pourquoi ce basculement ?</span>
+      <button class="accordion-toggle" onclick="toggleAccordionIA(this)">
+        <span class="arrow">▼</span> Pourquoi ce basculement ?
       </button>
       <div class="accordion-body">
         <div class="accordion-inner">
-          <p class="ia-article-body" style="margin-bottom: 0;">Anthropic a refusé d'autoriser son IA pour de la surveillance de masse ou des armes autonomes. OpenAI a signé un contrat similaire avec le Pentagone. Une partie des utilisateurs a choisi de migrer par principe. Côté performances : Claude Opus 4.6 et GPT-5.4 sont aujourd'hui au même niveau sur les benchmarks. La vraie différence ? Claude excelle en raisonnement, écriture longue et cohérence des instructions, idéal pour les créateurs de contenu.</p>
+          <p class="ia-article-body">Anthropic a refusé d'autoriser son IA pour de la surveillance de masse ou des armes autonomes. OpenAI a signé un contrat similaire avec le Pentagone. Une partie des utilisateurs a choisi de migrer par principe. Côté performances : Claude Opus 4.6 et GPT-5.4 sont aujourd'hui au même niveau sur les benchmarks. La vraie différence ? Claude excelle en raisonnement, écriture longue et cohérence des instructions, idéal pour les créateurs de contenu.</p>
         </div>
       </div>
 
@@ -789,6 +789,7 @@
     </div>
 
   </section><!-- /ia-section -->
+  </div><!-- /ia content wrapper -->
 
   <div class="content">
 
