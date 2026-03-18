@@ -86,6 +86,45 @@
     height: 1px;
     background: rgba(72,193,188,0.2);
   }
+  /* Label dernier numéro */
+  .section-label-featured {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--teal);
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-label-featured::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(72,193,188,0.2);
+  }
+  /* Séparation avant archives */
+  .archives-separator {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 52px 0 28px;
+  }
+  .archives-separator::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(72,193,188,0.2);
+  }
+  .archives-separator span {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--teal);
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
   /* Flèche indicateur sous le label dernier numéro */
   .featured-hint {
     text-align: center;
@@ -360,7 +399,7 @@
 <div class="container">
 
   <!-- DERNIER NUMÉRO -->
-  <div class="section-label reveal">✦ Dernier numéro</div>
+  <div class="section-label-featured reveal">✦ Dernier numéro</div>
 
   <p class="featured-hint">↓ Cliquer pour lire</p>
   <a href="brief-n02.html" class="featured reveal">
@@ -384,7 +423,9 @@
   </a>
 
   <!-- ARCHIVES -->
-  <div class="section-label reveal" style="margin-top: 8px;">📚 Archives</div>
+  <div class="archives-separator reveal">
+    <span>◆ Archives</span>
+  </div>
 
   <div class="archives-grid">
 
