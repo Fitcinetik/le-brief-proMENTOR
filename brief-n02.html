@@ -544,6 +544,45 @@
   }
   .reveal.visible { opacity: 1; transform: translateY(0); }
 
+  /* ── GLOSSAIRE ── */
+  .g {
+    color: var(--teal);
+    font-weight: 600;
+    cursor: pointer;
+    border-bottom: 1px dotted var(--teal);
+    transition: color 0.15s;
+    display: inline;
+  }
+  .g:hover, .g.active { color: var(--teal-dark); border-bottom-color: var(--teal-dark); }
+  .g-def {
+    display: none;
+    background: var(--teal-light);
+    border-left: 3px solid var(--teal);
+    border-radius: 0 5px 5px 0;
+    padding: 8px 12px;
+    margin: 6px 0 4px;
+    font-size: 12px;
+    color: #1a4f4d;
+    line-height: 1.55;
+    font-style: italic;
+    animation: gFadeIn 0.2s ease;
+  }
+  .g-def.open { display: block; }
+  .g-def strong {
+    font-style: normal;
+    color: var(--teal-dark);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 3px;
+  }
+  @keyframes gFadeIn {
+    from { opacity: 0; transform: translateY(-3px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
   /* ── PROGRESS BAR ── */
   .progress-bar {
     position: fixed;
@@ -594,7 +633,7 @@
     <section class="une reveal">
       <div class="une-label">📰 À la une</div>
       <h1 class="une-headline">Instagram ouvre ses outils à tous : ta grille devient ton meilleur commercial</h1>
-      <p class="une-sub">Insights, programmation, audio tendances : ces outils étaient réservés aux pros. Désormais, tout compte public y a accès. Et avec le contrôle sur les thumbnails, ton profil devient une vraie vitrine de vente.</p>
+      <p class="une-sub"><span class="g" onclick="toggleGloss(this)">Insights</span><span class="g-def"><strong>Insights</strong>Statistiques détaillées sur tes publications : portée, impressions, taux d'engagement, sauvegardes. Ils t'aident à comprendre ce qui fonctionne.</span>, programmation, audio tendances : ces outils étaient réservés aux pros. Désormais, tout compte public y a accès. Et avec le contrôle sur les <span class="g" onclick="toggleGloss(this)">thumbnails</span><span class="g-def"><strong>Thumbnail</strong>Miniature d'aperçu d'un post dans ta grille de profil. C'est la première image que voit un visiteur avant de cliquer.</span>, ton profil devient une vraie vitrine de vente.</p>
       <div class="alert-box">
         <strong>Pourquoi ça te concerne directement :</strong> En tant que coach, ton profil Instagram est souvent le premier contact avec un futur client. Avec ces nouveaux outils, tu peux analyser, optimiser et programmer, sans compte pro ni outil tiers.
       </div>
@@ -611,16 +650,16 @@
     <div class="article reveal">
       <div class="kicker">🧰 Accès créateurs</div>
       <div class="article-title">Les outils créateurs ouverts à tous les comptes publics</div>
-      <p class="article-body">Instagram élargit l'accès à plusieurs outils autrefois réservés au mode professionnel : Insights (tableau de performance), audio tendances, programmation de contenu et formats expérimentaux.</p>
+      <p class="article-body">Instagram élargit l'accès à plusieurs outils autrefois réservés au mode professionnel : <span class="g" onclick="toggleGloss(this)">Insights</span><span class="g-def"><strong>Insights</strong>Statistiques détaillées sur tes publications : portée, impressions, taux d'engagement, sauvegardes.</span> (tableau de performance), audio tendances, programmation de contenu et formats expérimentaux.</p>
       <div class="insight-box">
-        <strong>Impact stratégique :</strong> La barrière d'entrée pour créer du contenu pro diminue fortement. Utilise les insights pour identifier tes meilleurs formats, programme tes posts à l'avance et surfe sur les audio tendances pour booster ta portée organique.
+        <strong>Impact stratégique :</strong> La barrière d'entrée pour créer du contenu pro diminue fortement. Utilise les insights pour identifier tes meilleurs formats, programme tes posts à l'avance et surfe sur les audio tendances pour booster ta <span class="g" onclick="toggleGloss(this)">portée organique</span><span class="g-def"><strong>Portée organique</strong>Nombre de personnes qui voient ton contenu sans que tu aies payé pour le promouvoir. Elle dépend de l'algorithme et de l'engagement de ta communauté.</span>.
       </div>
     </div>
 
     <!-- Card 2 : Thumbnails -->
     <div class="article reveal">
       <div class="kicker">🖼️ Grille de profil</div>
-      <div class="article-title">Nouveau contrôle sur les thumbnails dans la grille</div>
+      <div class="article-title">Nouveau contrôle sur les <span class="g" onclick="toggleGloss(this)">thumbnails</span><span class="g-def"><strong>Thumbnail</strong>Miniature d'aperçu d'un post dans ta grille de profil.</span> dans la grille</div>
       <p class="article-body">Instagram permet désormais de modifier l'aperçu d'un post dans la grille : recadrer l'image, repositionner les éléments, ajuster l'aperçu sans modifier le contenu original.</p>
       <button class="accordion-toggle" onclick="toggleAccordion(this)">
         <span class="arrow">▼</span> Voir pourquoi c'est important
@@ -646,7 +685,7 @@
         <blockquote>« L'IA peut augmenter la production de contenu, mais elle pourrait aussi réduire la valeur des créateurs humains. »</blockquote>
         <cite>— Débat interne Instagram, mars 2026</cite>
       </div>
-      <p class="article-body">Instagram teste des fonctionnalités IA pour identifier et monétiser automatiquement des produits dans les posts d'influenceurs. La plateforme cherche un équilibre entre automatisation et préservation de l'économie des créateurs humains.</p>
+      <p class="article-body">Instagram teste des fonctionnalités <span class="g" onclick="toggleGloss(this)">IA</span><span class="g-def"><strong>Intelligence Artificielle (IA)</strong>Technologie permettant à une machine d'analyser des données et de prendre des décisions. Sur Instagram, elle pilote l'algorithme, les recommandations et les nouvelles fonctionnalités automatisées.</span> pour identifier et monétiser automatiquement des produits dans les posts d'<span class="g" onclick="toggleGloss(this)">influenceurs</span><span class="g-def"><strong>Influenceur</strong>Créateur de contenu ayant une communauté engagée, capable d'influencer les décisions d'achat ou les comportements de ses abonnés.</span>. La plateforme cherche un équilibre entre automatisation et préservation de l'économie des créateurs humains.</p>
       <div class="insight-box">
         <strong>Ton angle :</strong> Ta valeur en tant que coach vient de ton authenticité, ton expertise vécue et ta relation avec ta communauté. L'IA ne peut pas remplacer ça, elle peut juste t'aider à aller plus vite.
       </div>
@@ -742,19 +781,19 @@
     <div class="ia-article reveal">
       <div class="ia-kicker">🔥 Actu IA</div>
       <div class="ia-article-title">Claude dépasse ChatGPT, et ça change quelque chose pour toi</div>
-      <p class="ia-article-body">En mars 2026, Claude d'Anthropic a dépassé ChatGPT au classement des apps les plus téléchargées sur l'App Store américain. Depuis janvier, les utilisateurs gratuits ont bondi de +60% et les abonnés payants ont plus que doublé.</p>
+      <p class="ia-article-body">En mars 2026, <span class="g" onclick="toggleGloss(this)">Claude</span><span class="g-def"><strong>Claude</strong>Assistant IA développé par Anthropic. Concurrent direct de ChatGPT, reconnu pour son excellence en raisonnement, rédaction longue et suivi d'instructions complexes.</span> d'Anthropic a dépassé <span class="g" onclick="toggleGloss(this)">ChatGPT</span><span class="g-def"><strong>ChatGPT</strong>Assistant IA développé par OpenAI. Premier outil IA grand public, lancé en 2022. Très polyvalent, il intègre génération d'images, recherche web et de nombreux plugins.</span> au classement des apps les plus téléchargées sur l'App Store américain. Depuis janvier, les utilisateurs gratuits ont bondi de +60% et les abonnés payants ont plus que doublé.</p>
 
       <button class="accordion-toggle" onclick="toggleAccordionIA(this)">
         <span class="arrow">▼</span> Pourquoi ce basculement ?
       </button>
       <div class="accordion-body">
         <div class="accordion-inner">
-          <p class="ia-article-body">Anthropic a refusé d'autoriser son IA pour de la surveillance de masse ou des armes autonomes. OpenAI a signé un contrat similaire avec le Pentagone. Une partie des utilisateurs a choisi de migrer par principe. Côté performances : Claude Opus 4.6 et GPT-5.4 sont aujourd'hui au même niveau sur les benchmarks. La vraie différence ? Claude excelle en raisonnement, écriture longue et cohérence des instructions, idéal pour les créateurs de contenu.</p>
+          <p class="ia-article-body">Anthropic a refusé d'autoriser son IA pour de la surveillance de masse ou des armes autonomes. OpenAI a signé un contrat similaire avec le Pentagone. Une partie des utilisateurs a choisi de migrer par principe. Côté performances : Claude Opus 4.6 et GPT-5.4 sont aujourd'hui au même niveau sur les <span class="g" onclick="toggleGloss(this)">benchmarks</span><span class="g-def"><strong>Benchmark</strong>Test standardisé permettant de mesurer et comparer les performances de différents modèles d'IA sur des tâches précises.</span>. La vraie différence ? Claude excelle en raisonnement, écriture longue et cohérence des instructions, idéal pour les créateurs de contenu.</p>
         </div>
       </div>
 
       <div class="ia-insight-box">
-        <strong>Ce que ça veut dire pour toi :</strong> Tu as peut-être du travail accumulé sur ChatGPT : prompts, contexte, préférences. Tu peux tout récupérer sans repartir de zéro.
+        <strong>Ce que ça veut dire pour toi :</strong> Tu as peut-être du travail accumulé sur ChatGPT : <span class="g" onclick="toggleGloss(this)">prompts</span><span class="g-def"><strong>Prompt</strong>Instruction ou question que tu donnes à une IA pour obtenir une réponse. Plus ton prompt est précis et contextualisé, meilleure sera la réponse.</span>, contexte, préférences. Tu peux tout récupérer sans repartir de zéro.
       </div>
     </div>
 
@@ -825,6 +864,16 @@
 </div><!-- /journal -->
 
 <script>
+  function toggleGloss(el) {
+    const def = el.nextElementSibling;
+    const isOpen = def.classList.contains('open');
+    document.querySelectorAll('.g-def.open').forEach(d => {
+      d.classList.remove('open');
+      d.previousElementSibling.classList.remove('active');
+    });
+    if (!isOpen) { def.classList.add('open'); el.classList.add('active'); }
+  }
+
   function toggleAccordion(btn) {
     btn.classList.toggle('open');
     const body = btn.nextElementSibling;
