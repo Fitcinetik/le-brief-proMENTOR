@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Brief proMENTOR — N°02</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal: #48C1BC;
+    --teal-light: #e8f9f8;
+    --teal-dark: #2a8a86;
+    --black: #0D0D0D;
+    --dark: #1A1A1A;
+    --gray: #444444;
+    --gray-light: #f5f5f5;
+    --gray-mid: #e0e0e0;
+    --white: #ffffff;
+    --text: #222222;
+    --ia-bg: #0D0D1F;
+    --ia-card: #151525;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #f0eeea;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  .journal {
+    max-width: 680px;
+    margin: 32px auto 60px;
+    background: var(--white);
+    box-shadow: 0 4px 60px rgba(0,0,0,0.12);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  /* ── MASTHEAD ── */
+  .masthead {
+    background: var(--black);
+    padding: 28px 32px 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .masthead::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: var(--teal);
+  }
+  .masthead-new-badge {
+    position: absolute;
+    top: 16px; right: 20px;
+    background: var(--teal);
+    color: var(--black);
+    font-size: 9px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .masthead-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--white);
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
+  }
+  .masthead-logo span { color: var(--teal); }
+  .masthead-divider {
+    width: 60%; margin: 10px auto;
+    border: none; border-top: 1px solid rgba(72,193,188,0.35);
+  }
+  .masthead-meta {
+    font-size: 11px;
+    color: #888;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .reading-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--teal);
+    color: var(--black);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+  }
+  .chips {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .chip {
+    border: 1px solid rgba(72,193,188,0.5);
+    color: var(--teal);
+    font-size: 10px;
+    font-weight: 600;
+    padding: 3px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .chip.active {
+    background: var(--teal);
+    color: var(--black);
+    border-color: var(--teal);
+  }
+
+  /* ── CONTENT ── */
+  .content { padding: 0 32px 40px; }
+
+  /* ── UNE ── */
+  .une {
+    padding: 30px 0 24px;
+    border-bottom: 1px solid var(--gray-mid);
+  }
+  .une-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--teal);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .une-headline {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 900;
+    line-height: 1.2;
+    color: var(--black);
+    margin-bottom: 12px;
+  }
+  .une-sub {
+    font-size: 15px;
+    color: var(--gray);
+    line-height: 1.65;
+    margin-bottom: 16px;
+  }
+  .alert-box {
+    background: var(--teal-light);
+    border-left: 4px solid var(--teal);
+    padding: 14px 16px;
+    border-radius: 0 6px 6px 0;
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: #1a4f4d;
+  }
+  .alert-box strong { color: var(--teal-dark); }
+
+  /* ── SECTION HEADERS ── */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 20px 0 14px;
+    border-bottom: 2px solid var(--gray-light);
+  }
+  .section-header .bar {
+    width: 4px; height: 22px;
+    background: var(--teal);
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .section-header h2 {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--black);
+  }
+  .section-header .emoji { font-size: 16px; }
+
+  /* ── ARTICLES ── */
+  .article { padding: 20px 0; border-bottom: 1px solid var(--gray-mid); }
+  .article:last-child { border-bottom: none; }
+  .kicker {
+    font-size: 9.5px;
+    font-weight: 700;
+    color: var(--teal);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .kicker::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--teal);
+    opacity: 0.25;
+  }
+  .article-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 21px;
+    font-weight: 900;
+    color: var(--black);
+    line-height: 1.22;
+    margin-bottom: 10px;
+    letter-spacing: -0.3px;
+  }
+  .article-body {
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: var(--gray);
+    margin-bottom: 12px;
+  }
+  .insight-box {
+    background: var(--teal-light);
+    border-left: 3px solid var(--teal);
+    padding: 11px 14px;
+    border-radius: 0 5px 5px 0;
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: #1a4f4d;
+  }
+  .insight-box strong { color: var(--teal-dark); }
+
+  /* ── ACCORDION ── */
+  .accordion-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--teal);
+    cursor: pointer;
+    margin-top: 10px;
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: inherit;
+    user-select: none;
+  }
+  .accordion-toggle:hover { color: var(--teal-dark); }
+  .accordion-toggle .arrow {
+    display: inline-block;
+    transition: transform 0.3s ease;
+    font-style: normal;
+  }
+  .accordion-toggle.open .arrow { transform: rotate(180deg); }
+  .accordion-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, opacity 0.3s ease;
+    opacity: 0;
+  }
+  .accordion-body.open { max-height: 800px; opacity: 1; }
+  .accordion-inner { padding-top: 12px; }
+
+  /* ── QUOTE BOX ── */
+  .quote-box {
+    background: var(--black);
+    border-radius: 8px;
+    padding: 20px 20px 20px 24px;
+    margin: 20px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .quote-box::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 4px;
+    background: var(--teal);
+  }
+  .quote-box blockquote {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.5;
+    margin-bottom: 10px;
+    font-style: italic;
+  }
+  .quote-box cite {
+    font-size: 11px;
+    color: var(--teal);
+    font-style: normal;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── TIPS ── */
+  .tips-list { padding: 4px 0; }
+  .tip-item {
+    display: flex;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--gray-light);
+    align-items: flex-start;
+  }
+  .tip-item:last-child { border-bottom: none; }
+  .tip-number {
+    width: 36px; height: 36px;
+    background: var(--teal);
+    color: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    font-weight: 700;
+    flex-shrink: 0;
+    font-family: 'Playfair Display', serif;
+  }
+  .tip-content { flex: 1; }
+  .tip-title { font-size: 14px; font-weight: 600; color: var(--black); margin-bottom: 4px; }
+  .tip-body { font-size: 12.5px; color: var(--gray); line-height: 1.65; }
+
+  /* ── CHECKLIST ── */
+  .checklist { padding: 4px 0; }
+  .check-item {
+    display: flex;
+    gap: 12px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--gray-light);
+    align-items: flex-start;
+    cursor: pointer;
+  }
+  .check-item:last-child { border-bottom: none; }
+  .check-box {
+    width: 22px; height: 22px;
+    border: 2px solid var(--teal);
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+    transition: background 0.2s;
+  }
+  .check-box.checked { background: var(--teal); }
+  .check-box .tick { color: white; font-size: 13px; display: none; font-weight: 700; }
+  .check-box.checked .tick { display: block; }
+  .check-text { flex: 1; }
+  .check-title { font-size: 13.5px; font-weight: 600; color: var(--black); margin-bottom: 3px; }
+  .check-sub { font-size: 12px; color: var(--gray); line-height: 1.6; }
+  .check-item.done .check-title { text-decoration: line-through; opacity: 0.5; }
+
+  /* ── SEPARATEUR IA ── */
+  .ia-separator {
+    margin: 32px -32px 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--teal), #2a8a86);
+  }
+
+  /* ── SECTION IA ── */
+  .ia-section {
+    margin: 0 -32px;
+    background: var(--ia-bg);
+    padding: 28px 32px 36px;
+  }
+  .ia-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 22px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(72,193,188,0.2);
+  }
+  .ia-header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .ia-bar {
+    width: 4px; height: 28px;
+    background: var(--teal);
+    border-radius: 2px;
+  }
+  .ia-title-block {}
+  .ia-title-label {
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--teal);
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+  }
+  .ia-title-main {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--white);
+    margin-top: 2px;
+  }
+  .ia-new-pill {
+    background: var(--teal);
+    color: var(--black);
+    font-size: 9px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* IA Articles */
+  .ia-article { padding: 18px 0; border-bottom: 1px solid rgba(255,255,255,0.07); }
+  .ia-article:last-child { border-bottom: none; }
+  .ia-kicker {
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--teal);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .ia-article-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.3;
+    margin-bottom: 10px;
+  }
+  .ia-article-body {
+    font-size: 13px;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.65);
+    margin-bottom: 12px;
+  }
+  .ia-insight-box {
+    background: rgba(72,193,188,0.08);
+    border-left: 3px solid var(--teal);
+    padding: 12px 14px;
+    border-radius: 0 5px 5px 0;
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: var(--teal);
+  }
+  .ia-insight-box strong { color: #7de8e4; }
+
+  /* IA Steps */
+  .ia-steps { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; }
+  .ia-step {
+    background: var(--ia-card);
+    border-radius: 8px;
+    padding: 14px 16px 14px 14px;
+    border-left: 3px solid var(--teal);
+    position: relative;
+  }
+  .ia-step-title {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 5px;
+  }
+  .ia-step-body {
+    font-size: 12px;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.6;
+  }
+
+  /* IA Tip box */
+  .ia-tip-box {
+    background: rgba(72,193,188,0.12);
+    border: 1px solid rgba(72,193,188,0.3);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-top: 16px;
+    font-size: 12.5px;
+    line-height: 1.65;
+    color: rgba(255,255,255,0.75);
+  }
+  .ia-tip-box strong { color: var(--teal); }
+
+  /* ── RETENIR ── */
+  .retenir-box {
+    background: var(--teal);
+    border-radius: 10px;
+    padding: 22px 22px;
+    margin: 20px 0 0;
+  }
+  .retenir-box h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 14px;
+  }
+  .retenir-list { list-style: none; margin-bottom: 14px; }
+  .retenir-list li {
+    font-size: 13px;
+    color: rgba(255,255,255,0.92);
+    padding: 4px 0 4px 16px;
+    position: relative;
+    line-height: 1.55;
+  }
+  .retenir-list li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: rgba(255,255,255,0.6);
+  }
+  .retenir-key {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--white);
+    line-height: 1.55;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255,255,255,0.25);
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    background: var(--black);
+    padding: 22px 32px;
+    text-align: center;
+    position: relative;
+  }
+  .footer::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--teal);
+  }
+  .footer-cta { font-size: 13px; font-weight: 600; color: var(--teal); margin-bottom: 6px; }
+  .footer-sub { font-size: 11px; color: #666; margin-bottom: 4px; }
+  .footer-meta { font-size: 10px; color: #444; letter-spacing: 0.5px; }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── PROGRESS BAR ── */
+  .progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    background: var(--teal);
+    z-index: 999;
+    transition: width 0.1s linear;
+    width: 0%;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 720px) {
+    .journal { margin: 0; border-radius: 0; box-shadow: none; }
+    .content { padding: 0 20px 40px; }
+    .masthead { padding: 22px 20px 18px; }
+    .ia-section { margin: 0 -20px; padding: 24px 20px 32px; }
+    .ia-separator { margin: 32px -20px 0; }
+    .une-headline { font-size: 24px; }
+    .footer { padding: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progress"></div>
+
+<div class="journal">
+
+  <!-- MASTHEAD -->
+  <header class="masthead">
+    <div class="masthead-new-badge">✦ NEW : IA</div>
+    <div class="masthead-logo">Le Brief <span>proMENTOR</span></div>
+    <hr class="masthead-divider">
+    <div class="masthead-meta">Édition du 14 mars 2026 &nbsp;—&nbsp; N°02 &nbsp;—&nbsp; GRATUIT</div>
+    <div class="reading-badge">⏱ Lecture : environ 6 min</div>
+    <div class="chips">
+      <span class="chip active">Instagram</span>
+      <span class="chip">Outils</span>
+      <span class="chip">Créateurs</span>
+      <span class="chip active">IA</span>
+    </div>
+  </header>
+
+  <div class="content">
+
+    <!-- À LA UNE -->
+    <section class="une reveal">
+      <div class="une-label">📰 À la une</div>
+      <h1 class="une-headline">Instagram ouvre ses outils à tous : ta grille devient ton meilleur commercial</h1>
+      <p class="une-sub">Insights, programmation, audio tendances : ces outils étaient réservés aux pros. Désormais, tout compte public y a accès. Et avec le contrôle sur les thumbnails, ton profil devient une vraie vitrine de vente.</p>
+      <div class="alert-box">
+        <strong>Pourquoi ça te concerne directement :</strong> En tant que coach, ton profil Instagram est souvent le premier contact avec un futur client. Avec ces nouveaux outils, tu peux analyser, optimiser et programmer, sans compte pro ni outil tiers.
+      </div>
+    </section>
+
+    <!-- NOUVEAUTÉS -->
+    <div class="section-header reveal">
+      <div class="bar"></div>
+      <span class="emoji">🆕</span>
+      <h2>Nouveautés Instagram</h2>
+    </div>
+
+    <!-- Card 1 : Outils créateurs -->
+    <div class="article reveal">
+      <div class="kicker">🧰 Accès créateurs</div>
+      <div class="article-title">Les outils créateurs ouverts à tous les comptes publics</div>
+      <p class="article-body">Instagram élargit l'accès à plusieurs outils autrefois réservés au mode professionnel : Insights (tableau de performance), audio tendances, programmation de contenu et formats expérimentaux.</p>
+      <div class="insight-box">
+        <strong>Impact stratégique :</strong> La barrière d'entrée pour créer du contenu pro diminue fortement. Utilise les insights pour identifier tes meilleurs formats, programme tes posts à l'avance et surfe sur les audio tendances pour booster ta portée organique.
+      </div>
+    </div>
+
+    <!-- Card 2 : Thumbnails -->
+    <div class="article reveal">
+      <div class="kicker">🖼️ Grille de profil</div>
+      <div class="article-title">Nouveau contrôle sur les thumbnails dans la grille</div>
+      <p class="article-body">Instagram permet désormais de modifier l'aperçu d'un post dans la grille : recadrer l'image, repositionner les éléments, ajuster l'aperçu sans modifier le contenu original.</p>
+      <button class="accordion-toggle" onclick="toggleAccordion(this)">
+        <span class="arrow">▼</span> Voir pourquoi c'est important
+      </button>
+      <div class="accordion-body">
+        <div class="accordion-inner">
+          <div class="insight-box">
+            <strong>Pourquoi c'est important :</strong> Ta grille est ton portfolio. Un prospect scanne d'abord ta grille avant de lire quoi que ce soit. Assure une cohérence visuelle, évite les visages coupés, mets l'élément clé en avant.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SIGNAL STRATÉGIQUE -->
+    <div class="section-header reveal">
+      <div class="bar"></div>
+      <span class="emoji">🗣️</span>
+      <h2>Signal stratégique</h2>
+    </div>
+
+    <div class="reveal">
+      <div class="quote-box">
+        <blockquote>« L'IA peut augmenter la production de contenu, mais elle pourrait aussi réduire la valeur des créateurs humains. »</blockquote>
+        <cite>— Débat interne Instagram, mars 2026</cite>
+      </div>
+      <p class="article-body">Instagram teste des fonctionnalités IA pour identifier et monétiser automatiquement des produits dans les posts d'influenceurs. La plateforme cherche un équilibre entre automatisation et préservation de l'économie des créateurs humains.</p>
+      <div class="insight-box">
+        <strong>Ton angle :</strong> Ta valeur en tant que coach vient de ton authenticité, ton expertise vécue et ta relation avec ta communauté. L'IA ne peut pas remplacer ça, elle peut juste t'aider à aller plus vite.
+      </div>
+    </div>
+
+    <!-- TIPS -->
+    <div class="section-header reveal">
+      <div class="bar"></div>
+      <span class="emoji">🧠</span>
+      <h2>Tips &amp; bonnes pratiques</h2>
+    </div>
+
+    <div class="tips-list reveal">
+      <div class="tip-item">
+        <div class="tip-number">1</div>
+        <div class="tip-content">
+          <div class="tip-title">Optimise la première impression de ton profil</div>
+          <div class="tip-body">Avec le contrôle sur les thumbnails : assure une cohérence visuelle · évite les previews coupées · vérifie que le sujet principal reste visible sur chaque post.</div>
+        </div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-number">2</div>
+        <div class="tip-content">
+          <div class="tip-title">Pense ta grille comme une vitrine de vente</div>
+          <div class="tip-body">Un profil Instagram fonctionne comme une page d'accueil : cohérence visuelle · promesse claire · contenu immédiatement identifiable par ton client idéal.</div>
+        </div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-number">3</div>
+        <div class="tip-content">
+          <div class="tip-title">Profite des nouveaux outils sans compte pro</div>
+          <div class="tip-body">Analyse les insights · utilise les audio tendances · teste la programmation native. Ces outils sont désormais disponibles bien plus tôt dans la croissance d'un compte.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- À TESTER -->
+    <div class="section-header reveal">
+      <div class="bar"></div>
+      <span class="emoji">🚀</span>
+      <h2>À tester cette semaine</h2>
+    </div>
+
+    <div class="checklist reveal">
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="tick">✓</span></div>
+        <div class="check-text">
+          <div class="check-title">Audit rapide de ton profil</div>
+          <div class="check-sub">Regarde ton profil comme un nouvel utilisateur : comprend-on immédiatement ce que tu fais ? La grille est-elle cohérente ?</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="tick">✓</span></div>
+        <div class="check-text">
+          <div class="check-title">Ajuste les thumbnails de tes posts récents</div>
+          <div class="check-sub">Évite les visages coupés · mets en avant l'élément clé · crée une cohérence sur les 9 derniers posts.</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="tick">✓</span></div>
+        <div class="check-text">
+          <div class="check-title">Utilise les insights pour trouver ton contenu signature</div>
+          <div class="check-sub">Posts avec le plus de sauvegardes · posts avec le plus de partages → reproduis ces formats.</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="tick">✓</span></div>
+        <div class="check-text">
+          <div class="check-title">Programme un post via Instagram natif</div>
+          <div class="check-sub">Teste l'outil de programmation direct : plus besoin d'outil tiers pour planifier ta semaine.</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+  <!-- SÉPARATEUR IA -->
+  <div class="ia-separator reveal"></div>
+
+  <!-- SECTION IA -->
+  <section class="ia-section">
+
+    <div class="ia-header reveal">
+      <div class="ia-header-left">
+        <div class="ia-bar"></div>
+        <div class="ia-title-block">
+          <div class="ia-title-label">Intelligence Artificielle</div>
+          <div class="ia-title-main">🤖 Épisode 1 : La grande migration</div>
+        </div>
+      </div>
+      <div class="ia-new-pill">NOUVEAU</div>
+    </div>
+
+    <!-- IA : Actu -->
+    <div class="ia-article reveal">
+      <div class="ia-kicker">🔥 Actu IA</div>
+      <div class="ia-article-title">Claude dépasse ChatGPT, et ça change quelque chose pour toi</div>
+      <p class="ia-article-body">En mars 2026, Claude d'Anthropic a dépassé ChatGPT au classement des apps les plus téléchargées sur l'App Store américain. Depuis janvier, les utilisateurs gratuits ont bondi de +60% et les abonnés payants ont plus que doublé.</p>
+
+      <button class="accordion-toggle" onclick="toggleAccordionIA(this)" style="color: var(--teal); margin-bottom: 12px;">
+        <span class="arrow" style="color: var(--teal);">▼</span> <span style="color: rgba(255,255,255,0.7); font-size:12px;">Pourquoi ce basculement ?</span>
+      </button>
+      <div class="accordion-body">
+        <div class="accordion-inner">
+          <p class="ia-article-body" style="margin-bottom: 0;">Anthropic a refusé d'autoriser son IA pour de la surveillance de masse ou des armes autonomes. OpenAI a signé un contrat similaire avec le Pentagone. Une partie des utilisateurs a choisi de migrer par principe. Côté performances : Claude Opus 4.6 et GPT-5.4 sont aujourd'hui au même niveau sur les benchmarks. La vraie différence ? Claude excelle en raisonnement, écriture longue et cohérence des instructions, idéal pour les créateurs de contenu.</p>
+        </div>
+      </div>
+
+      <div class="ia-insight-box">
+        <strong>Ce que ça veut dire pour toi :</strong> Tu as peut-être du travail accumulé sur ChatGPT : prompts, contexte, préférences. Tu peux tout récupérer sans repartir de zéro.
+      </div>
+    </div>
+
+    <!-- IA : Passage à l'action -->
+    <div class="ia-article reveal">
+      <div class="ia-kicker">⚡ Passage à l'action</div>
+      <div class="ia-article-title">Migrer de ChatGPT vers Claude sans perdre ton travail</div>
+      <p class="ia-article-body">Tu as passé des heures à "former" ChatGPT sur ton style, ton activité, tes clients. Bonne nouvelle : tu peux tout récupérer en 4 étapes.</p>
+
+      <div class="ia-steps">
+        <div class="ia-step">
+          <div class="ia-step-title">Étape 1 : Exporte ton historique ChatGPT</div>
+          <div class="ia-step-body">Réglages → Contrôles des données → Exporter les données. ChatGPT prépare un fichier avec tout ton historique. Tu peux aussi copier manuellement tes conversations clés ou demander un résumé de tes préférences.</div>
+        </div>
+        <div class="ia-step">
+          <div class="ia-step-title">Étape 2 : Efface ta mémoire ChatGPT</div>
+          <div class="ia-step-body">Réglages → Personnalisation → Mémoire. Supprime les données enregistrées. Tu peux aussi taper : "Supprime toutes mes préférences et données personnalisées".</div>
+        </div>
+        <div class="ia-step">
+          <div class="ia-step-title">Étape 3 : Active la mémoire sur Claude</div>
+          <div class="ia-step-body">Dans Claude, va dans Réglages → Fonctionnalités et active la Mémoire. Disponible en version gratuite ET payante.</div>
+        </div>
+        <div class="ia-step">
+          <div class="ia-step-title">Étape 4 : Transfère ton contexte</div>
+          <div class="ia-step-body">Nouvelle conversation Claude, colle : "Voici des infos importantes sur moi. Mets à jour ta mémoire." Puis paste tes données ou résumés. Claude retient ces infos d'une session à l'autre.</div>
+        </div>
+      </div>
+
+      <div class="ia-tip-box">
+        <strong>💡 Astuce coach :</strong> Dans Claude, commence par lui dire qui tu es : ton métier, ton client idéal, ton style de communication, tes offres. Plus tu lui donnes de contexte, plus tes contenus seront dans ta voix, et il retient tout d'une session à l'autre.
+      </div>
+    </div>
+
+  </section><!-- /ia-section -->
+
+  <div class="content">
+
+    <!-- À RETENIR -->
+    <div class="section-header reveal" style="margin-top: 28px;">
+      <div class="bar"></div>
+      <span class="emoji">🎯</span>
+      <h2>À retenir cette semaine</h2>
+    </div>
+
+    <div class="reveal">
+      <div class="retenir-box">
+        <h3>📌 Les signaux de la semaine</h3>
+        <ul class="retenir-list">
+          <li>Instagram ouvre ses outils créateurs à tous les comptes publics</li>
+          <li>Ta grille de profil devient un outil de vente (contrôle des thumbnails)</li>
+          <li>L'IA dans Instagram soulève la question de la valeur des créateurs humains</li>
+          <li>Claude dépasse ChatGPT : tu peux migrer sans perdre ton travail</li>
+        </ul>
+        <div class="retenir-key">Investis dans ton profil comme une vitrine physique. Utilise l'IA pour aller plus vite, pas pour te remplacer.</div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-cta">📲 Rejoins la communauté proMENTOR sur Telegram</div>
+    <div class="footer-sub">Tu as aimé ce numéro ? Dis-le nous sur Telegram</div>
+    <div class="footer-meta">Le Brief proMENTOR — N°02 — Édition du 14 mars 2026 &nbsp;·&nbsp; © 2026 proMENTOR</div>
+  </footer>
+
+</div><!-- /journal -->
+
+<script>
+  function toggleAccordion(btn) {
+    btn.classList.toggle('open');
+    const body = btn.nextElementSibling;
+    body.classList.toggle('open');
+  }
+
+  function toggleAccordionIA(btn) {
+    btn.classList.toggle('open');
+    const body = btn.nextElementSibling;
+    body.classList.toggle('open');
+  }
+
+  function toggleCheck(item) {
+    const box = item.querySelector('.check-box');
+    box.classList.toggle('checked');
+    item.classList.toggle('done');
+  }
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 60);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Progress bar
+  const bar = document.getElementById('progress');
+  window.addEventListener('scroll', () => {
+    const doc = document.documentElement;
+    bar.style.width = (doc.scrollTop / (doc.scrollHeight - doc.clientHeight) * 100) + '%';
+  });
+</script>
+</body>
+</html>

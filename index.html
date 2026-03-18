@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Brief proMENTOR — Tous les numéros</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal: #48C1BC;
+    --teal-light: #e8f9f8;
+    --teal-dark: #2a8a86;
+    --black: #0D0D0D;
+    --gray: #444444;
+    --gray-light: #f5f5f5;
+    --gray-mid: #e0e0e0;
+    --white: #ffffff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0D0D0D;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--white);
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--black);
+    border-bottom: 1px solid rgba(72,193,188,0.2);
+    padding: 28px 32px;
+    text-align: center;
+    position: relative;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: var(--teal);
+  }
+  .header-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 900;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+  .header-logo span { color: var(--teal); }
+  .header-divider {
+    width: 80px; height: 1px;
+    background: rgba(72,193,188,0.4);
+    margin: 12px auto;
+  }
+  .header-sub {
+    font-size: 12px;
+    color: #666;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  /* ── CONTAINER ── */
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+
+  /* ── LABEL SECTION ── */
+  .section-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--teal);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(72,193,188,0.2);
+  }
+
+  /* ── FEATURED (dernier numéro) ── */
+  .featured {
+    background: var(--white);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 48px;
+    position: relative;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    text-decoration: none;
+    display: block;
+  }
+  .featured:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 20px 60px rgba(72,193,188,0.15);
+  }
+  .featured-badge {
+    position: absolute;
+    top: 20px; right: 20px;
+    background: var(--teal);
+    color: var(--black);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 5px 14px;
+    border-radius: 20px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    z-index: 2;
+  }
+  .featured-header {
+    background: var(--black);
+    padding: 28px 32px 22px;
+    border-bottom: 3px solid var(--teal);
+    position: relative;
+  }
+  .featured-numero {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--teal);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .featured-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 900;
+    color: var(--white);
+    line-height: 1.2;
+    margin-bottom: 10px;
+    max-width: 520px;
+  }
+  .featured-date {
+    font-size: 11px;
+    color: #666;
+    letter-spacing: 0.5px;
+  }
+  .featured-body {
+    padding: 24px 32px;
+    background: var(--white);
+  }
+  .featured-excerpt {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.7;
+    margin-bottom: 20px;
+    max-width: 560px;
+  }
+  .featured-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 22px;
+  }
+  .tag {
+    border: 1px solid rgba(72,193,188,0.5);
+    color: var(--teal-dark);
+    font-size: 10px;
+    font-weight: 600;
+    padding: 3px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .featured-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--teal);
+    color: var(--black);
+    font-size: 13px;
+    font-weight: 700;
+    padding: 11px 24px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background 0.2s;
+    letter-spacing: 0.3px;
+  }
+  .featured-cta:hover { background: var(--teal-dark); color: var(--white); }
+  .featured-reading {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: #999;
+    margin-left: 16px;
+  }
+
+  /* ── ARCHIVES ── */
+  .archives-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+  }
+  .archive-card {
+    background: #161616;
+    border: 1px solid #222;
+    border-radius: 8px;
+    overflow: hidden;
+    text-decoration: none;
+    display: block;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .archive-card:hover {
+    border-color: rgba(72,193,188,0.4);
+    transform: translateY(-2px);
+  }
+  .archive-header {
+    background: #111;
+    padding: 16px 18px 14px;
+    border-bottom: 2px solid var(--teal);
+  }
+  .archive-numero {
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--teal);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .archive-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.3;
+  }
+  .archive-body {
+    padding: 14px 18px;
+  }
+  .archive-date {
+    font-size: 11px;
+    color: #555;
+    margin-bottom: 10px;
+  }
+  .archive-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+  .archive-tag {
+    font-size: 9px;
+    font-weight: 600;
+    color: #555;
+    border: 1px solid #333;
+    padding: 2px 8px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .archive-cta {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--teal);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .archive-cta:hover { color: #7de8e4; }
+
+  /* ── TELEGRAM CTA ── */
+  .telegram-bar {
+    margin-top: 60px;
+    background: #111;
+    border: 1px solid #222;
+    border-radius: 8px;
+    padding: 24px 32px;
+    text-align: center;
+    border-top: 3px solid var(--teal);
+  }
+  .telegram-bar p {
+    font-size: 14px;
+    color: #888;
+    margin-bottom: 12px;
+  }
+  .telegram-bar strong { color: var(--white); }
+  .telegram-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--teal);
+    color: var(--black);
+    font-size: 13px;
+    font-weight: 700;
+    padding: 11px 26px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+  .telegram-btn:hover { background: var(--teal-dark); color: var(--white); }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 28px;
+    border-top: 1px solid #1a1a1a;
+    font-size: 11px;
+    color: #333;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── REVEAL ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .container { padding: 32px 16px 60px; }
+    .featured-header { padding: 22px 20px 18px; }
+    .featured-body { padding: 18px 20px; }
+    .featured-title { font-size: 20px; }
+    .archives-grid { grid-template-columns: 1fr; }
+    header { padding: 22px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-logo">Le Brief <span>proMENTOR</span></div>
+  <div class="header-divider"></div>
+  <div class="header-sub">Le journal numérique hebdomadaire pour coachs &amp; créateurs</div>
+</header>
+
+<div class="container">
+
+  <!-- DERNIER NUMÉRO -->
+  <div class="section-label reveal">✦ Dernier numéro</div>
+
+  <a href="brief-n02.html" class="featured reveal">
+    <div class="featured-badge">Nouveau</div>
+    <div class="featured-header">
+      <div class="featured-numero">N°02 — Édition du 14 mars 2026</div>
+      <div class="featured-title">Instagram ouvre ses outils à tous : ta grille devient ton meilleur commercial</div>
+      <div class="featured-date">14 mars 2026 &nbsp;·&nbsp; Lecture : 6 min</div>
+    </div>
+    <div class="featured-body">
+      <p class="featured-excerpt">Insights, programmation, audio tendances : ces outils étaient réservés aux pros. Désormais, tout compte public y a accès. Et avec le contrôle sur les thumbnails, ton profil devient une vraie vitrine de vente. Plus : Claude dépasse ChatGPT, comment migrer sans perdre ton travail.</p>
+      <div class="featured-tags">
+        <span class="tag">Instagram</span>
+        <span class="tag">Outils</span>
+        <span class="tag">Créateurs</span>
+        <span class="tag">IA</span>
+      </div>
+      <span class="featured-cta">Lire le numéro →</span>
+      <span class="featured-reading">⏱ 6 min</span>
+    </div>
+  </a>
+
+  <!-- ARCHIVES -->
+  <div class="section-label reveal" style="margin-top: 8px;">📚 Archives</div>
+
+  <div class="archives-grid">
+
+    <a href="brief-n01.html" class="archive-card reveal">
+      <div class="archive-header">
+        <div class="archive-numero">N°01 — 7 mars 2026</div>
+        <div class="archive-title">Le feed Instagram change de règles : tes clients pourraient ne plus te voir</div>
+      </div>
+      <div class="archive-body">
+        <div class="archive-date">7 mars 2026 &nbsp;·&nbsp; 5 min de lecture</div>
+        <div class="archive-tags">
+          <span class="archive-tag">Instagram</span>
+          <span class="archive-tag">Stratégie</span>
+          <span class="archive-tag">Créateurs</span>
+        </div>
+        <span class="archive-cta">Lire →</span>
+      </div>
+    </a>
+
+    <!-- PROCHAINS NUMÉROS — carte placeholder -->
+    <div class="archive-card reveal" style="opacity: 0.35; cursor: default; pointer-events: none;">
+      <div class="archive-header" style="border-bottom-color: #333;">
+        <div class="archive-numero" style="color: #444;">N°03 — À venir</div>
+        <div class="archive-title" style="color: #333;">Prochain numéro</div>
+      </div>
+      <div class="archive-body">
+        <div class="archive-date" style="color: #333;">Chaque samedi matin</div>
+        <div class="archive-tags">
+          <span class="archive-tag" style="color: #333; border-color: #222;">...</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TELEGRAM -->
+  <div class="telegram-bar reveal">
+    <p>Tu veux recevoir <strong>Le Brief proMENTOR</strong> chaque samedi matin directement sur Telegram ?</p>
+    <a href="#" class="telegram-btn">📲 Rejoindre la communauté</a>
+  </div>
+
+</div>
+
+<footer>
+  © 2026 proMENTOR · Le Brief proMENTOR · Tous droits réservés
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

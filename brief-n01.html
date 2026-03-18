@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Brief proMENTOR — N°01</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal: #48C1BC;
+    --teal-light: #e8f9f8;
+    --teal-dark: #2a8a86;
+    --black: #0D0D0D;
+    --dark: #1A1A1A;
+    --gray: #444444;
+    --gray-light: #f5f5f5;
+    --gray-mid: #e0e0e0;
+    --white: #ffffff;
+    --text: #222222;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #f0eeea;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── PAGE WRAPPER ── */
+  .journal {
+    max-width: 680px;
+    margin: 32px auto 60px;
+    background: var(--white);
+    box-shadow: 0 4px 60px rgba(0,0,0,0.12);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  /* ── MASTHEAD ── */
+  .masthead {
+    background: var(--black);
+    padding: 28px 32px 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .masthead::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: var(--teal);
+  }
+  .masthead-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--white);
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
+  }
+  .masthead-logo span { color: var(--teal); }
+  .masthead-divider {
+    width: 60%; margin: 10px auto;
+    border: none; border-top: 1px solid rgba(72,193,188,0.35);
+  }
+  .masthead-meta {
+    font-size: 11px;
+    color: #888;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .reading-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--teal);
+    color: var(--black);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+    letter-spacing: 0.3px;
+  }
+  .chips {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .chip {
+    border: 1px solid rgba(72,193,188,0.5);
+    color: var(--teal);
+    font-size: 10px;
+    font-weight: 600;
+    padding: 3px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .chip.active {
+    background: var(--teal);
+    color: var(--black);
+    border-color: var(--teal);
+  }
+
+  /* ── BODY CONTENT ── */
+  .content { padding: 0 32px 40px; }
+
+  /* ── UNE ── */
+  .une {
+    padding: 30px 0 24px;
+    border-bottom: 1px solid var(--gray-mid);
+  }
+  .une-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--teal);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .une-headline {
+    font-family: 'Playfair Display', serif;
+    font-size: 30px;
+    font-weight: 900;
+    line-height: 1.2;
+    color: var(--black);
+    margin-bottom: 12px;
+  }
+  .une-sub {
+    font-size: 15px;
+    color: var(--gray);
+    line-height: 1.65;
+    margin-bottom: 16px;
+  }
+  .alert-box {
+    background: var(--teal-light);
+    border-left: 4px solid var(--teal);
+    padding: 14px 16px;
+    border-radius: 0 6px 6px 0;
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: #1a4f4d;
+  }
+  .alert-box strong { color: var(--teal-dark); }
+
+  /* ── SECTION HEADERS ── */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 20px 0 14px;
+    border-bottom: 2px solid var(--gray-light);
+  }
+  .section-header .bar {
+    width: 4px;
+    height: 22px;
+    background: var(--teal);
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .section-header h2 {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--black);
+  }
+  .section-header .emoji { font-size: 16px; }
+
+  /* ── ARTICLE CARDS ── */
+  .article { padding: 20px 0; border-bottom: 1px solid var(--gray-mid); }
+  .article:last-child { border-bottom: none; }
+  .kicker {
+    font-size: 9.5px;
+    font-weight: 700;
+    color: var(--teal);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .kicker::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--teal);
+    opacity: 0.25;
+  }
+  .article-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 21px;
+    font-weight: 900;
+    color: var(--black);
+    line-height: 1.22;
+    margin-bottom: 10px;
+    letter-spacing: -0.3px;
+  }
+  .article-body {
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: var(--gray);
+    margin-bottom: 12px;
+  }
+  .insight-box {
+    background: var(--teal-light);
+    border-left: 3px solid var(--teal);
+    padding: 11px 14px;
+    border-radius: 0 5px 5px 0;
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: #1a4f4d;
+  }
+  .insight-box strong { color: var(--teal-dark); }
+
+  /* ── ACCORDION ── */
+  .accordion-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--teal);
+    cursor: pointer;
+    margin-top: 10px;
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: inherit;
+    user-select: none;
+  }
+  .accordion-toggle:hover { color: var(--teal-dark); }
+  .accordion-toggle .arrow {
+    display: inline-block;
+    transition: transform 0.3s ease;
+    font-style: normal;
+  }
+  .accordion-toggle.open .arrow { transform: rotate(180deg); }
+  .accordion-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, opacity 0.3s ease;
+    opacity: 0;
+  }
+  .accordion-body.open {
+    max-height: 600px;
+    opacity: 1;
+  }
+  .accordion-inner { padding-top: 12px; }
+
+  /* ── QUOTE BOX ── */
+  .quote-box {
+    background: var(--black);
+    border-radius: 8px;
+    padding: 20px 20px 20px 24px;
+    margin: 20px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .quote-box::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 4px;
+    background: var(--teal);
+  }
+  .quote-box blockquote {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.5;
+    margin-bottom: 10px;
+    font-style: italic;
+  }
+  .quote-box cite {
+    font-size: 11px;
+    color: var(--teal);
+    font-style: normal;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── TIPS NUMBERED ── */
+  .tips-list { padding: 4px 0; }
+  .tip-item {
+    display: flex;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--gray-light);
+    align-items: flex-start;
+  }
+  .tip-item:last-child { border-bottom: none; }
+  .tip-number {
+    width: 36px;
+    height: 36px;
+    background: var(--teal);
+    color: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    font-weight: 700;
+    flex-shrink: 0;
+    font-family: 'Playfair Display', serif;
+  }
+  .tip-content { flex: 1; }
+  .tip-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--black);
+    margin-bottom: 4px;
+  }
+  .tip-body {
+    font-size: 12.5px;
+    color: var(--gray);
+    line-height: 1.65;
+  }
+
+  /* ── CHECKLIST ── */
+  .checklist { padding: 4px 0; }
+  .check-item {
+    display: flex;
+    gap: 12px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--gray-light);
+    align-items: flex-start;
+    cursor: pointer;
+  }
+  .check-item:last-child { border-bottom: none; }
+  .check-box {
+    width: 22px;
+    height: 22px;
+    border: 2px solid var(--teal);
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+    transition: background 0.2s;
+  }
+  .check-box.checked {
+    background: var(--teal);
+  }
+  .check-box .tick {
+    color: white;
+    font-size: 13px;
+    display: none;
+    font-weight: 700;
+  }
+  .check-box.checked .tick { display: block; }
+  .check-text { flex: 1; }
+  .check-title {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--black);
+    margin-bottom: 3px;
+  }
+  .check-sub {
+    font-size: 12px;
+    color: var(--gray);
+    line-height: 1.6;
+  }
+  .check-item.done .check-title { text-decoration: line-through; opacity: 0.5; }
+
+  /* ── RETENIR BOX ── */
+  .retenir-box {
+    background: var(--teal);
+    border-radius: 10px;
+    padding: 22px 22px;
+    margin: 20px 0 0;
+  }
+  .retenir-box h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 14px;
+  }
+  .retenir-list {
+    list-style: none;
+    margin-bottom: 14px;
+  }
+  .retenir-list li {
+    font-size: 13px;
+    color: rgba(255,255,255,0.92);
+    padding: 4px 0;
+    padding-left: 16px;
+    position: relative;
+    line-height: 1.55;
+  }
+  .retenir-list li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: rgba(255,255,255,0.6);
+  }
+  .retenir-key {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--white);
+    line-height: 1.55;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255,255,255,0.25);
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    background: var(--black);
+    padding: 22px 32px;
+    text-align: center;
+    position: relative;
+  }
+  .footer::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--teal);
+  }
+  .footer-cta {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--teal);
+    margin-bottom: 6px;
+  }
+  .footer-meta {
+    font-size: 10px;
+    color: #555;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── SCROLL ANIMATIONS ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── PROGRESS BAR ── */
+  .progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    background: var(--teal);
+    z-index: 999;
+    transition: width 0.1s linear;
+    width: 0%;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 720px) {
+    .journal { margin: 0; border-radius: 0; box-shadow: none; }
+    .content { padding: 0 20px 40px; }
+    .masthead { padding: 22px 20px 18px; }
+    .une-headline { font-size: 24px; }
+    .footer { padding: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progress"></div>
+
+<div class="journal">
+
+  <!-- MASTHEAD -->
+  <header class="masthead">
+    <div class="masthead-logo">Le Brief <span>proMENTOR</span></div>
+    <hr class="masthead-divider">
+    <div class="masthead-meta">Édition du 7 mars 2026 &nbsp;—&nbsp; N°01 &nbsp;—&nbsp; GRATUIT</div>
+    <div class="reading-badge">⏱ Lecture : environ 5 min</div>
+    <div class="chips">
+      <span class="chip active">Instagram</span>
+      <span class="chip">Stratégie</span>
+      <span class="chip">Créateurs</span>
+      <span class="chip">Algorithm</span>
+    </div>
+  </header>
+
+  <div class="content">
+
+    <!-- À LA UNE -->
+    <section class="une reveal">
+      <div class="une-label">📰 À la une</div>
+      <h1 class="une-headline">Le feed Instagram change de règles : tes clients pourraient ne plus te voir</h1>
+      <p class="une-sub">Instagram teste un feed 100% personnalisable. Si ton audience ne t'a pas mis en favori, tu risques de disparaître de son écran. Pour un coach qui vend son accompagnement en ligne, c'est le signal le plus important de la semaine.</p>
+      <div class="alert-box">
+        <strong>Ce que ça signifie concrètement :</strong> Demain, un abonné pourrait choisir de ne voir que ses proches dans son feed. Ton contenu, aussi bon soit-il, n'apparaît plus. La solution ? Transformer tes abonnés en communauté active avant que ce changement ne soit généralisé.
+      </div>
+    </section>
+
+    <!-- NOUVEAUTÉS -->
+    <div class="section-header reveal">
+      <div class="bar"></div>
+      <span class="emoji">🆕</span>
+      <h2>Nouveautés</h2>
+    </div>
+
+    <!-- Card 1 -->
+    <div class="article reveal">
+      <div class="kicker">🧭 Personnalisation</div>
+      <div class="article-title">Feed ultra-personnalisable "Your Feed"</div>
+      <p class="article-body">Instagram teste un système permettant aux utilisateurs de configurer entièrement leur flux : Following, Friends, Latest, Saved ou contenu suggéré. Le test inclut aussi une réorganisation de la navigation et des accès aux Reels.</p>
+      <div class="insight-box">
+        <strong>Ce que ça change :</strong> La dépendance au feed algorithmique pourrait diminuer. L'importance d'une audience fidèle devient cruciale. Encourage tes abonnés à activer les notifications et à sauvegarder tes posts.
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="article reveal">
+      <div class="kicker">📊 Analytics</div>
+      <div class="article-title">Insights détaillés slide par slide</div>
+      <p class="article-body">Instagram teste un nouvel outil permettant aux créateurs de voir précisément quelle slide d'un carrousel reçoit des likes.</p>
+      <button class="accordion-toggle" onclick="toggleAccordion(this)">
+        <span class="arrow">▼</span> Voir l'analyse complète
+      </button>
+      <div class="accordion-body">
+        <div class="accordion-inner">
+          <div class="insight-box">
+            <strong>Ce que ça change :</strong> Identifier la slide la plus engageante · Comprendre où se concentre l'attention · Optimiser la structure post par post. Jusqu'ici, l'analyse des carrousels était globale. Ce test ouvre la porte à une optimisation comparable aux analytics vidéo.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="article reveal">
+      <div class="kicker">🔄 Auto-scroll</div>
+      <div class="article-title">Test d'un mode défilement automatique du feed</div>
+      <p class="article-body">Instagram expérimente un mode où posts et Reels avancent automatiquement, sans que l'utilisateur ait besoin de scroller.</p>
+      <button class="accordion-toggle" onclick="toggleAccordion(this)">
+        <span class="arrow">▼</span> Voir l'impact
+      </button>
+      <div class="accordion-body">
+        <div class="accordion-inner">
+          <div class="insight-box">
+            <strong>Impact potentiel :</strong> Augmentation du temps de visionnage passif · Importance accrue des capteurs visuels immédiats · Les 2 premières secondes deviennent encore plus critiques.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 4 : Google TV -->
+    <div class="article reveal">
+      <div class="kicker">📺 Expansion</div>
+      <div class="article-title">Instagram arrive sur Google TV</div>
+      <p class="article-body">Instagram déploie son app sur Google TV : navigation via télécommande, likes, commentaires, partages, recommandations par centres d'intérêt et connexion multi-comptes.</p>
+      <div class="insight-box">
+        <strong>Opportunité :</strong> Instagram s'étend hors mobile vers une consommation plus longue et collective. Les contenus visuels immersifs et le storytelling cinématographique gagnent en valeur.
+      </div>
+    </div>
+
+    <!-- PAROLE AU CEO -->
+    <div class="section-header reveal">
+      <div class="bar"></div>
+      <span class="emoji">🗣️</span>
+      <h2>Parole au CEO</h2>
+    </div>
+
+    <div class="reveal">
+      <div class="quote-box">
+        <blockquote>« Écrire "link in bio" dans une légende n'affecte pas la portée d'un post. »</blockquote>
+        <cite>— Adam Mosseri, CEO Instagram</cite>
+      </div>
+      <p class="article-body">Pendant des années, de nombreux créateurs évitaient cette expression par peur d'un signal négatif dans l'algorithme. Tu peux désormais utiliser "link in bio" librement et diriger vers ton site sans crainte.</p>
+      <div class="insight-box">
+        <strong>Transparence algorithmique :</strong> Instagram déploie aussi des outils permettant aux utilisateurs d'ajuster les recommandations pour mieux refléter leurs intérêts. L'algorithme devient collaboratif : les contenus pertinents pour une niche seront davantage favorisés.
+      </div>
+    </div>
+
+    <!-- MISE À JOUR PRODUIT -->
+    <div class="section-header reveal">
+      <div class="bar"></div>
+      <span class="emoji">🛠️</span>
+      <h2>Mises à jour produit</h2>
+    </div>
+
+    <div class="article reveal">
+      <div class="kicker">🎬 App Edits</div>
+      <div class="article-title">Éditeur vidéo officiel, nouvelles fonctionnalités</div>
+      <p class="article-body">De nouvelles mises à jour continuent d'arriver pour Edits, l'application de montage officielle pour créateurs.</p>
+      <div class="insight-box">
+        <strong>Nouveautés récentes :</strong> nouveaux effets · amélioration de l'onglet Ideas · outils supplémentaires pour organiser les projets vidéo. <strong>Objectif :</strong> positionner Edits comme concurrent direct de CapCut.
+      </div>
+    </div>
+
+    <!-- TIPS -->
+    <div class="section-header reveal">
+      <div class="bar"></div>
+      <span class="emoji">🧠</span>
+      <h2>Tips &amp; bonnes pratiques</h2>
+    </div>
+
+    <div class="tips-list reveal">
+      <div class="tip-item">
+        <div class="tip-number">1</div>
+        <div class="tip-content">
+          <div class="tip-title">Structure tes carrousels comme une mini-histoire</div>
+          <div class="tip-body">Hook visuel · Problème · Explication · Solution · Conclusion / CTA. L'objectif : maintenir l'attention jusqu'à la dernière slide.</div>
+        </div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-number">2</div>
+        <div class="tip-content">
+          <div class="tip-title">Optimise pour un visionnage passif</div>
+          <div class="tip-body">Évite les introductions lentes · privilégie les visuels immédiatement compréhensibles · ajoute du texte clair dans les 2 premières secondes.</div>
+        </div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-number">3</div>
+        <div class="tip-content">
+          <div class="tip-title">Construis une audience fidèle, pas seulement algorithmique</div>
+          <div class="tip-body">Encourage les abonnés à activer les notifications · incite à sauvegarder tes posts · crée des rendez-vous hebdomadaires récurrents.</div>
+        </div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-number">4</div>
+        <div class="tip-content">
+          <div class="tip-title">Utilise "link in bio" sans retenue</div>
+          <div class="tip-body">Puisque ce n'est pas pénalisé : <em>"Guide complet → link in bio"</em>. Simple, direct, efficace.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- À TESTER -->
+    <div class="section-header reveal">
+      <div class="bar"></div>
+      <span class="emoji">🚀</span>
+      <h2>À tester cette semaine</h2>
+    </div>
+
+    <div class="checklist reveal">
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="tick">✓</span></div>
+        <div class="check-text">
+          <div class="check-title">Analyse tes carrousels récents</div>
+          <div class="check-sub">Repère où les gens commentent · quelles slides génèrent le plus de réactions · identifie le moment exact où l'intérêt chute.</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="tick">✓</span></div>
+        <div class="check-text">
+          <div class="check-title">Teste un carrousel optimisé pour l'attention</div>
+          <div class="check-sub">Slide 1 → "90% des comptes Instagram font cette erreur" · Slides 2-4 → explication · Slide finale → solution + CTA.</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="tick">✓</span></div>
+        <div class="check-text">
+          <div class="check-title">Renforce le lien direct avec ton audience</div>
+          <div class="check-sub">Invite à enregistrer tes posts · encourage les notifications · crée une série récurrente.</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="tick">✓</span></div>
+        <div class="check-text">
+          <div class="check-title">Simplifie tes appels à l'action</div>
+          <div class="check-sub">"Ressource complète → link in bio". Utilise-le librement.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- À RETENIR -->
+    <div class="section-header reveal">
+      <div class="bar"></div>
+      <span class="emoji">🎯</span>
+      <h2>À retenir cette semaine</h2>
+    </div>
+
+    <div class="reveal">
+      <div class="retenir-box">
+        <h3>📌 Les signaux de la semaine</h3>
+        <ul class="retenir-list">
+          <li>Le feed Instagram pourrait devenir entièrement personnalisable par l'utilisateur</li>
+          <li>L'audience fidèle devient plus importante que la simple portée algorithmique</li>
+          <li>Instagram s'étend au-delà du smartphone (Google TV)</li>
+          <li>Les analytics créateurs s'améliorent (carrousels, insights slide par slide)</li>
+          <li>Certains mythes algorithmiques sont enfin clarifiés ("link in bio")</li>
+        </ul>
+        <div class="retenir-key">La clé reste la même : capte l'attention immédiatement et apporte de la valeur à chaque post.</div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-cta">📲 Rejoins la communauté proMENTOR sur Telegram</div>
+    <div class="footer-meta">Le Brief proMENTOR — N°01 — Édition du 7 mars 2026<br>© 2026 proMENTOR · Tous droits réservés</div>
+  </footer>
+
+</div><!-- /journal -->
+
+<script>
+  // ── Accordion ──
+  function toggleAccordion(btn) {
+    btn.classList.toggle('open');
+    const body = btn.nextElementSibling;
+    body.classList.toggle('open');
+  }
+
+  // ── Checklist ──
+  function toggleCheck(item) {
+    const box = item.querySelector('.check-box');
+    box.classList.toggle('checked');
+    item.classList.toggle('done');
+  }
+
+  // ── Scroll reveal ──
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 60);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  reveals.forEach(el => observer.observe(el));
+
+  // ── Reading progress bar ──
+  const bar = document.getElementById('progress');
+  window.addEventListener('scroll', () => {
+    const doc = document.documentElement;
+    const scrolled = doc.scrollTop;
+    const total = doc.scrollHeight - doc.clientHeight;
+    bar.style.width = (scrolled / total * 100) + '%';
+  });
+</script>
+</body>
+</html>
