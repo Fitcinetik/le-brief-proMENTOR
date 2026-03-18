@@ -86,21 +86,36 @@
     height: 1px;
     background: rgba(72,193,188,0.2);
   }
+  /* Flèche indicateur sous le label dernier numéro */
+  .featured-hint {
+    text-align: center;
+    font-size: 11px;
+    color: rgba(72,193,188,0.6);
+    margin-bottom: 10px;
+    letter-spacing: 0.5px;
+    animation: bounce 1.8s ease-in-out infinite;
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); opacity: 0.6; }
+    50% { transform: translateY(4px); opacity: 1; }
+  }
 
   /* ── FEATURED (dernier numéro) ── */
   .featured {
     background: var(--white);
-    border-radius: 8px;
+    border-radius: 10px;
     overflow: hidden;
     margin-bottom: 48px;
     position: relative;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
     text-decoration: none;
     display: block;
+    border: 2px solid var(--teal);
+    box-shadow: 0 0 0 4px rgba(72,193,188,0.12), 0 8px 40px rgba(72,193,188,0.15);
   }
   .featured:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 20px 60px rgba(72,193,188,0.15);
+    transform: translateY(-4px);
+    box-shadow: 0 0 0 4px rgba(72,193,188,0.2), 0 24px 60px rgba(72,193,188,0.25);
   }
   .featured-badge {
     position: absolute;
@@ -114,6 +129,11 @@
     letter-spacing: 1px;
     text-transform: uppercase;
     z-index: 2;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(72,193,188,0.5); }
+    50% { box-shadow: 0 0 0 8px rgba(72,193,188,0); }
   }
   .featured-header {
     background: var(--black);
@@ -342,6 +362,7 @@
   <!-- DERNIER NUMÉRO -->
   <div class="section-label reveal">✦ Dernier numéro</div>
 
+  <p class="featured-hint">↓ Cliquer pour lire</p>
   <a href="brief-n02.html" class="featured reveal">
     <div class="featured-badge">Nouveau</div>
     <div class="featured-header">
