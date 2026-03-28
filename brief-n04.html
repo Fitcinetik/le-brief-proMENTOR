@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Brief proMENTOR — N°04</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal: #48C1BC;
+    --teal-light: #e8f9f8;
+    --teal-dark: #2a8a86;
+    --black: #0D0D0D;
+    --dark: #1A1A1A;
+    --gray: #444444;
+    --gray-light: #f5f5f5;
+    --gray-mid: #e0e0e0;
+    --white: #ffffff;
+    --text: #222222;
+    --ia-bg: #0D0D1F;
+    --ia-card: #151525;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #f0eeea;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  .journal {
+    max-width: 680px;
+    margin: 32px auto 60px;
+    background: var(--white);
+    box-shadow: 0 4px 60px rgba(0,0,0,0.12);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  /* ── PROGRESS BAR ── */
+  #progress {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    width: 0%;
+    background: var(--teal);
+    z-index: 999;
+    transition: width 0.1s linear;
+  }
+
+  /* ── MASTHEAD ── */
+  .masthead {
+    background: var(--black);
+    padding: 28px 32px 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .masthead::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: var(--teal);
+  }
+  .masthead-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--white);
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
+  }
+  .masthead-logo span { color: var(--teal); }
+  .masthead-divider {
+    width: 60%; margin: 10px auto;
+    border: none; border-top: 1px solid rgba(72,193,188,0.35);
+  }
+  .masthead-meta {
+    font-size: 11px;
+    color: #888;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .reading-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--teal);
+    color: var(--black);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+  }
+  .chips {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .chip {
+    border: 1px solid rgba(72,193,188,0.5);
+    color: var(--teal);
+    font-size: 10px;
+    font-weight: 600;
+    padding: 3px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .chip.active {
+    background: var(--teal);
+    color: var(--black);
+    border-color: var(--teal);
+  }
+
+  /* ── CONTENT ── */
+  .content { padding: 0 32px 40px; }
+
+  /* ── UNE ── */
+  .une {
+    padding: 30px 0 24px;
+    border-bottom: 1px solid var(--gray-mid);
+  }
+  .une-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--teal);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .une-headline {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 900;
+    line-height: 1.2;
+    color: var(--black);
+    margin-bottom: 12px;
+  }
+  .une-sub {
+    font-size: 15px;
+    color: var(--gray);
+    line-height: 1.65;
+    margin-bottom: 16px;
+  }
+  .alert-box {
+    background: var(--teal-light);
+    border-left: 4px solid var(--teal);
+    padding: 14px 16px;
+    border-radius: 0 6px 6px 0;
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: #1a4f4d;
+  }
+  .alert-box strong { color: var(--teal-dark); }
+
+  /* ── SECTION HEADERS ── */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 20px 0 14px;
+    border-bottom: 2px solid var(--gray-light);
+  }
+  .section-header .bar {
+    width: 4px; height: 22px;
+    background: var(--teal);
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .section-header h2 {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--black);
+  }
+  .section-header .emoji { font-size: 16px; }
+
+  /* ── ARTICLES ── */
+  .article { padding: 20px 0; border-bottom: 1px solid var(--gray-mid); }
+  .article:last-child { border-bottom: none; }
+  .kicker {
+    font-size: 9.5px;
+    font-weight: 700;
+    color: var(--teal);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .kicker::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--teal);
+    opacity: 0.25;
+  }
+  .article-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 21px;
+    font-weight: 900;
+    color: var(--black);
+    line-height: 1.22;
+    margin-bottom: 10px;
+    letter-spacing: -0.3px;
+  }
+  .article-body {
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: var(--gray);
+    margin-bottom: 12px;
+  }
+  .insight-box {
+    background: var(--teal-light);
+    border-left: 3px solid var(--teal);
+    padding: 11px 14px;
+    border-radius: 0 5px 5px 0;
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: #1a4f4d;
+  }
+  .insight-box strong { color: var(--teal-dark); }
+
+  /* ── ACCORDION ── */
+  .accordion-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--teal);
+    cursor: pointer;
+    margin-top: 10px;
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: inherit;
+    user-select: none;
+  }
+  .accordion-toggle:hover { color: var(--teal-dark); }
+  .accordion-toggle .arrow {
+    display: inline-block;
+    transition: transform 0.3s ease;
+    font-style: normal;
+  }
+  .accordion-toggle.open .arrow { transform: rotate(180deg); }
+  .accordion-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, opacity 0.3s ease;
+    opacity: 0;
+  }
+  .accordion-body.open { max-height: 1200px; opacity: 1; }
+  .accordion-inner { padding-top: 12px; }
+
+  /* ── QUOTE BOX ── */
+  .quote-box {
+    background: var(--black);
+    border-radius: 8px;
+    padding: 20px 20px 20px 24px;
+    margin: 20px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .quote-box::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 4px;
+    background: var(--teal);
+  }
+  .quote-box blockquote {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.5;
+    margin-bottom: 10px;
+    font-style: italic;
+  }
+  .quote-box cite {
+    font-size: 11px;
+    color: var(--teal);
+    font-style: normal;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── TIPS ── */
+  .tips-list { padding: 4px 0; }
+  .tip-item {
+    display: flex;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--gray-light);
+    align-items: flex-start;
+  }
+  .tip-item:last-child { border-bottom: none; }
+  .tip-number {
+    width: 36px; height: 36px;
+    background: var(--teal);
+    color: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    font-weight: 700;
+    flex-shrink: 0;
+    font-family: 'Playfair Display', serif;
+  }
+  .tip-content { flex: 1; }
+  .tip-title { font-size: 14px; font-weight: 600; color: var(--black); margin-bottom: 4px; }
+  .tip-body { font-size: 12.5px; color: var(--gray); line-height: 1.65; }
+
+  /* ── CHECKLIST ── */
+  .checklist { padding: 4px 0; }
+  .check-item {
+    display: flex;
+    gap: 12px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--gray-light);
+    align-items: flex-start;
+    cursor: pointer;
+  }
+  .check-item:last-child { border-bottom: none; }
+  .check-box {
+    width: 22px; height: 22px;
+    border: 2px solid var(--teal);
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+    transition: background 0.2s;
+  }
+  .check-box.checked { background: var(--teal); }
+  .check-box .tick { color: white; font-size: 13px; display: none; font-weight: 700; }
+  .check-box.checked .tick { display: block; }
+  .check-text { flex: 1; }
+  .check-title { font-size: 13.5px; font-weight: 600; color: var(--black); margin-bottom: 3px; }
+  .check-sub { font-size: 12px; color: var(--gray); line-height: 1.6; }
+  .check-item.done .check-title { text-decoration: line-through; opacity: 0.5; }
+
+  /* ── SECTION IA ── */
+  .ia-section { padding: 0; }
+
+  .ia-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 0 14px;
+    border-bottom: 2px solid var(--gray-light);
+    margin-bottom: 4px;
+  }
+  .ia-header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .ia-bar {
+    width: 4px; height: 22px;
+    background: var(--teal);
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .ia-title-block {}
+  .ia-title-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--black);
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+  }
+  .ia-title-main {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--gray);
+    margin-top: 2px;
+    letter-spacing: 0.3px;
+  }
+  .ia-new-pill {
+    background: var(--teal);
+    color: var(--black);
+    font-size: 9px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* IA Articles */
+  .ia-article { padding: 20px 0; border-bottom: 1px solid var(--gray-mid); }
+  .ia-article:last-child { border-bottom: none; }
+  .ia-kicker {
+    font-size: 9.5px;
+    font-weight: 700;
+    color: var(--teal);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .ia-kicker::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--teal);
+    opacity: 0.25;
+  }
+  .ia-article-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 21px;
+    font-weight: 900;
+    color: var(--black);
+    line-height: 1.22;
+    margin-bottom: 10px;
+    letter-spacing: -0.3px;
+  }
+  .ia-article-body {
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: var(--gray);
+    margin-bottom: 12px;
+  }
+  .ia-insight-box {
+    background: var(--teal-light);
+    border-left: 3px solid var(--teal);
+    padding: 11px 14px;
+    border-radius: 0 5px 5px 0;
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: #1a4f4d;
+  }
+  .ia-insight-box strong { color: var(--teal-dark); }
+
+  /* IA Steps */
+  .ia-steps { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; }
+  .ia-step {
+    background: var(--gray-light);
+    border-left: 3px solid var(--teal);
+    border-radius: 0 6px 6px 0;
+    padding: 12px 14px;
+  }
+  .ia-step-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--black);
+    margin-bottom: 4px;
+  }
+  .ia-step-body {
+    font-size: 12.5px;
+    color: var(--gray);
+    line-height: 1.6;
+  }
+
+  /* IA Tip box */
+  .ia-tip-box {
+    background: var(--teal-light);
+    border-left: 4px solid var(--teal);
+    border-radius: 0 8px 8px 0;
+    padding: 14px 16px;
+    margin-top: 16px;
+    font-size: 12.5px;
+    line-height: 1.65;
+    color: #1a4f4d;
+  }
+  .ia-tip-box strong { color: var(--teal-dark); }
+
+  /* ── RETENIR ── */
+  .retenir-box {
+    background: var(--teal);
+    border-radius: 10px;
+    padding: 22px 22px;
+    margin: 20px 0 0;
+  }
+  .retenir-box h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 14px;
+  }
+  .retenir-list { list-style: none; margin-bottom: 14px; }
+  .retenir-list li {
+    font-size: 13px;
+    color: rgba(255,255,255,0.92);
+    padding: 4px 0 4px 16px;
+    position: relative;
+    line-height: 1.55;
+  }
+  .retenir-list li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: rgba(255,255,255,0.6);
+  }
+  .retenir-key {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--white);
+    line-height: 1.55;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255,255,255,0.25);
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    background: var(--black);
+    padding: 22px 32px;
+    text-align: center;
+    position: relative;
+  }
+  .footer::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--teal);
+  }
+  .footer-cta { font-size: 13px; font-weight: 600; color: var(--teal); margin-bottom: 6px; }
+  .footer-sub { font-size: 11px; color: #666; margin-bottom: 4px; }
+  .footer-meta { font-size: 10px; color: #444; letter-spacing: 0.5px; }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── GLOSSAIRE ── */
+  .g {
+    color: var(--teal);
+    font-weight: 600;
+    cursor: pointer;
+    border-bottom: 1px dotted var(--teal);
+    transition: color 0.15s;
+    display: inline;
+  }
+  .g:hover, .g.active { color: var(--teal-dark); border-bottom-color: var(--teal-dark); }
+  .g-def {
+    display: none;
+    background: var(--teal-light);
+    border-left: 3px solid var(--teal);
+    border-radius: 0 5px 5px 0;
+    padding: 8px 12px;
+    margin: 6px 0 4px;
+    font-size: 12px;
+    color: #1a4f4d;
+    line-height: 1.55;
+    font-style: italic;
+    animation: gFadeIn 0.2s ease;
+  }
+  .g-def.open { display: block; }
+  .g-def strong {
+    font-style: normal;
+    display: block;
+    font-weight: 700;
+    margin-bottom: 2px;
+    color: var(--teal-dark);
+  }
+  @keyframes gFadeIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .content { padding: 0 18px 32px; }
+    .masthead { padding: 22px 18px 16px; }
+    .masthead-logo { font-size: 22px; }
+    .une-headline { font-size: 22px; }
+    .article-title, .ia-article-title { font-size: 18px; }
+    .footer { padding: 18px 18px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<div class="journal">
+
+  <!-- MASTHEAD -->
+  <header class="masthead">
+    <div class="masthead-logo">Le Brief <span>proMENTOR</span></div>
+    <hr class="masthead-divider">
+    <div class="masthead-meta">28 mars 2026 — N°04 — GRATUIT</div>
+    <div class="reading-badge">⏱ 8 min de lecture</div>
+    <div class="chips">
+      <span class="chip active">Instagram</span>
+      <span class="chip active">Notion</span>
+      <span class="chip active">WhatsApp</span>
+      <span class="chip active">LinkedIn</span>
+      <span class="chip active">IA</span>
+      <span class="chip">Stratégie</span>
+    </div>
+  </header>
+
+  <div class="content">
+
+    <!-- À LA UNE -->
+    <section class="une reveal">
+      <div class="une-label">📰 À la une</div>
+      <h1 class="une-headline">Tes outils du quotidien se transforment : Instagram, WhatsApp et Notion deviennent ton vrai CRM</h1>
+      <p class="une-sub">Cette semaine, plusieurs plateformes que tu utilises déjà font des mises à jour majeures. Instagram intègre une logique de moteur de recherche, WhatsApp autorise enfin deux comptes sur iPhone, Notion sort une vue tableau de bord inédite. L'heure n'est plus à "adopter un nouvel outil". C'est à mieux utiliser ce que tu as déjà.</p>
+      <div class="alert-box">
+        <strong>Le signal fort :</strong> On passe d'un Instagram de visibilité à un Instagram de découverte. Les mots de tes légendes et de ta bio comptent désormais autant que la qualité de tes visuels. Si tu n'as pas encore optimisé ton profil pour la recherche, tu laisses des prospects sur la table chaque jour.
+      </div>
+    </section>
+
+    <!-- NOUVEAUTÉS INSTAGRAM -->
+    <div class="section-header reveal">
+      <div class="bar"></div>
+      <span class="emoji">🆕</span>
+      <h2>Nouveautés Instagram</h2>
+    </div>
+
+    <!-- Article 1 : SEO Instagram -->
+    <div class="article reveal">
+      <div class="kicker">🔍 SEO &amp; Recherche</div>
+      <div class="article-title">Instagram devient un moteur de recherche : tes mots comptent plus que tes hashtags</div>
+      <p class="article-body">Instagram fonctionne de plus en plus comme un moteur de recherche. Les gens tapent des requêtes précises ("coach sportif douleurs dos", "remise en forme après 50 ans", "programme pilates débutante") et les profils qui ressortent ne sont pas les plus gros. Ce sont ceux dont les mots correspondent à ce que les gens cherchent. Tes légendes, ta bio et ton champ Nom sont désormais indexés. Si ces zones sont vagues, tu es invisible. Si elles sont précises, tu apparais devant des gens qui cherchent exactement ce que tu proposes.</p>
+
+      <button class="accordion-toggle" onclick="toggleAccordion(this)">
+        <span class="arrow">▼</span> Les 4 optimisations concrètes à faire maintenant
+      </button>
+      <div class="accordion-body">
+        <div class="accordion-inner">
+          <p class="article-body"><strong>1. Le champ "Nom" de ton profil : c'est ton mot-clé numéro 1.</strong> Attention, on ne parle pas de ton @pseudo (ton identifiant, celui avec le @). On parle du champ "Nom" que tu renseignes dans les paramètres de ton profil. C'est le texte en gras affiché juste sous ta photo. Ce champ est indexé par la recherche Instagram. Si tu t'appelles Sophie Martin et que tu mets "Sophie Martin", personne ne te trouve via la recherche. Si tu mets "Sophie · Coach sport &amp; équilibre hormonal 40-55 ans", tu apparais dès que quelqu'un tape "coach hormonal", "sport après 40 ans" ou "équilibre hormonal". Sois précise sur ta spécialité, pas générique.</p>
+          <p class="article-body"><strong>2. Ta bio : quatre lignes, quatre réponses.</strong> Une bio efficace répond à quatre questions dans l'ordre. Ce que tu fais (ton activité en termes clairs). Pour qui tu le fais (ta cible, la plus précise possible). Comment tu le fais (ta méthode ou ton approche, en un mot ou une courte phrase). Comment accéder à ta prestation (lien, DM, formulaire). Exemple : "Coach sportif spécialiste santé hormonale · Je t'aide à retrouver énergie et force après 45 ans sans t'épuiser · Méthode progressive, sans régime · Accès au programme en bio 👇". Chaque ligne a un rôle. Rien n'est décoratif.</p>
+          <p class="article-body"><strong>3. Structure ta légende comme une réponse à une vraie question.</strong> Format en quatre temps : la question (celle que ta cible se pose vraiment), la promesse (ce qu'elle va apprendre ou gagner en lisant), les étapes (numérotées, courtes, actionnables), l'appel à l'action (sauvegarder, commenter, partager). Exemple concret : "Tu fais du sport régulièrement mais tu te sens toujours fatiguée ? Ce n'est pas un manque de volonté. Voici 3 raisons souvent ignorées. 1) Ton intensité est trop élevée par rapport à ton niveau hormonal actuel. 2) Tes plages de récupération sont trop courtes. 3) Tu t'entraînes en déficit calorique sans le savoir. Sauvegarde ce post, tu en auras besoin la prochaine fois que tu voudras te "motiver à fond"." La légende n'est pas un commentaire de ta photo. C'est un article court qui répond à une question précise.</p>
+          <p class="article-body"><strong>4. Le carrousel-guide : le format qui génère le plus de sauvegardes.</strong> Les sauvegardes sont le signal fort que l'algorithme lit en priorité, bien plus que les likes. Un carrousel bien construit pousse les gens à garder ton contenu pour y revenir. Structure type en 7 slides : Slide 1 = titre accrocheur avec le problème ("Les 5 erreurs qui bloquent tes résultats après 45 ans"). Slides 2 à 6 = une erreur par slide, avec une courte explication et la correction concrète. Slide 7 = récapitulatif visuel ou appel à l'action ("Sauvegarde et dis-moi en commentaire laquelle te parle le plus"). Chaque slide doit être lisible en 3 secondes. Texte court, visuel clair, une seule idée par slide.</p>
+          <div class="insight-box">
+            <strong>Par où commencer :</strong> Ouvre les paramètres de ton profil Instagram maintenant et modifie le champ "Nom" avec ta spécialité exacte. C'est la modification la plus rapide avec l'impact le plus immédiat. Ensuite, revois ta bio avec les quatre lignes. Ces deux changements suffisent pour cette semaine.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Article 2 : WhatsApp Business -->
+    <div class="article reveal">
+      <div class="kicker">💬 WhatsApp Business</div>
+      <div class="article-title">WhatsApp enfin multi-comptes sur iPhone : sépare ta vie pro de ta vie perso</div>
+      <p class="article-body">WhatsApp déploie le multi-comptes sur iPhone. Tu peux désormais avoir ton compte personnel et ton compte WhatsApp Business sur le même téléphone, sans jongler entre deux appareils ou deux SIM. Cette fonctionnalité est disponible progressivement : si tu ne la vois pas encore, mets à jour WhatsApp depuis l'App Store et vérifie dans Réglages → Compte → Ajouter un compte. Sur Android, la fonction existe depuis fin 2023. Sur iPhone, le déploiement est en cours début 2026. WhatsApp Business ajoute aussi un outil de gestion du stockage : tu peux supprimer les médias lourds chat par chat, sans effacer les conversations.</p>
+
+      <button class="accordion-toggle" onclick="toggleAccordion(this)">
+        <span class="arrow">▼</span> Comment en tirer parti maintenant
+      </button>
+      <div class="accordion-body">
+        <div class="accordion-inner">
+          <p class="article-body"><strong>Comment accéder au multi-comptes sur iPhone.</strong> Mets à jour WhatsApp à la dernière version depuis l'App Store. Ouvre WhatsApp, va dans Réglages (l'icône en bas à droite). Appuie sur ton nom en haut, puis sur la flèche à côté de ton numéro. Un bouton "Ajouter un compte" apparaît si la fonction est disponible sur ton profil. Installe ensuite WhatsApp Business séparément depuis l'App Store si tu ne l'as pas encore : les deux applications coexistent, chacune avec son numéro dédié.</p>
+          <p class="article-body"><strong>Sépare enfin perso et pro.</strong> Compte personnel pour la famille et les amis. Compte WhatsApp Business pour tes clients et prospects. Tu ne mélanges plus, tu réponds mieux et tu gardes une image professionnelle constante.</p>
+          <p class="article-body"><strong>Crée un pipeline ultra simple avec les labels.</strong> Quatre labels suffisent : "Prospect", "À relancer", "Client", "VIP". Dans WhatsApp Business, appuie longuement sur une conversation pour assigner un label. Cinq minutes par jour dans la vue "À relancer" changent ton taux de conversion.</p>
+          <p class="article-body"><strong>Rédige deux messages automatiques.</strong> Message d'accueil (activé quand quelqu'un t'écrit pour la première fois) : "Salut ! Dis-moi ton objectif principal et ce que tu as déjà tenté." Message d'absence (activé hors de tes horaires) : "Je réponds sous 24h. En attendant, note ton objectif et ton niveau actuel." Ces deux messages se configurent dans WhatsApp Business sous Outils professionnels → Message d'accueil / Message d'absence. Ils qualifient tes prospects avant même que tu aies ouvert ton téléphone.</p>
+          <div class="insight-box">
+            <strong>Mise en place rapide :</strong> Télécharge WhatsApp Business depuis l'App Store, configure les deux messages automatiques et ajoute les quatre labels. Ça prend moins de 20 minutes et tu as un <span class="g" onclick="toggleGloss(this)">CRM</span><span class="g-def"><strong>CRM</strong>Customer Relationship Management. Outil ou système pour gérer tes contacts, prospects et clients : qui ils sont, où ils en sont, quand les relancer. Tu peux en avoir un très simple avec WhatsApp Business et ses labels.</span> minimaliste opérationnel dès demain.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Article 3 : LinkedIn Premium -->
+    <div class="article reveal">
+      <div class="kicker">💼 LinkedIn</div>
+      <div class="article-title">LinkedIn lance un outil tout-en-un pour les solos et les petites structures</div>
+      <p class="article-body">LinkedIn sort "Premium All-in-One", une offre pensée pour les indépendants et les petites structures. Elle regroupe un tableau central de prospection avec des suggestions quotidiennes, un assistant IA d'écriture intégré et des statistiques de profil avancées. Pour un coach qui veut développer son réseau professionnel sans y passer des heures, c'est une porte d'entrée sérieuse vers une prospection structurée et régulière.</p>
+      <div class="insight-box">
+        <strong>Routine proposée :</strong> 15 minutes par jour, trois actions seulement. Cinq nouveaux prospects ciblés (secteur, poste, problème). Deux messages personnalisés courts. Une relance de la semaine précédente. Le message qui convertit le mieux : "Je vois que tu [objectif]. Si tu veux, je te montre une méthode testée avec mes clients. Intéressé ?" Pas de pitch, pas de roman.
+      </div>
+    </div>
+
+    <!-- SIGNAL STRATÉGIQUE -->
+    <div class="section-header reveal">
+      <div class="bar"></div>
+      <span class="emoji">🗣️</span>
+      <h2>Signal stratégique</h2>
+    </div>
+
+    <div class="article reveal">
+      <div class="kicker">📡 Parole au CEO</div>
+      <div class="article-title">Adam Mosseri : les hashtags ne font plus ta visibilité. Tes légendes, si.</div>
+
+      <div class="quote-box">
+        <blockquote>« Les hashtags ne sont pas un moyen d'atteindre de nouvelles personnes. Ils aident Instagram à comprendre de quoi parle ton contenu. »</blockquote>
+        <cite>— Adam Mosseri, Directeur d'Instagram</cite>
+      </div>
+
+      <p class="article-body">C'est un changement de fond. Pendant des années, la recette était simple : plus tu mettais de hashtags, plus tu avais de chances d'être vu. Beaucoup de créateurs finissaient leurs posts avec un bloc de 20 à 30 hashtags, espérant toucher un maximum de monde. Ce mécanisme ne fonctionne plus.</p>
+      <p class="article-body">Aujourd'hui, ce qui détermine ta <span class="g" onclick="toggleGloss(this)">portée organique</span><span class="g-def"><strong>Portée organique</strong>Nombre de personnes qui voient ton contenu sans que tu paies pour le diffuser. Sur Instagram, elle dépend de l'algorithme, de la qualité du contenu et des interactions qu'il génère.</span>, c'est la qualité et la précision de ce que tu écris dans ta légende. Instagram lit le texte de tes posts pour comprendre de quoi tu parles, à qui tu t'adresses et si ce contenu mérite d'être distribué à d'autres personnes. Deux exemples pour comprendre la différence.</p>
+      <p class="article-body"><strong>Légende faible (hashtags en roue de secours) :</strong> "Nouvelle séance du jour 💪 On donne tout ! #sport #fitness #coach #motivation #training #workout #sportif #healthy #lifestyle #musculation #wellbeing #coaching #sportcoach #gym #bodytransformation #wellness #fit #fitnessmotivation #crossfit #sportslife". Résultat : Instagram ne comprend pas à qui envoyer ce contenu. Il le distribue à peu de monde.</p>
+      <p class="article-body"><strong>Légende forte (les mots font le travail) :</strong> "Tu fais du sport depuis des mois mais tu stagnes ? Voici ce que j'observe chez 9 femmes sur 10 après 45 ans. Leur programme n'est pas adapté à leurs fluctuations hormonales. Elles s'entraînent de la même façon toute la semaine, sans tenir compte de leur cycle ou de leur niveau d'énergie. Résultat : fatigue chronique et plateau. La solution : adapter l'intensité à ton état, pas à un programme fixe. Sauvegarde ce post et dis-moi en commentaire si ça te parle." Trois hashtags en fin de post : #coachfemme #santéhormonale #sportaprès45ans.</p>
+      <div class="insight-box">
+        <strong>La règle à retenir :</strong> Écris ta légende comme si les hashtags n'existaient pas. Si ton texte est suffisamment précis et utile, Instagram comprend seul le contexte. Ensuite, ajoute 3 à 5 hashtags de niche pour confirmer le sujet. C'est tout. Le reste est du bruit.
+      </div>
+    </div>
+
+    <!-- OUTILS : NOTION -->
+    <div class="section-header reveal">
+      <div class="bar"></div>
+      <span class="emoji">🛠️</span>
+      <h2>Outil de la semaine</h2>
+    </div>
+
+    <div class="article reveal">
+      <div class="kicker">🗂️ Notion 3.4</div>
+      <div class="article-title">Notion sort la vue tableau de bord et le mode présentation : ton back-office de coach se simplifie</div>
+      <p class="article-body">Notion sort la version 3.4 avec deux nouveautés majeures pour les solos et les coachs. La vue tableau de bord permet d'afficher plusieurs bases de données sur une seule page, filtrées et triées différemment. Le mode présentation transforme n'importe quel document Notion en diaporama cliquable. Plus besoin de PowerPoint pour tes séances ou tes bilans clients.</p>
+
+      <button class="accordion-toggle" onclick="toggleAccordion(this)">
+        <span class="arrow">▼</span> Comment en faire ton outil de pilotage
+      </button>
+      <div class="accordion-body">
+        <div class="accordion-inner">
+          <p class="article-body"><strong>Une base "Clients" avec trois vues filtrées.</strong> Vue 1 : "À relancer aujourd'hui" (filtre sur la date de dernier contact). Vue 2 : "Programmes en cours" (filtre sur le statut actif). Vue 3 : "Clients à risque" (filtre sur l'absence de contact depuis plus de 14 jours). Tu ouvres Notion le matin, tu sais exactement quoi faire.</p>
+          <p class="article-body"><strong>Mode présentation pour tes séances.</strong> Transforme ta fiche séance en slides : Échauffement → Bloc A → Bloc B → Retour au calme. Affiche-le sur ton téléphone ou ton écran pendant la séance. Ça remplace un PowerPoint sans en avoir la complexité.</p>
+          <p class="article-body"><strong>Une base "Habitudes coach" pour piloter ta semaine.</strong> Cinq créneaux répétitifs : prospection, création de contenu, appels clients, formation perso, administratif. Tu coches au fil de la semaine. En fin de semaine, tu vois d'un coup d'œil où tu as passé ton temps.</p>
+          <div class="insight-box">
+            <strong>Par où commencer :</strong> Crée une seule base "Clients" avec quatre champs (Prénom, Statut, Dernière action, Date). Ajoute les trois vues filtrées. Utilise-la tous les matins pendant deux semaines. Le reste viendra naturellement.
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+  <!-- SECTION IA -->
+  <div class="content">
+  <section class="ia-section">
+
+    <div class="ia-header reveal">
+      <div class="ia-header-left">
+        <div class="ia-bar"></div>
+        <div class="ia-title-block">
+          <div class="ia-title-label">Intelligence Artificielle</div>
+          <div class="ia-title-main">🤖 Épisode 3 : Claude passe de "répondre" à "faire"</div>
+        </div>
+      </div>
+      <div class="ia-new-pill">NOUVEAU</div>
+    </div>
+
+    <!-- IA : Actu -->
+    <div class="ia-article reveal">
+      <div class="ia-kicker">🔥 Actu IA</div>
+      <div class="ia-article-title">Claude peut maintenant agir sur ton Mac : une nouvelle ère pour l'automatisation du coach solo</div>
+      <p class="ia-article-body"><span class="g" onclick="toggleGloss(this)">Claude</span><span class="g-def"><strong>Claude</strong>Assistant IA développé par Anthropic. Reconnu pour son raisonnement structuré et son suivi d'instructions complexes. Il peut désormais exécuter des actions sur ordinateur via Claude Code et l'application Cowork.</span> franchit une nouvelle étape : via Claude Code et l'application Cowork, il peut désormais exécuter des actions directement sur un Mac. Organiser des fichiers, renommer des documents, générer des comptes-rendus, classer des dossiers clients. Chaque action est soumise à ta validation explicite, il ne fait rien sans ta permission.</p>
+
+      <button class="accordion-toggle" onclick="toggleAccordionIA(this)">
+        <span class="arrow">▼</span> Ce que ça change concrètement pour toi
+      </button>
+      <div class="accordion-body">
+        <div class="accordion-inner">
+          <p class="ia-article-body">Jusqu'ici, Claude répondait à des questions ou rédigeait des textes. Désormais, il peut prendre en charge des tâches répétitives et chronophages directement sur ton ordinateur. Pour un coach solo qui passe du temps à gérer des fichiers clients, à renommer des comptes-rendus, à classer des programmes : c'est une économie de temps concrète, sans compétences techniques requises.</p>
+          <p class="ia-article-body">La règle d'or reste la même : missions courtes (10 minutes maximum), et tu vérifies le résultat avant de valider. L'IA exécute, toi tu supervises.</p>
+        </div>
+      </div>
+
+      <div class="ia-insight-box">
+        <strong>Exemple de <span class="g" onclick="toggleGloss(this)">prompt</span><span class="g-def"><strong>Prompt</strong>Instruction ou question que tu donnes à une IA. Plus il est précis et contextualisé, meilleur est le résultat. Un bon prompt décrit le contexte, la tâche et le format attendu.</span> pour démarrer :</strong> "Claude, organise ces documents dans 3 dossiers : Prospects / Clients / Archives. Renomme chaque fichier avec le format 'NomClient - date'." Commence par une tâche que tu répètes chaque semaine et qui t'ennuie. C'est là que le gain de temps sera le plus immédiat.
+      </div>
+    </div>
+
+    <!-- IA : Passage à l'action -->
+    <div class="ia-article reveal">
+      <div class="ia-kicker">⚡ Passage à l'action</div>
+      <div class="ia-article-title">Automatise la gestion de tes fichiers clients en 3 étapes avec Claude</div>
+      <p class="ia-article-body">La plupart des coachs perdent entre 30 minutes et 1 heure par semaine à ranger, renommer et classer des fichiers. Ce temps ne génère aucune valeur pour tes clients. C'est exactement ce type de tâche que Claude peut prendre en charge. Voici comment procéder dès cette semaine.</p>
+
+      <div class="ia-steps">
+        <div class="ia-step">
+          <div class="ia-step-title">Étape 1 : Identifie ta tâche la plus répétitive</div>
+          <div class="ia-step-body">Pense à la tâche que tu répètes chaque semaine et qui ne nécessite aucune expertise de ta part. Renommer des fichiers PDF clients, déplacer des comptes-rendus dans le bon dossier, classer des programmes par date. Note-la en une phrase claire : "Je renomme chaque semaine les comptes-rendus de séance avec le nom du client et la date."</div>
+        </div>
+        <div class="ia-step">
+          <div class="ia-step-title">Étape 2 : Rédige ton instruction pour Claude</div>
+          <div class="ia-step-body">Décris la tâche simplement, comme tu l'expliquerais à un assistant humain. Exemple : "Ces fichiers sont des comptes-rendus de séance. Renomme-les avec le format 'Prénom Nom - JJ/MM/AAAA' et classe-les dans le dossier 'Clients actifs'. Les noms sont dans le nom de fichier actuel." Pas besoin de langage technique.</div>
+        </div>
+        <div class="ia-step">
+          <div class="ia-step-title">Étape 3 : Supervise et valide</div>
+          <div class="ia-step-body">Claude te montre ce qu'il va faire avant d'agir. Vérifie que c'est conforme à ce que tu attends, valide, et observe. La première fois, reste présent. Après deux ou trois fois, tu prendras confiance et pourras lui déléguer des missions plus complexes.</div>
+        </div>
+      </div>
+
+      <div class="ia-tip-box">
+        <strong>💡 Astuce coach :</strong> Commence par quelque chose de non critique. Pas tes contrats, pas tes factures. Commence par des fichiers de contenu ou des dossiers de ressources. Une fois que tu as validé la logique sur quelque chose de "sans risque", tu passes aux fichiers clients. La confiance se construit par l'expérience.
+      </div>
+    </div>
+
+  </section>
+  </div><!-- /ia content wrapper -->
+
+  <div class="content">
+
+    <!-- TIPS -->
+    <div class="section-header reveal">
+      <div class="bar"></div>
+      <span class="emoji">🧠</span>
+      <h2>Tips &amp; bonnes pratiques</h2>
+    </div>
+
+    <div class="tips-list reveal">
+      <div class="tip-item">
+        <div class="tip-number">1</div>
+        <div class="tip-content">
+          <div class="tip-title">Ton champ "Nom" Instagram est ton premier mot-clé SEO</div>
+          <div class="tip-body">Ne mets pas juste ton prénom. Mets ton prénom + ta niche + ta zone ou ta cible. Exemple : "Julie · Coach nutrition femmes actives". Ce champ est indexé par la recherche Instagram. C'est la modification la plus rapide avec le plus grand impact sur ta visibilité organique.</div>
+        </div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-number">2</div>
+        <div class="tip-content">
+          <div class="tip-title">Un carrousel qui génère des sauvegardes vaut mieux que dix posts qui génèrent des likes</div>
+          <div class="tip-body">Les sauvegardes sont le signal fort que l'algorithme Instagram lit en priorité. Crée des carrousels de type "guide pratique" ou "checklist" : tes abonnés les gardent pour y revenir. Format gagnant : problème → solution en étapes visuelles → rappel de l'essentiel en dernière slide.</div>
+        </div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-number">3</div>
+        <div class="tip-content">
+          <div class="tip-title">Sépare tes comptes WhatsApp avant de les mélanger encore</div>
+          <div class="tip-body">Le multi-comptes sur iPhone est disponible. Si tu utilises encore un seul WhatsApp pour tout : famille, amis, clients et prospects, tu brouilles ton image et tu perds en réactivité. Deux comptes, deux univers, deux messages automatiques. La séparation te prend 20 minutes et te fait gagner en clarté chaque jour.</div>
+        </div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-number">4</div>
+        <div class="tip-content">
+          <div class="tip-title">L'IA ne remplace pas ton expertise, elle élimine les tâches qui l'étouffent</div>
+          <div class="tip-body">Le vrai gain de Claude sur Mac n'est pas de rédiger à ta place. C'est de supprimer les 30 à 60 minutes hebdomadaires que tu passes à gérer des fichiers, classer des dossiers et renommer des documents. Ces minutes libérées, tu les consacres à tes clients. C'est là que tu crées de la valeur.</div>
+        </div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-number">5</div>
+        <div class="tip-content">
+          <div class="tip-title">Trois vues Notion suffisent pour ne plus jamais "oublier" un client</div>
+          <div class="tip-body">Une seule base de données clients avec trois filtres : "À relancer aujourd'hui", "Programmes en cours", "Clients à risque". Tu ouvres Notion chaque matin, tu as ta liste d'actions. Pas besoin d'un CRM complexe. Un outil simple utilisé tous les jours vaut infiniment plus qu'un système parfait jamais ouvert.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- À TESTER CETTE SEMAINE -->
+    <div class="section-header reveal" style="margin-top: 8px;">
+      <div class="bar"></div>
+      <span class="emoji">🚀</span>
+      <h2>À tester cette semaine</h2>
+    </div>
+
+    <div class="checklist reveal">
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="tick">✓</span></div>
+        <div class="check-text">
+          <div class="check-title">Mets à jour le champ "Nom" de ton profil Instagram</div>
+          <div class="check-sub">Remplace ton prénom seul par "Prénom · Niche · Cible ou Ville". Ce changement est indexé par la recherche Instagram et te rend visible sur des requêtes que tu ne ciblais pas avant.</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="tick">✓</span></div>
+        <div class="check-text">
+          <div class="check-title">Publie un carrousel-guide avec un appel à sauvegarder</div>
+          <div class="check-sub">Format checklist sur un sujet utile à ta niche (échauffement, routine, méthode). Dernière slide : "Sauvegarde pour y revenir". Mesure le nombre de sauvegardes sur 48h.</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="tick">✓</span></div>
+        <div class="check-text">
+          <div class="check-title">Configure WhatsApp Business avec les deux messages automatiques</div>
+          <div class="check-sub">Message d'accueil (qualification de la demande) et message d'absence (réponse sous 24h + invitation à noter l'objectif). Ajoute les quatre labels : Prospect, À relancer, Client, VIP.</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="tick">✓</span></div>
+        <div class="check-text">
+          <div class="check-title">Crée ta base Clients dans Notion avec trois vues filtrées</div>
+          <div class="check-sub">Quatre champs : Prénom, Statut, Dernière action, Date. Trois vues : À relancer aujourd'hui / Programmes en cours / Clients à risque. Ouvre-la chaque matin pendant une semaine.</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="tick">✓</span></div>
+        <div class="check-text">
+          <div class="check-title">Identifie une tâche répétitive à déléguer à Claude</div>
+          <div class="check-sub">Note en une phrase la tâche de gestion de fichiers que tu répètes chaque semaine. Rédige l'instruction que tu donnerais à un assistant. Tu es prêt pour la tester avec Claude dès que tu as accès à Cowork.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- À RETENIR -->
+    <div class="section-header reveal" style="margin-top: 28px;">
+      <div class="bar"></div>
+      <span class="emoji">🎯</span>
+      <h2>À retenir cette semaine</h2>
+    </div>
+
+    <div class="reveal">
+      <div class="retenir-box">
+        <h3>📌 Les signaux de la semaine</h3>
+        <ul class="retenir-list">
+          <li>Instagram indexe les mots de ta bio et de tes légendes : le SEO de profil n'est plus optionnel</li>
+          <li>Les hashtags servent à contextualiser, pas à propulser : 5 hashtags précis remplacent 30 hashtags génériques</li>
+          <li>WhatsApp Business multi-comptes arrive sur iPhone : sépare perso et pro cette semaine</li>
+          <li>Notion 3.4 offre un tableau de bord et un mode présentation : ton back-office de coach se simplifie</li>
+          <li>Claude peut agir sur Mac : l'automatisation des tâches répétitives devient accessible sans compétences techniques</li>
+        </ul>
+        <div class="retenir-key">Les outils que tu utilises déjà font des sauts qualitatifs. La vraie stratégie cette semaine : optimise ce que tu as avant d'en adopter de nouveaux.</div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-cta">📲 Rejoins la communauté proMENTOR sur Telegram</div>
+    <div class="footer-sub">Tu as aimé ce numéro ? Dis-le nous sur Telegram</div>
+    <div class="footer-meta">Le Brief proMENTOR — N°04 — Édition du 28 mars 2026 &nbsp;·&nbsp; © 2026 proMENTOR</div>
+  </footer>
+
+</div><!-- /journal -->
+
+<script>
+  function toggleGloss(el) {
+    const def = el.nextElementSibling;
+    const isOpen = def.classList.contains('open');
+    document.querySelectorAll('.g-def.open').forEach(d => {
+      d.classList.remove('open');
+      d.previousElementSibling.classList.remove('active');
+    });
+    if (!isOpen) { def.classList.add('open'); el.classList.add('active'); }
+  }
+
+  function toggleAccordion(btn) {
+    btn.classList.toggle('open');
+    const body = btn.nextElementSibling;
+    body.classList.toggle('open');
+  }
+
+  function toggleAccordionIA(btn) {
+    btn.classList.toggle('open');
+    const body = btn.nextElementSibling;
+    body.classList.toggle('open');
+  }
+
+  function toggleCheck(item) {
+    const box = item.querySelector('.check-box');
+    box.classList.toggle('checked');
+    item.classList.toggle('done');
+  }
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 60);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Progress bar
+  const bar = document.getElementById('progress');
+  window.addEventListener('scroll', () => {
+    const doc = document.documentElement;
+    bar.style.width = (doc.scrollTop / (doc.scrollHeight - doc.clientHeight) * 100) + '%';
+  });
+</script>
+</body>
+</html>
