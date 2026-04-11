@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Brief proMENTOR — N°06</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal:       #48C1BC;
+    --teal-light: #e8f9f8;
+    --teal-dark:  #2a8a86;
+    --black:      #0D0D0D;
+    --dark:       #1A1A1A;
+    --gray:       #444444;
+    --gray-light: #f5f5f5;
+    --gray-mid:   #e0e0e0;
+    --white:      #ffffff;
+    --ia-bg:      #0D0D1F;
+    --ia-card:    #151525;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #f0eeea;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--gray);
+  }
+
+  #progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    background: var(--teal);
+    width: 0%;
+    z-index: 9999;
+    transition: width 0.1s linear;
+  }
+
+  .journal {
+    max-width: 680px;
+    margin: 0 auto;
+    background: var(--white);
+    box-shadow: 0 4px 40px rgba(0,0,0,0.10);
+  }
+
+  .masthead {
+    background: var(--black);
+    padding: 36px 40px 28px;
+    color: var(--white);
+  }
+  .masthead-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 30px;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    margin-bottom: 16px;
+  }
+  .masthead-logo span { color: var(--teal); }
+  .masthead-meta {
+    font-size: 11px;
+    color: #888;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .masthead-meta strong { color: #bbb; }
+  .masthead-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 1px solid #333;
+    color: #666;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .chip.active { background: var(--teal); color: var(--black); border-color: var(--teal); }
+  .reading-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--teal);
+    border: 1px solid rgba(72,193,188,0.4);
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+  }
+
+  .content { padding: 40px 40px 32px; }
+
+  .une {
+    margin-bottom: 40px;
+    padding-bottom: 36px;
+    border-bottom: 1px solid var(--gray-mid);
+  }
+  .une-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--teal);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .une h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--black);
+    line-height: 1.25;
+    margin-bottom: 12px;
+  }
+  .une-sub { font-size: 15px; color: #888; line-height: 1.6; margin-bottom: 20px; }
+  .alert-box {
+    background: var(--teal-light);
+    border-left: 3px solid var(--teal);
+    padding: 14px 18px;
+    border-radius: 0 6px 6px 0;
+    font-size: 13.5px;
+    color: var(--teal-dark);
+    line-height: 1.6;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 24px;
+    margin-top: 8px;
+  }
+  .section-header .bar { width: 3px; height: 22px; background: var(--teal); border-radius: 2px; flex-shrink: 0; }
+  .section-header .emoji { font-size: 18px; }
+  .section-header h2 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--black);
+  }
+  .section-header .pill {
+    font-size: 9px;
+    font-weight: 700;
+    background: var(--teal);
+    color: var(--black);
+    padding: 2px 9px;
+    border-radius: 20px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .section-sublabel {
+    font-size: 12px;
+    color: #aaa;
+    margin-top: -18px;
+    margin-bottom: 22px;
+    padding-left: 36px;
+    letter-spacing: 0.3px;
+  }
+
+  .article {
+    margin-bottom: 32px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--gray-mid);
+  }
+  .article:last-child { border-bottom: none; }
+  .kicker {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--teal);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .article-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--black);
+    line-height: 1.3;
+    margin-bottom: 12px;
+  }
+  .article-body { font-size: 14.5px; line-height: 1.75; color: var(--gray); margin-bottom: 16px; }
+  .insight-box {
+    background: var(--teal-light);
+    border-left: 3px solid var(--teal);
+    padding: 12px 16px;
+    border-radius: 0 6px 6px 0;
+    font-size: 13px;
+    color: var(--teal-dark);
+    line-height: 1.6;
+  }
+
+  .accordion-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: 1px solid var(--gray-mid);
+    border-radius: 6px;
+    padding: 9px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gray);
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .accordion-toggle:hover { border-color: var(--teal); color: var(--teal-dark); }
+  .accordion-toggle .arrow { transition: transform 0.3s; font-size: 10px; }
+  .accordion-toggle.open .arrow { transform: rotate(180deg); }
+  .accordion-body { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+  .accordion-body.open { max-height: 1200px; }
+  .accordion-inner { padding: 16px 0 0; }
+
+  .quote-box {
+    background: var(--black);
+    border-left: 3px solid var(--teal);
+    padding: 20px 24px;
+    border-radius: 0 8px 8px 0;
+    margin-bottom: 20px;
+  }
+  .quote-box blockquote {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.5;
+    margin-bottom: 10px;
+  }
+  .quote-box cite { font-size: 12px; color: var(--teal); letter-spacing: 0.5px; font-style: normal; }
+
+  .tips-list { display: flex; flex-direction: column; gap: 18px; }
+  .tip-item { display: flex; gap: 16px; align-items: flex-start; }
+  .tip-number {
+    width: 30px; height: 30px;
+    background: var(--teal);
+    color: var(--black);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700;
+    flex-shrink: 0;
+  }
+  .tip-content { flex: 1; }
+  .tip-title { font-size: 14.5px; font-weight: 600; color: var(--black); margin-bottom: 4px; }
+  .tip-body { font-size: 13.5px; line-height: 1.65; color: var(--gray); }
+
+  .ia-steps { display: flex; flex-direction: column; gap: 12px; margin: 20px 0; }
+  .ia-step {
+    background: var(--gray-light);
+    border-left: 3px solid var(--teal);
+    border-radius: 0 8px 8px 0;
+    padding: 14px 18px;
+  }
+  .ia-step-title { font-size: 14px; font-weight: 700; color: var(--black); margin-bottom: 6px; }
+  .ia-step-body { font-size: 13.5px; line-height: 1.6; color: var(--gray); }
+  .ia-tip-box {
+    background: var(--teal-light);
+    border-left: 3px solid var(--teal);
+    padding: 14px 18px;
+    border-radius: 0 6px 6px 0;
+    font-size: 13px;
+    color: var(--teal-dark);
+    line-height: 1.6;
+    margin-top: 16px;
+  }
+  .ia-insight-box {
+    background: var(--teal-light);
+    border-left: 3px solid var(--teal);
+    padding: 12px 16px;
+    border-radius: 0 6px 6px 0;
+    font-size: 13px;
+    color: var(--teal-dark);
+    line-height: 1.6;
+  }
+
+  .checklist { display: flex; flex-direction: column; gap: 12px; }
+  .check-item {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    cursor: pointer;
+    padding: 12px 16px;
+    border: 1px solid var(--gray-mid);
+    border-radius: 8px;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .check-item:hover { border-color: var(--teal); }
+  .check-item.done { background: var(--teal-light); border-color: var(--teal); }
+  .check-box {
+    width: 22px; height: 22px;
+    border: 2px solid var(--gray-mid);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .check-item.done .check-box { background: var(--teal); border-color: var(--teal); }
+  .tick { font-size: 11px; color: var(--white); opacity: 0; transition: opacity 0.2s; }
+  .check-item.done .tick { opacity: 1; }
+  .check-text { flex: 1; }
+  .check-title { font-size: 14px; font-weight: 600; color: var(--black); margin-bottom: 3px; }
+  .check-sub { font-size: 13px; color: #888; line-height: 1.5; }
+
+  .retenir-box {
+    background: var(--teal);
+    border-radius: 10px;
+    padding: 28px 30px;
+    color: var(--black);
+    margin-top: 8px;
+  }
+  .retenir-box h3 { font-size: 16px; font-weight: 700; margin-bottom: 16px; }
+  .retenir-list { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 18px; }
+  .retenir-list li { font-size: 14px; line-height: 1.55; }
+  .retenir-list li::before { content: '→ '; font-weight: 700; }
+  .retenir-key {
+    font-size: 14.5px;
+    font-weight: 700;
+    border-top: 1px solid rgba(0,0,0,0.15);
+    padding-top: 16px;
+    line-height: 1.5;
+  }
+
+  .section-divider { height: 1px; background: var(--gray-mid); margin: 40px 0; }
+
+  .footer {
+    background: var(--black);
+    padding: 32px 40px;
+    color: #666;
+    border-top: 3px solid var(--teal);
+  }
+  .footer-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--teal);
+    color: var(--black);
+    font-size: 13px;
+    font-weight: 700;
+    padding: 11px 24px;
+    border-radius: 6px;
+    text-decoration: none;
+    margin-bottom: 20px;
+    transition: background 0.2s;
+  }
+  .footer-cta:hover { background: var(--teal-dark); color: var(--white); }
+  .footer-line { font-size: 11px; color: #444; letter-spacing: 0.5px; line-height: 1.8; }
+
+  .g {
+    color: var(--teal);
+    font-weight: 600;
+    text-decoration: underline dotted var(--teal);
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .g:hover { opacity: 0.75; }
+  .g.active { background: var(--teal-light); border-radius: 3px; }
+  .g-def {
+    display: none;
+    background: var(--teal-light);
+    border-left: 3px solid var(--teal);
+    border-radius: 0 6px 6px 0;
+    padding: 10px 14px;
+    margin: 8px 0 4px;
+    font-size: 13px;
+    color: var(--teal-dark);
+    line-height: 1.6;
+  }
+  .g-def.open { display: block; }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 600px) {
+    .masthead { padding: 28px 24px 22px; }
+    .content { padding: 28px 24px 24px; }
+    .une h1 { font-size: 22px; }
+    .footer { padding: 28px 24px; }
+  }
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+
+<div class="journal">
+
+  <!-- MASTHEAD -->
+  <header class="masthead">
+    <div class="masthead-logo">Le Brief <span>proMENTOR</span></div>
+    <div class="masthead-meta">11 avril 2026 — N°06 — <strong>GRATUIT</strong></div>
+    <div class="masthead-chips" style="margin-bottom:16px; gap:8px; display:flex; flex-wrap:wrap; align-items:center;">
+      <span class="chip active">Instagram</span>
+      <span class="chip active">Stories</span>
+      <span class="chip active">Claude IA</span>
+      <span class="chip active">Notion</span>
+      <span class="chip active">Organisation</span>
+      <span class="reading-badge">⏱ 9 min</span>
+    </div>
+  </header>
+
+  <div class="content">
+
+    <!-- À LA UNE -->
+    <section class="une reveal">
+      <div class="une-label">📰 À la une</div>
+      <h1>Tes stories vendent, ton IA travaille : prends une longueur d'avance cette semaine.</h1>
+      <p class="une-sub">Instagram mesure désormais ce que les gens conservent vraiment. Les stories deviennent un levier de vente direct. Claude évolue plus vite que jamais. Et ton organisation est peut-être le dernier frein avant de passer au niveau supérieur.</p>
+      <div class="alert-box">
+        <strong>Au programme :</strong> comment créer du contenu qu'on sauvegarde, transformer tes stories en machine à prospects, former Claude à ta façon de travailler, et organiser ta semaine sans y passer tes soirées.
+      </div>
+    </section>
+
+    <!-- NOUVEAUTÉS INSTAGRAM -->
+    <div class="section-header reveal">
+      <div class="bar"></div>
+      <span class="emoji">🆕</span>
+      <h2>Nouveautés Instagram</h2>
+    </div>
+
+    <!-- Article 1 : Screenshots -->
+    <div class="article reveal">
+      <div class="kicker">📸 Algorithme</div>
+      <div class="article-title">Instagram va mesurer les captures d'écran : crée du contenu qu'on garde</div>
+      <p class="article-body">
+        Instagram réfléchit à intégrer une nouvelle <span class="g" onclick="toggleGloss(this)">métrique</span><span class="g-def"><strong>Métrique</strong> Indicateur chiffré qui mesure la performance d'un contenu sur Instagram : vues, likes, enregistrements, partages. L'algorithme utilise ces signaux pour décider à combien de personnes montrer ton contenu.</span> dans son système d'évaluation : le nombre de captures d'écran. C'est un signal beaucoup plus fort qu'un like ou même qu'un enregistrement. Quand quelqu'un prend une capture de ton post, il dit clairement à l'algorithme que ton contenu mérite d'être conservé et relu.
+      </p>
+      <p class="article-body">
+        Pour toi en tant que coach sportif ou bien-être, c'est une opportunité directe. Le contenu qui génère des captures, c'est le contenu utile et actionnable : une checklist de préparation avant séance, les trois erreurs qui bloquent la progression, un protocole d'hydratation en image, un plan d'échauffement étape par étape. Du contenu que tes clients voudront retrouver plus tard.
+      </p>
+      <div class="insight-box">
+        <strong>À faire cette semaine :</strong> crée un visuel simple avec une checklist ou une méthode en 3 étapes liée à ton domaine. Quelque chose que tes clients garderont pour le consulter avant leur prochaine séance. C'est exactement le type de contenu que l'algorithme va valoriser.
+      </div>
+    </div>
+
+    <!-- Article 2 : Vendre en story -->
+    <div class="article reveal">
+      <div class="kicker">💰 Conversion</div>
+      <div class="article-title">Vendre en story : la séquence en 5 slides qui amène des messages directs</div>
+      <p class="article-body">
+        Les stories ne servent pas qu'à montrer les coulisses. En 2026, elles sont devenues un canal de vente direct : 67 % des utilisateurs interagissent avec une story qui inclut un lien, et les <span class="g" onclick="toggleGloss(this)">stickers interactifs</span><span class="g-def"><strong>Stickers interactifs</strong> Éléments cliquables intégrés dans une story Instagram : sondages, questions, liens, comptes à rebours. Ils encouragent l'engagement et génèrent des signaux forts auprès de l'algorithme, notamment des messages en DM.</span> augmentent le volume de messages directs de 41 %. La bonne nouvelle : il existe une structure simple qui fonctionne, et elle s'adapte parfaitement à une offre de coaching en ligne.
+      </p>
+      <button class="accordion-toggle" onclick="toggleAccordion(this)">
+        <span class="arrow">▼</span> Voir la séquence complète avec exemples concrets
+      </button>
+      <div class="accordion-body">
+        <div class="accordion-inner">
+          <div class="ia-steps">
+            <div class="ia-step">
+              <div class="ia-step-title">Slide 1 : Nomme le problème précis</div>
+              <div class="ia-step-body">Commence par une situation que ton audience reconnaît immédiatement. Exemple : "Tu t'entraînes 4 fois par semaine depuis 3 mois et tu ne vois toujours pas de résultats ?" Pas besoin d'accroche complexe. La précision fait tout le travail.</div>
+            </div>
+            <div class="ia-step">
+              <div class="ia-step-title">Slide 2 : Explique pourquoi ça bloque</div>
+              <div class="ia-step-body">Ce n'est pas la motivation qui manque, c'est la méthode. Montre que tu comprends la vraie cause du problème, celle que ton client n'a pas encore identifiée. C'est là que tu crédibilises ton expertise sans vendre quoi que ce soit.</div>
+            </div>
+            <div class="ia-step">
+              <div class="ia-step-title">Slide 3 : Montre la transformation</div>
+              <div class="ia-step-body">Présente ce que ça donne quand c'est bien fait. Un résultat client concret, observable, honnête. "Se lever sans douleurs lombaires après 8 semaines de travail postural" vend. "Retrouver l'énergie pour jouer avec ses enfants le soir sans être épuisé à 19h" vend. "Prendre soin de soi" ne vend pas. Reste dans ce que tu peux vraiment promettre : un changement vécu, pas un chiffre spectaculaire.</div>
+            </div>
+            <div class="ia-step">
+              <div class="ia-step-title">Slide 4 : Preuve sociale</div>
+              <div class="ia-step-body">Un témoignage vidéo de 15 secondes d'un client, une capture d'un message reçu, ou une phrase marquante avec prénom. Les témoignages vidéo sont impossibles à falsifier et créent une connexion émotionnelle que le texte seul ne peut pas provoquer.</div>
+            </div>
+            <div class="ia-step">
+              <div class="ia-step-title">Slide 5 : Un seul CTA clair</div>
+              <div class="ia-step-body">Un seul appel à l'action. Pas deux, pas trois. "Écris-moi 'BILAN' en DM pour qu'on regarde ensemble ce qui bloque." Le sticker lien peut rediriger vers un formulaire ou une page de réservation. Un geste, une porte.</div>
+            </div>
+          </div>
+          <div class="ia-insight-box">
+            <strong>Conseil de timing :</strong> publie cette séquence le mardi ou mercredi matin entre 8h et 10h. Ce sont les créneaux où le taux de complétion des stories est le plus élevé pour une audience de professionnels actifs.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Article 3 : Nouveautés produit -->
+    <div class="article reveal">
+      <div class="kicker">✏️ Mises à jour</div>
+      <div class="article-title">Carousel modifiable après publication et liens dans les descriptions en test</div>
+      <p class="article-body">
+        Deux mises à jour récentes qui changent concrètement ta façon de travailler. D'abord, Instagram permet maintenant de réorganiser les slides d'un <span class="g" onclick="toggleGloss(this)">carousel</span><span class="g-def"><strong>Carousel</strong> Format de publication Instagram composé de plusieurs images ou vidéos que l'utilisateur fait défiler. C'est le format avec le meilleur taux d'engagement en feed : idéal pour les contenus éducatifs, les avant/après, les étapes d'une méthode.</span> après publication. Tu publies, tu analyses les performances, et tu réorganises si la première slide ne retient pas assez l'attention. Fini les reposts pour corriger l'ordre.
+      </p>
+      <p class="article-body">
+        Ensuite, Instagram teste la possibilité d'ajouter des liens cliquables directement dans les descriptions de posts. Si confirmé, c'est la fin de la dépendance au "lien en bio". Tu pourras guider ton audience directement vers ton formulaire, ta page de réservation ou ton programme depuis la légende même du post.
+      </p>
+      <div class="insight-box">
+        <strong>À anticiper :</strong> prépare tes prochains posts avec un <span class="g" onclick="toggleGloss(this)">CTA</span><span class="g-def"><strong>CTA (Call To Action)</strong> Appel à l'action : instruction claire donnée au lecteur pour lui dire quoi faire ensuite. Exemples : "réserve ta place ici", "écris-moi en DM", "accède au programme via le lien".</span> orienté lien direct. Quand la fonctionnalité sera déployée à grande échelle, tu seras déjà prêt à l'activer sans réécrire tes contenus.
+      </div>
+    </div>
+
+    <!-- SIGNAL STRATÉGIQUE -->
+    <div class="section-divider"></div>
+    <div class="section-header reveal">
+      <div class="bar"></div>
+      <span class="emoji">🗣️</span>
+      <h2>Signal Stratégique</h2>
+    </div>
+
+    <div class="article reveal">
+      <div class="kicker">📣 Adam Mosseri</div>
+      <div class="article-title">Programmer tes Reels n'impacte pas ta portée : la confirmation officielle</div>
+
+      <div class="quote-box">
+        <blockquote>« La méthode de publication ne change pas la façon dont on distribue le contenu. Ce qui compte, c'est le contenu lui-même. »</blockquote>
+        <cite>— Adam Mosseri, Directeur d'Instagram</cite>
+      </div>
+
+      <p class="article-body">
+        Adam Mosseri vient de le confirmer officiellement : programmer un Reel à l'avance n'a aucun impact négatif sur sa portée organique. La croyance "si je programme, mes vues baissent" est infondée. L'algorithme ne pénalise pas les publications planifiées.
+      </p>
+      <p class="article-body">
+        C'est une libération pour ton organisation. Tu peux produire ton contenu en avance le week-end, programmer toute la semaine, et te concentrer sur l'engagement et les échanges avec ta communauté, sans être esclave de la publication en temps réel.
+      </p>
+      <div class="insight-box">
+        <strong>Méthode à adopter :</strong> bloque 2 heures chaque dimanche pour créer et programmer 3 à 5 contenus de la semaine. Tu passes d'un mode réactif et épuisant à un rythme structuré où tu contrôles ton agenda. La régularité prime sur la spontanéité.
+      </div>
+    </div>
+
+    <!-- OUTILS — NOTION -->
+    <div class="section-divider"></div>
+    <div class="section-header reveal">
+      <div class="bar"></div>
+      <span class="emoji">🛠️</span>
+      <h2>Outils</h2>
+    </div>
+
+    <div class="article reveal">
+      <div class="kicker">📂 Notion</div>
+      <div class="article-title">Notion se met à jour : les onglets et la gestion des emails dans ton espace de travail</div>
+      <p class="article-body">
+        Notion vient de lancer deux fonctionnalités qui vont simplifier ta façon d'organiser ton activité de coaching. La première : les onglets. Tu peux désormais découper une page en sections claires et naviguer entre elles sans faire défiler des dizaines de blocs. Une page client peut maintenant regrouper un onglet "Programme", un onglet "Bilans", un onglet "Facturation" : tout au même endroit, accessible en un clic.
+      </p>
+      <p class="article-body">
+        La deuxième fonctionnalité, c'est Notion Mail. Notion intègre désormais un client email directement dans ton espace de travail. Tu connectes ton Gmail, et l'IA trie automatiquement tes messages. Le plus utile pour toi : tu transformes un email de prospect en fiche de suivi dans ta base de données d'un seul clic, sans jongler entre ta boîte mail et tes tableaux.
+      </p>
+      <button class="accordion-toggle" onclick="toggleAccordion(this)">
+        <span class="arrow">▼</span> Comment l'utiliser concrètement en coaching en ligne
+      </button>
+      <div class="accordion-body">
+        <div class="accordion-inner">
+          <p class="article-body">
+            Exemple concret : un prospect t'envoie un email pour se renseigner sur ton programme. Tu es dans Notion Mail. En un clic, tu transformes cet email en fiche prospect dans ta base de données. Nom, contexte, date de contact : tout est capturé automatiquement. Tu n'as plus besoin de switcher entre quatre outils.
+          </p>
+          <p class="article-body">
+            Combiné aux onglets, tu construis une page client avec un onglet "Emails échangés", un onglet "Objectifs et programme", et un onglet "Bilans". Toute l'information centralisée, sans effort supplémentaire.
+          </p>
+          <div class="insight-box">
+            <strong>Pour démarrer :</strong> ouvre ta page Prospects dans <span class="g" onclick="toggleGloss(this)">Notion</span><span class="g-def"><strong>Notion</strong> Application tout-en-un pour organiser ses notes, projets et bases de données. Elle permet de créer des pages, des tableaux et des systèmes de suivi personnalisés sans compétences techniques.</span> et tape /onglets. Crée trois onglets : "En discussion", "Actifs", "Terminés". Tu passes d'une liste plate à un vrai <span class="g" onclick="toggleGloss(this)">CRM</span><span class="g-def"><strong>CRM</strong> Customer Relationship Management : système de gestion de la relation client. Il permet de suivre chaque prospect et client : historique, statut, prochaine action. Notion peut jouer ce rôle pour un coach indépendant, sans abonnement supplémentaire.</span> visuel en 10 minutes.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INTELLIGENCE ARTIFICIELLE -->
+    <div class="section-divider"></div>
+    <div class="section-header reveal">
+      <div class="bar"></div>
+      <span class="emoji">🤖</span>
+      <h2>Intelligence Artificielle</h2>
+      <span class="pill">Épisode 6</span>
+    </div>
+    <div class="section-sublabel reveal">Épisode 6 : Forme Claude à ta façon de travailler</div>
+
+    <!-- Actu : Mythos -->
+    <div class="article reveal">
+      <div class="kicker">🔥 Actu IA</div>
+      <div class="article-title">Claude Mythos : Anthropic dévoile son modèle le plus puissant à ce jour</div>
+      <p class="article-body">
+        Anthropic vient d'annoncer Claude Mythos, un nouveau <span class="g" onclick="toggleGloss(this)">LLM</span><span class="g-def"><strong>LLM (Large Language Model)</strong> Modèle de langage à grande échelle : le type d'intelligence artificielle qui fait tourner Claude, ChatGPT ou Gemini. Il est entraîné sur d'immenses quantités de texte pour comprendre et générer du langage naturel.</span> dont les capacités de raisonnement et de compréhension dépassent largement Claude Opus 4.6. Il peut planifier et exécuter des séquences d'actions complexes de façon autonome, ce qui représente un bond significatif par rapport aux modèles actuels.
+      </p>
+      <p class="article-body">
+        La limite, pour l'instant : Anthropic a jugé Mythos trop puissant pour un déploiement public immédiat. L'accès est réservé à des partenaires sélectionnés dans le cadre d'un programme de sécurité. Pour toi, ça signifie que le modèle que tu utilises aujourd'hui sur claude.ai reste performant, et que les prochaines versions accessibles seront encore meilleures.
+      </p>
+      <button class="accordion-toggle" onclick="toggleAccordionIA(this)">
+        <span class="arrow">▼</span> Ce que ça change concrètement pour toi
+      </button>
+      <div class="accordion-body">
+        <div class="accordion-inner">
+          <p class="article-body">
+            À court terme, ton usage quotidien de Claude ne change pas. Sonnet 4.6 et Opus 4.6 restent très solides pour tout ce qui concerne la rédaction, l'organisation, la création de contenu et l'aide à la stratégie. Ce qui change, c'est la direction : Anthropic accélère, et chaque nouvelle version sera plus proche de ce que Mythos fait aujourd'hui.
+          </p>
+          <div class="ia-insight-box">
+            <strong>Signal à retenir :</strong> ceux qui maîtrisent bien Claude maintenant auront une longueur d'avance significative quand les modèles encore plus puissants seront accessibles à tous. L'avantage se construit maintenant.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Passage à l'action : Skills -->
+    <div class="article reveal">
+      <div class="kicker">🚀 Passage à l'action</div>
+      <div class="article-title">Claude Skills : forme Claude une fois, il travaille à ta façon pour toujours</div>
+      <p class="article-body">
+        Il y a un problème que tous les utilisateurs de Claude connaissent : à chaque nouvelle conversation, tu dois tout réexpliquer. Ton ton, ton audience, tes contraintes, tes exemples types. C'est répétitif, ça ralentit, et ça consomme de l'énergie. Les <span class="g" onclick="toggleGloss(this)">Skills</span><span class="g-def"><strong>Claude Skills</strong> Modules d'instructions que tu crées dans Claude pour une tâche précise. Tu décris une fois comment tu veux que la tâche soit faite, ton ton, tes exemples. Claude applique ces instructions automatiquement chaque fois que tu fais une demande correspondante.</span> résolvent ça.
+      </p>
+      <p class="article-body">
+        Un Skill, c'est un fichier d'instructions que tu crées une seule fois. Dès que tu formules une demande qui correspond au domaine du Skill, Claude charge automatiquement tes préférences et produit exactement ce que tu attends. Disponible sur tous les plans depuis février 2026, y compris le plan gratuit.
+      </p>
+      <p class="article-body">
+        Voici trois Skills concrets pour un coach sportif en ligne, avec les tâches les plus répétitives du métier.
+      </p>
+
+      <div class="ia-steps">
+        <div class="ia-step">
+          <div class="ia-step-title">Skill 1 : Mise en forme du bilan hebdomadaire client</div>
+          <div class="ia-step-body">Ce Skill ne remplace pas ton analyse, il la met en valeur. Toi, tu étudies le bilan de ton élève, tu dictes tes observations et tes consignes à voix haute (via la fonction vocale de Claude ou ton téléphone). Claude prend ce brouillon oral et le restructure dans une mise en page propre, avec le ton que tu as choisi, les sections que tu utilises toujours (points forts, axes de progression, ajustements pour la semaine suivante), et le niveau de détail que tu veux. C'est toi l'expert, Claude est le rédacteur et le metteur en page.</div>
+        </div>
+        <div class="ia-step">
+          <div class="ia-step-title">Skill 2 : Mise en page du suivi client</div>
+          <div class="ia-step-body">C'est toi qui conçois le programme, qui prescris les exercices, qui prends les décisions. Le Skill intervient ensuite : tu dictes ou tu notes tes consignes brutes (séances de la semaine, charges, commentaires sur l'évolution), et Claude les met en forme selon ta structure habituelle. Résultat : tes suivis sont toujours présentés de la même façon, avec ton ton, ton vocabulaire, tes sections. Tes clients reçoivent un document soigné, et toi tu n'as pas passé une heure à mettre en page.</div>
+        </div>
+        <div class="ia-step">
+          <div class="ia-step-title">Skill 3 : Message de relance prospect</div>
+          <div class="ia-step-body">Décris ton ton habituel dans les messages de relance : chaleureux, sans pression, orienté vers la valeur plutôt que la vente. Colle deux ou trois exemples de messages qui ont bien fonctionné. Ensuite, pour chaque prospect à relancer, donne le contexte à Claude (dernier échange, timing, situation) et il rédige un message personnalisé que tu envoies en deux clics.</div>
+        </div>
+      </div>
+
+      <div class="ia-tip-box">
+        <strong>Comment créer, sauvegarder et utiliser un Skill :</strong> dans claude.ai, clique sur ton nom en bas à gauche, puis "Paramètres", puis l'onglet "Skills". Clique sur "Nouveau Skill". Donne-lui un nom précis (ex : "Mise en forme bilan coaching"). Dans la zone de texte, décris comment tu veux que Claude traite tes demandes : le format de sortie, les sections à respecter, le ton, les formulations à éviter. Colle un exemple de rendu parfait. Clique sur "Enregistrer". C'est tout. À partir de maintenant, chaque fois que tu demandes à Claude de mettre en forme un bilan ou un suivi client, il charge automatiquement tes instructions sans que tu aies besoin de tout réexpliquer. Tu peux créer autant de Skills que tu veux et les modifier à tout moment.
+      </div>
+    </div>
+
+    <!-- TIPS -->
+    <div class="section-divider"></div>
+    <div class="section-header reveal">
+      <div class="bar"></div>
+      <span class="emoji">🧠</span>
+      <h2>Tips &amp; Bonnes Pratiques</h2>
+    </div>
+
+    <div class="tips-list reveal">
+      <div class="tip-item">
+        <div class="tip-number">1</div>
+        <div class="tip-content">
+          <div class="tip-title">Planifie ta semaine en deux blocs distincts, pas en tâches éparpillées</div>
+          <div class="tip-body">Sépare tes créneaux en deux catégories : les blocs de création (contenu, programmes, bilans) et les blocs de relation (DM, appels, suivi clients). Ne mélange pas les deux. Quand tu es en mode création, tu crées. Quand tu es en mode relation, tu échanges. Chaque passage d'un registre à l'autre te coûte 15 à 20 minutes de recentrage.</div>
+        </div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-number">2</div>
+        <div class="tip-content">
+          <div class="tip-title">Un seul outil de capture pour toutes tes idées, disponible partout</div>
+          <div class="tip-body">Les idées arrivent sous la douche, en séance, pendant un trajet. Deux outils fonctionnent particulièrement bien pour les coachs. Notion si tu veux centraliser idées et organisation au même endroit : tu crées une page "Idées brutes" et tu y notes tout en vrac. Todoist si tu préfères quelque chose d'ultra rapide : une seule frappe depuis ton téléphone ou ton ordinateur, et la note est capturée. Son IA intégrée peut analyser tes notes, suggérer une priorité et intégrer automatiquement une tâche dans ton agenda. Dans les deux cas, la règle est la même : un seul outil, toujours le même, jamais deux.</div>
+        </div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-number">3</div>
+        <div class="tip-content">
+          <div class="tip-title">Traite tes DM deux fois par jour, pas en continu</div>
+          <div class="tip-body">Répondre aux messages dès qu'ils arrivent te coupe du travail de fond et crée une dépendance à la réactivité immédiate. Bloque deux créneaux fixes : 9h et 18h. Réponds à tout d'un coup, puis coupe les notifications. Tes prospects attendent 30 minutes sans difficulté. Toi, tu travailles mieux.</div>
+        </div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-number">4</div>
+        <div class="tip-content">
+          <div class="tip-title">Revois tes statistiques une fois par semaine, pas plus</div>
+          <div class="tip-body">Vérifier les stats chaque jour ne t'apprend rien d'utile et génère du stress inutile. Une revue de 15 minutes le vendredi matin suffit : quels contenus ont été le plus enregistrés, quels ont généré des DM, quels ont le meilleur taux de complétion en story. Trois questions, 15 minutes, des décisions claires pour la semaine suivante.</div>
+        </div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-number">5</div>
+        <div class="tip-content">
+          <div class="tip-title">Relance trois anciens prospects chaque semaine</div>
+          <div class="tip-body">Il est souvent plus rapide de convertir quelqu'un qui te connaît déjà que d'attirer quelqu'un de nouveau. Chaque semaine, identifie trois personnes avec qui tu as échangé sans que ça aboutisse, et envoie un message simple et humain. Ton Skill de relance Claude peut t'en rédiger trois en moins de cinq minutes.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- À TESTER CETTE SEMAINE -->
+    <div class="section-divider"></div>
+    <div class="section-header reveal">
+      <div class="bar"></div>
+      <span class="emoji">🚀</span>
+      <h2>À tester cette semaine</h2>
+    </div>
+
+    <div class="checklist reveal">
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="tick">✓</span></div>
+        <div class="check-text">
+          <div class="check-title">Crée un contenu "sauvegardable" sur Instagram</div>
+          <div class="check-sub">Checklist, méthode en étapes, erreurs à éviter. Un visuel utile que tes clients voudront garder pour y revenir avant leur prochaine séance.</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="tick">✓</span></div>
+        <div class="check-text">
+          <div class="check-title">Publie une séquence story de vente en 5 slides</div>
+          <div class="check-sub">Problème précis, blocage, transformation, témoignage, un seul CTA. Une offre, une séquence, un message direct demandé.</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="tick">✓</span></div>
+        <div class="check-text">
+          <div class="check-title">Programme 3 contenus de la semaine prochaine à l'avance</div>
+          <div class="check-sub">Mosseri l'a confirmé : programmer ne réduit pas la portée. Prends 2 heures ce week-end pour créer et planifier tes posts.</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="tick">✓</span></div>
+        <div class="check-text">
+          <div class="check-title">Crée ton premier Claude Skill pour ta tâche la plus répétitive</div>
+          <div class="check-sub">Bilan client, programme, relance prospect : choisis une tâche et instruis Claude une bonne fois. Tu récupères du temps chaque semaine à partir de maintenant.</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="tick">✓</span></div>
+        <div class="check-text">
+          <div class="check-title">Active les onglets sur ta page Prospects dans Notion</div>
+          <div class="check-sub">Tape /onglets dans ta page Notion et crée trois onglets : "En discussion", "Actifs", "Terminés". Ton CRM prend forme en 10 minutes.</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="tick">✓</span></div>
+        <div class="check-text">
+          <div class="check-title">Bloque deux créneaux fixes pour tes DM cette semaine</div>
+          <div class="check-sub">9h et 18h, 15 minutes chacun. Désactive les notifications Instagram en dehors de ces fenêtres et observe ce que ça change pour ta concentration.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- À RETENIR -->
+    <div class="section-divider"></div>
+    <div class="section-header reveal">
+      <div class="bar"></div>
+      <span class="emoji">🎯</span>
+      <h2>À retenir</h2>
+    </div>
+
+    <div class="retenir-box reveal">
+      <h3>📌 Les signaux de la semaine</h3>
+      <ul class="retenir-list">
+        <li>Instagram va valoriser les contenus qu'on sauvegarde : crée des ressources utiles, pas seulement du contenu à consommer.</li>
+        <li>Les stories sont un canal de vente direct : avec la bonne séquence, elles génèrent des DM qualifiés sans payer de publicité.</li>
+        <li>Programmer tes Reels ne réduit pas la portée : tu peux enfin organiser ta création de contenu sans stress ni improvisation de dernière minute.</li>
+        <li>Les Claude Skills te font gagner du temps chaque jour : tu formes Claude une fois, il travaille à ta façon à chaque session.</li>
+        <li>L'organisation n'est pas un luxe : c'est ce qui te permet de faire plus sans travailler plus longtemps.</li>
+      </ul>
+      <div class="retenir-key">Ton contenu attire. Tes stories vendent. Ton IA produit. Ton organisation tient tout ensemble. Quatre leviers distincts, une seule direction : un business qui tourne sans que tout repose sur toi.</div>
+    </div>
+
+  </div><!-- /content -->
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <a href="#" class="footer-cta">📲 Rejoindre la communauté Telegram</a>
+    <div class="footer-line">
+      Le Brief proMENTOR · Journal numérique hebdomadaire pour coachs &amp; créateurs<br>
+      © 2026 proMENTOR · FitCinetik · Tous droits réservés
+    </div>
+  </footer>
+
+</div><!-- /journal -->
+
+<script>
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    document.getElementById('progress-bar').style.width = progress + '%';
+  });
+
+  function toggleAccordion(btn) {
+    btn.classList.toggle('open');
+    btn.nextElementSibling.classList.toggle('open');
+  }
+
+  function toggleAccordionIA(btn) {
+    btn.classList.toggle('open');
+    btn.nextElementSibling.classList.toggle('open');
+  }
+
+  function toggleCheck(item) {
+    item.querySelector('.check-box').classList.toggle('checked');
+    item.classList.toggle('done');
+  }
+
+  function toggleGloss(el) {
+    const def = el.nextElementSibling;
+    const isOpen = def.classList.contains('open');
+    document.querySelectorAll('.g-def.open').forEach(d => {
+      d.classList.remove('open');
+      d.previousElementSibling.classList.remove('active');
+    });
+    if (!isOpen) { def.classList.add('open'); el.classList.add('active'); }
+  }
+
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 60);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
