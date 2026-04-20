@@ -3,7 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Le Brief proMENTOR — Tous les numéros</title>
+<title>Le Brief proMENTOR — Kiosque</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -11,9 +13,7 @@
     --teal-light: #e8f9f8;
     --teal-dark: #2a8a86;
     --black: #0D0D0D;
-    --gray: #444444;
-    --gray-light: #f5f5f5;
-    --gray-mid: #e0e0e0;
+    --dark: #1A1A1A;
     --white: #ffffff;
   }
 
@@ -22,492 +22,544 @@
   body {
     background: #0D0D0D;
     font-family: 'DM Sans', sans-serif;
-    color: var(--white);
+    color: #aaa;
     min-height: 100vh;
   }
 
-  header {
-    background: var(--black);
-    border-bottom: 1px solid rgba(72,193,188,0.2);
-    padding: 28px 32px;
-    text-align: center;
-    position: relative;
+  /* HEADER */
+  .site-header {
+    background: #0D0D0D;
+    border-top: 4px solid var(--teal);
+    padding: 28px 40px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 900px;
+    margin: 0 auto;
   }
-  header::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 4px;
-    background: var(--teal);
-  }
-  .header-logo {
+
+  .site-logo {
     font-family: 'Playfair Display', serif;
-    font-size: 32px;
+    font-size: 22px;
     font-weight: 900;
     color: var(--white);
-    margin-bottom: 8px;
+    letter-spacing: -0.5px;
   }
-  .header-logo span { color: var(--teal); }
-  .header-divider {
-    width: 80px; height: 1px;
-    background: rgba(72,193,188,0.4);
-    margin: 12px auto;
+
+  .site-logo span { color: var(--teal); }
+
+  .site-tagline {
+    font-size: 12px;
+    color: #555;
+    letter-spacing: 1px;
+    text-transform: uppercase;
   }
-  .header-sub {
+
+  /* MAIN */
+  .main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 24px 40px 60px;
+  }
+
+  /* FEATURED LABEL */
+  .featured-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+
+  .featured-label-text {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--teal);
+  }
+
+  .featured-label-line {
+    flex: 1;
+    height: 1px;
+    background: var(--teal);
+    opacity: 0.25;
+  }
+
+  /* ARROW ANIMATED */
+  .arrow-down {
+    text-align: left;
+    margin-bottom: 10px;
+    font-size: 13px;
+    color: var(--teal);
+    letter-spacing: 1px;
+    animation: bounceDown 1.4s ease-in-out infinite;
+  }
+
+  @keyframes bounceDown {
+    0%, 100% { transform: translateY(0); opacity: 0.7; }
+    50% { transform: translateY(4px); opacity: 1; }
+  }
+
+  /* FEATURED CARD */
+  .featured-card {
+    background: var(--white);
+    border: 2px solid var(--teal);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 40px rgba(72,193,188,0.18), 0 8px 32px rgba(0,0,0,0.4);
+    text-decoration: none;
+    display: block;
+    transition: box-shadow 0.3s, transform 0.3s;
+    margin-bottom: 48px;
+  }
+
+  .featured-card:hover {
+    box-shadow: 0 0 60px rgba(72,193,188,0.3), 0 12px 40px rgba(0,0,0,0.5);
+    transform: translateY(-2px);
+  }
+
+  .featured-header {
+    background: #0D0D0D;
+    padding: 20px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px solid var(--teal);
+  }
+
+  .featured-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 900;
+    color: var(--white);
+  }
+
+  .featured-logo span { color: var(--teal); }
+
+  .badge-new {
+    background: var(--teal);
+    color: var(--black);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 20px;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(72,193,188,0.4); }
+    50% { box-shadow: 0 0 0 6px rgba(72,193,188,0); }
+  }
+
+  .featured-body {
+    padding: 28px;
+  }
+
+  .featured-meta {
+    font-size: 11px;
+    color: #888;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .featured-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 900;
+    color: var(--dark);
+    line-height: 1.25;
+    margin-bottom: 14px;
+  }
+
+  .featured-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 18px;
+  }
+
+  .tag {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: #f0eeea;
+    color: #555;
+    border: 1px solid #e0e0e0;
+  }
+
+  .featured-read {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--teal);
+    color: var(--black);
+    font-size: 13px;
+    font-weight: 700;
+    padding: 10px 20px;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+  }
+
+  /* ARCHIVES SEPARATOR */
+  .archives-sep {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .archives-sep-text {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--teal);
+    white-space: nowrap;
+  }
+
+  .archives-sep-line {
+    flex: 1;
+    height: 1px;
+    background: var(--teal);
+    opacity: 0.2;
+  }
+
+  /* ARCHIVES GRID */
+  .archives-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .archive-card {
+    background: #161616;
+    border: 1px solid #222;
+    border-radius: 6px;
+    overflow: hidden;
+    text-decoration: none;
+    display: block;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .archive-card:hover {
+    border-color: var(--teal);
+    transform: translateY(-2px);
+  }
+
+  .archive-header {
+    background: #111;
+    border-bottom: 2px solid var(--teal);
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .archive-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 12px;
+    font-weight: 900;
+    color: var(--white);
+  }
+
+  .archive-logo span { color: var(--teal); }
+
+  .archive-num {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--teal);
+    letter-spacing: 1px;
+  }
+
+  .archive-body {
+    padding: 16px;
+  }
+
+  .archive-date {
+    font-size: 10px;
+    color: #555;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .archive-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #ccc;
+    line-height: 1.4;
+    margin-bottom: 10px;
+  }
+
+  .archive-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 10px;
+  }
+
+  .archive-tag {
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 10px;
+    background: #222;
+    color: #666;
+    border: 1px solid #333;
+  }
+
+  .archive-read {
+    font-size: 11px;
+    color: #555;
+  }
+
+  /* PLACEHOLDER CARD */
+  .placeholder-card {
+    background: #161616;
+    border: 1px dashed #333;
+    border-radius: 6px;
+    padding: 28px 16px;
+    text-align: center;
+    opacity: 0.35;
+  }
+
+  .placeholder-icon { font-size: 20px; margin-bottom: 8px; }
+
+  .placeholder-text {
     font-size: 12px;
     color: #666;
     letter-spacing: 1.5px;
     text-transform: uppercase;
   }
 
-  .container {
-    max-width: 860px;
-    margin: 0 auto;
-    padding: 48px 24px 80px;
-  }
-
-  .section-label-featured {
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--teal);
-    letter-spacing: 2.5px;
-    text-transform: uppercase;
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .section-label-featured::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: rgba(72,193,188,0.2);
-  }
-
-  .archives-separator {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin: 52px 0 28px;
-  }
-  .archives-separator::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: rgba(72,193,188,0.2);
-  }
-  .archives-separator span {
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--teal);
-    letter-spacing: 2.5px;
-    text-transform: uppercase;
-    white-space: nowrap;
-  }
-
-  .featured-hint {
+  /* TELEGRAM */
+  .telegram-section {
+    margin-top: 48px;
     text-align: center;
-    font-size: 11px;
-    color: rgba(72,193,188,0.6);
-    margin-bottom: 10px;
-    letter-spacing: 0.5px;
-    animation: bounce 1.8s ease-in-out infinite;
-  }
-  @keyframes bounce {
-    0%, 100% { transform: translateY(0); opacity: 0.6; }
-    50% { transform: translateY(4px); opacity: 1; }
   }
 
-  .featured {
-    background: var(--white);
-    border-radius: 10px;
-    overflow: hidden;
-    margin-bottom: 48px;
-    position: relative;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-    text-decoration: none;
-    display: block;
-    border: 2px solid var(--teal);
-    box-shadow: 0 0 0 4px rgba(72,193,188,0.12), 0 8px 40px rgba(72,193,188,0.15);
-  }
-  .featured:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 0 0 4px rgba(72,193,188,0.2), 0 24px 60px rgba(72,193,188,0.25);
-  }
-  .featured-badge {
-    position: absolute;
-    top: 20px; right: 20px;
-    background: var(--teal);
-    color: var(--black);
-    font-size: 10px;
-    font-weight: 700;
-    padding: 5px 14px;
-    border-radius: 20px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    z-index: 2;
-    animation: pulse 2s ease-in-out infinite;
-  }
-  @keyframes pulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(72,193,188,0.5); }
-    50% { box-shadow: 0 0 0 8px rgba(72,193,188,0); }
-  }
-  .featured-header {
-    background: var(--black);
-    padding: 28px 32px 22px;
-    border-bottom: 3px solid var(--teal);
-    position: relative;
-  }
-  .featured-numero {
-    font-size: 10px;
-    font-weight: 700;
-    color: var(--teal);
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    margin-bottom: 10px;
-  }
-  .featured-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 26px;
-    font-weight: 900;
-    color: var(--white);
-    line-height: 1.2;
-    margin-bottom: 10px;
-    max-width: 520px;
-  }
-  .featured-date { font-size: 11px; color: #666; letter-spacing: 0.5px; }
-  .featured-body { padding: 24px 32px; background: var(--white); }
-  .featured-excerpt {
-    font-size: 14px;
-    color: #555;
-    line-height: 1.7;
-    margin-bottom: 20px;
-    max-width: 560px;
-  }
-  .featured-tags {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-bottom: 22px;
-  }
-  .tag {
-    border: 1px solid rgba(72,193,188,0.5);
-    color: var(--teal-dark);
-    font-size: 10px;
-    font-weight: 600;
-    padding: 3px 12px;
-    border-radius: 20px;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-  }
-  .featured-cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--teal);
-    color: var(--black);
-    font-size: 13px;
-    font-weight: 700;
-    padding: 11px 24px;
-    border-radius: 6px;
-    text-decoration: none;
-    transition: background 0.2s;
-    letter-spacing: 0.3px;
-  }
-  .featured-cta:hover { background: var(--teal-dark); color: var(--white); }
-  .featured-reading {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 11px;
-    color: #999;
-    margin-left: 16px;
-  }
-
-  .archives-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 16px;
-  }
-  .archive-card {
-    background: #161616;
-    border: 1px solid #222;
-    border-radius: 8px;
-    overflow: hidden;
-    text-decoration: none;
-    display: block;
-    transition: border-color 0.2s, transform 0.2s;
-  }
-  .archive-card:hover {
-    border-color: rgba(72,193,188,0.4);
-    transform: translateY(-2px);
-  }
-  .archive-header {
-    background: #111;
-    padding: 16px 18px 14px;
-    border-bottom: 2px solid var(--teal);
-  }
-  .archive-numero {
-    font-size: 9px;
-    font-weight: 700;
-    color: var(--teal);
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    margin-bottom: 8px;
-  }
-  .archive-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--white);
-    line-height: 1.3;
-  }
-  .archive-body { padding: 14px 18px; }
-  .archive-date { font-size: 11px; color: #555; margin-bottom: 10px; }
-  .archive-tags {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-    margin-bottom: 14px;
-  }
-  .archive-tag {
-    font-size: 9px;
-    font-weight: 600;
-    color: #555;
-    border: 1px solid #333;
-    padding: 2px 8px;
-    border-radius: 20px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-  .archive-cta {
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--teal);
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-  }
-  .archive-cta:hover { color: #7de8e4; }
-
-  .telegram-bar {
-    margin-top: 60px;
-    background: #111;
-    border: 1px solid #222;
-    border-radius: 8px;
-    padding: 24px 32px;
-    text-align: center;
-    border-top: 3px solid var(--teal);
-  }
-  .telegram-bar p { font-size: 14px; color: #888; margin-bottom: 12px; }
-  .telegram-bar strong { color: var(--white); }
   .telegram-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
+    display: inline-block;
     background: var(--teal);
     color: var(--black);
-    font-size: 13px;
     font-weight: 700;
-    padding: 11px 26px;
-    border-radius: 6px;
+    font-size: 14px;
+    padding: 12px 28px;
+    border-radius: 4px;
     text-decoration: none;
-    transition: background 0.2s;
+    transition: opacity 0.2s;
+    margin-bottom: 12px;
   }
-  .telegram-btn:hover { background: var(--teal-dark); color: var(--white); }
 
-  footer {
-    text-align: center;
-    padding: 28px;
-    border-top: 1px solid #1a1a1a;
-    font-size: 11px;
-    color: #333;
+  .telegram-btn:hover { opacity: 0.85; }
+
+  .telegram-sub {
+    font-size: 12px;
+    color: #444;
     letter-spacing: 0.5px;
   }
 
-  .reveal {
-    opacity: 0;
-    transform: translateY(18px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
+  /* FOOTER */
+  .site-footer {
+    background: #0D0D0D;
+    border-top: 1px solid #1a1a1a;
+    padding: 20px 40px;
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
   }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
 
-  @media (max-width: 600px) {
-    .container { padding: 32px 16px 60px; }
-    .featured-header { padding: 22px 20px 18px; }
-    .featured-body { padding: 18px 20px; }
+  .site-footer p { font-size: 11px; color: #333; }
+
+  @media (max-width: 700px) {
+    .main { padding: 20px 16px 48px; }
+    .site-header { padding: 20px 16px 18px; }
+    .archives-grid { grid-template-columns: 1fr 1fr; }
     .featured-title { font-size: 20px; }
+  }
+
+  @media (max-width: 480px) {
     .archives-grid { grid-template-columns: 1fr; }
-    header { padding: 22px 20px; }
   }
 </style>
 </head>
 <body>
 
-<header>
-  <div class="header-logo">Le Brief <span>proMENTOR</span></div>
-  <div class="header-divider"></div>
-  <div class="header-sub">Le journal numérique hebdomadaire pour coachs &amp; créateurs</div>
+<header class="site-header">
+  <div class="site-logo">Le Brief <span>proMENTOR</span></div>
+  <div class="site-tagline">Le kiosque</div>
 </header>
 
-<div class="container">
+<main class="main">
 
-  <!-- DERNIER NUMÉRO -->
-  <div class="section-label-featured reveal">✦ Dernier numéro</div>
+  <!-- FEATURED LABEL -->
+  <div class="featured-label">
+    <span class="featured-label-text">✦ Dernier numéro</span>
+    <div class="featured-label-line"></div>
+  </div>
 
-  <p class="featured-hint">↓ Cliquer pour lire</p>
-  <a href="brief-n06.html" class="featured reveal">
-    <div class="featured-badge">Nouveau</div>
+  <div class="arrow-down">↓ Cliquer pour lire</div>
+
+  <!-- FEATURED : N°07 -->
+  <a href="brief-n07.html" class="featured-card">
     <div class="featured-header">
-      <div class="featured-numero">N°06 — Édition du 11 avril 2026</div>
-      <div class="featured-title">Tes stories vendent, ton IA travaille : prends une longueur d'avance cette semaine.</div>
-      <div class="featured-date">11 avril 2026 &nbsp;·&nbsp; Lecture : 9 min</div>
+      <div class="featured-logo">Le Brief <span>proMENTOR</span></div>
+      <div class="badge-new">Nouveau</div>
     </div>
     <div class="featured-body">
-      <p class="featured-excerpt">Instagram mesure ce qu'on garde vraiment. Les stories convertissent avec la bonne séquence. Claude Mythos change la donne. Et les Skills te font gagner du temps chaque jour.</p>
+      <div class="featured-meta">18 avril 2026 — N°07 — Gratuit</div>
+      <div class="featured-title">Instagram a changé ses règles. Le DM est le nouveau reach.</div>
       <div class="featured-tags">
         <span class="tag">Instagram</span>
-        <span class="tag">Stories</span>
-        <span class="tag">Claude IA</span>
+        <span class="tag">Claude AI</span>
         <span class="tag">Notion</span>
-        <span class="tag">Organisation</span>
+        <span class="tag">Vidéo IA</span>
       </div>
-      <span class="featured-cta">Lire le numéro →</span>
-      <span class="featured-reading">⏱ 9 min</span>
+      <div class="featured-read">→ Lire le numéro &nbsp; ⏱ 7 min</div>
     </div>
   </a>
 
   <!-- ARCHIVES -->
-  <div class="archives-separator reveal">
-    <span>◆ Archives</span>
+  <div class="archives-sep">
+    <span class="archives-sep-text">◆ Archives</span>
+    <div class="archives-sep-line"></div>
   </div>
 
   <div class="archives-grid">
 
-    <a href="brief-n05.html" class="archive-card reveal">
+    <!-- N°06 -->
+    <a href="brief-n06.html" class="archive-card">
       <div class="archive-header">
-        <div class="archive-numero">N°05 — 4 avril 2026</div>
-        <div class="archive-title">Ton contenu n'est pas le problème. C'est ton système qui fait la différence.</div>
+        <div class="archive-logo">Le Brief <span>proMENTOR</span></div>
+        <div class="archive-num">N°06</div>
       </div>
       <div class="archive-body">
-        <div class="archive-date">4 avril 2026 &nbsp;·&nbsp; 8 min de lecture</div>
+        <div class="archive-date">Avril 2026</div>
+        <div class="archive-title">Instagram a changé ses règles. Le DM est le nouveau reach.</div>
         <div class="archive-tags">
           <span class="archive-tag">Instagram</span>
-          <span class="archive-tag">Claude IA</span>
+          <span class="archive-tag">Claude AI</span>
+          <span class="archive-tag">Notion</span>
+          <span class="archive-tag">Vidéo IA</span>
+        </div>
+        <div class="archive-read">⏱ 7 min</div>
+      </div>
+    </a>
+
+    <!-- N°05 -->
+    <a href="brief-n05.html" class="archive-card">
+      <div class="archive-header">
+        <div class="archive-logo">Le Brief <span>proMENTOR</span></div>
+        <div class="archive-num">N°05</div>
+      </div>
+      <div class="archive-body">
+        <div class="archive-date">Avril 2026</div>
+        <div class="archive-title">Instagram, LinkedIn et l'IA au service de ta croissance</div>
+        <div class="archive-tags">
+          <span class="archive-tag">Instagram</span>
           <span class="archive-tag">LinkedIn</span>
+          <span class="archive-tag">Claude</span>
           <span class="archive-tag">Notion</span>
-          <span class="archive-tag">WhatsApp</span>
         </div>
-        <span class="archive-cta">Lire →</span>
+        <div class="archive-read">⏱ 6 min</div>
       </div>
     </a>
 
-    <a href="brief-n04.html" class="archive-card reveal">
+    <!-- N°04 -->
+    <a href="brief-n04.html" class="archive-card">
       <div class="archive-header">
-        <div class="archive-numero">N°04 — 28 mars 2026</div>
-        <div class="archive-title">Tes outils du quotidien se transforment : Instagram, WhatsApp et Notion deviennent ton vrai CRM</div>
+        <div class="archive-logo">Le Brief <span>proMENTOR</span></div>
+        <div class="archive-num">N°04</div>
       </div>
       <div class="archive-body">
-        <div class="archive-date">28 mars 2026 &nbsp;·&nbsp; 8 min de lecture</div>
+        <div class="archive-date">Mars 2026</div>
+        <div class="archive-title">Stratégie de contenu, automatisation et outils du moment</div>
+        <div class="archive-tags">
+          <span class="archive-tag">Instagram</span>
+          <span class="archive-tag">IA</span>
+          <span class="archive-tag">Outils</span>
+        </div>
+        <div class="archive-read">⏱ 6 min</div>
+      </div>
+    </a>
+
+    <!-- N°03 -->
+    <a href="brief-n03.html" class="archive-card">
+      <div class="archive-header">
+        <div class="archive-logo">Le Brief <span>proMENTOR</span></div>
+        <div class="archive-num">N°03</div>
+      </div>
+      <div class="archive-body">
+        <div class="archive-date">Mars 2026</div>
+        <div class="archive-title">Algorithme, formats gagnants et productivité augmentée</div>
         <div class="archive-tags">
           <span class="archive-tag">Instagram</span>
           <span class="archive-tag">Notion</span>
-          <span class="archive-tag">WhatsApp</span>
           <span class="archive-tag">IA</span>
         </div>
-        <span class="archive-cta">Lire →</span>
+        <div class="archive-read">⏱ 6 min</div>
       </div>
     </a>
 
-    <a href="brief-n03.html" class="archive-card reveal">
+    <!-- N°02 -->
+    <a href="brief-n02.html" class="archive-card">
       <div class="archive-header">
-        <div class="archive-numero">N°03 — 21 mars 2026</div>
-        <div class="archive-title">Instagram devient un moteur de recherche : ce que ça change pour ta stratégie de contenu</div>
+        <div class="archive-logo">Le Brief <span>proMENTOR</span></div>
+        <div class="archive-num">N°02</div>
       </div>
       <div class="archive-body">
-        <div class="archive-date">21 mars 2026 &nbsp;·&nbsp; 7 min de lecture</div>
-        <div class="archive-tags">
-          <span class="archive-tag">Instagram</span>
-          <span class="archive-tag">Notion</span>
-          <span class="archive-tag">IA</span>
-          <span class="archive-tag">Stratégie</span>
-        </div>
-        <span class="archive-cta">Lire →</span>
-      </div>
-    </a>
-
-    <a href="brief-n02.html" class="archive-card reveal">
-      <div class="archive-header">
-        <div class="archive-numero">N°02 — 14 mars 2026</div>
-        <div class="archive-title">Instagram ouvre ses outils à tous : ta grille devient ton meilleur commercial</div>
-      </div>
-      <div class="archive-body">
-        <div class="archive-date">14 mars 2026 &nbsp;·&nbsp; 6 min de lecture</div>
+        <div class="archive-date">Février 2026</div>
+        <div class="archive-title">Visibilité, engagement et les bons outils pour scaler</div>
         <div class="archive-tags">
           <span class="archive-tag">Instagram</span>
           <span class="archive-tag">Outils</span>
           <span class="archive-tag">IA</span>
         </div>
-        <span class="archive-cta">Lire →</span>
+        <div class="archive-read">⏱ 6 min</div>
       </div>
     </a>
 
-    <a href="brief-n01.html" class="archive-card reveal">
+    <!-- N°01 -->
+    <a href="brief-n01.html" class="archive-card">
       <div class="archive-header">
-        <div class="archive-numero">N°01 — 7 mars 2026</div>
-        <div class="archive-title">Le feed Instagram change de règles : tes clients pourraient ne plus te voir</div>
+        <div class="archive-logo">Le Brief <span>proMENTOR</span></div>
+        <div class="archive-num">N°01</div>
       </div>
       <div class="archive-body">
-        <div class="archive-date">7 mars 2026 &nbsp;·&nbsp; 5 min de lecture</div>
+        <div class="archive-date">Février 2026</div>
+        <div class="archive-title">Le premier Brief : stratégie, outils et posture de créateur</div>
         <div class="archive-tags">
           <span class="archive-tag">Instagram</span>
           <span class="archive-tag">Stratégie</span>
-          <span class="archive-tag">Créateurs</span>
+          <span class="archive-tag">IA</span>
         </div>
-        <span class="archive-cta">Lire →</span>
+        <div class="archive-read">⏱ 6 min</div>
       </div>
     </a>
 
     <!-- PLACEHOLDER À VENIR -->
-    <div class="archive-card reveal" style="opacity: 0.35; cursor: default; pointer-events: none;">
-      <div class="archive-header" style="border-bottom-color: #333;">
-        <div class="archive-numero" style="color: #444;">N°07 — À venir</div>
-        <div class="archive-title" style="color: #333;">Prochain numéro</div>
-      </div>
-      <div class="archive-body">
-        <div class="archive-date" style="color: #333;">Chaque samedi matin</div>
-        <div class="archive-tags">
-          <span class="archive-tag" style="color: #333; border-color: #222;">...</span>
-        </div>
-      </div>
+    <div class="placeholder-card">
+      <div class="placeholder-icon">📬</div>
+      <div class="placeholder-text">N°08 — À venir</div>
     </div>
 
   </div>
 
   <!-- TELEGRAM -->
-  <div class="telegram-bar reveal">
-    <p>Tu veux recevoir <strong>Le Brief proMENTOR</strong> chaque samedi matin directement sur Telegram ?</p>
-    <a href="#" class="telegram-btn">📲 Rejoindre la communauté</a>
+  <div class="telegram-section">
+    <a href="https://t.me/promEntor" class="telegram-btn">📲 Rejoindre la chaîne Telegram</a>
+    <p class="telegram-sub">Reçois chaque numéro directement sur Telegram, dès sa sortie.</p>
   </div>
 
-</div>
+</main>
 
-<footer>
-  © 2026 proMENTOR · Le Brief proMENTOR · Tous droits réservés
+<footer class="site-footer">
+  <p>© 2026 proMENTOR / FitCinetik — Michael Boulle. Diffusion gratuite.</p>
 </footer>
 
-<script>
-  const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry, i) => {
-      if (entry.isIntersecting) {
-        setTimeout(() => entry.target.classList.add('visible'), i * 80);
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.08 });
-  reveals.forEach(el => observer.observe(el));
-</script>
 </body>
 </html>

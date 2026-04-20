@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Brief proMENTOR — N°07</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal: #48C1BC;
+    --teal-light: #e8f9f8;
+    --teal-dark: #2a8a86;
+    --black: #0D0D0D;
+    --dark: #1A1A1A;
+    --gray: #444444;
+    --gray-light: #f5f5f5;
+    --gray-mid: #e0e0e0;
+    --white: #ffffff;
+    --ia-bg: #0D0D1F;
+    --ia-card: #151525;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #f0eeea;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--gray);
+    line-height: 1.6;
+  }
+
+  .progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    background: var(--teal);
+    width: 0%;
+    z-index: 1000;
+    transition: width 0.1s linear;
+  }
+
+  .journal {
+    max-width: 680px;
+    margin: 40px auto;
+    background: var(--white);
+    box-shadow: 0 4px 40px rgba(0,0,0,0.12);
+  }
+
+  /* MASTHEAD */
+  .masthead {
+    background: var(--black);
+    padding: 36px 40px 28px;
+    color: var(--white);
+  }
+
+  .masthead-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    margin-bottom: 16px;
+  }
+
+  .masthead-logo span { color: var(--teal); }
+
+  .masthead-meta {
+    font-size: 12px;
+    color: #888;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .masthead-meta .sep { margin: 0 8px; color: var(--teal); }
+
+  .badge-read {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(72,193,188,0.15);
+    border: 1px solid rgba(72,193,188,0.3);
+    color: var(--teal);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 20px;
+    margin-bottom: 18px;
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .chip {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 20px;
+    border: 1px solid #333;
+    color: #888;
+    background: transparent;
+  }
+
+  .chip.active {
+    background: var(--teal);
+    border-color: var(--teal);
+    color: var(--black);
+    font-weight: 600;
+  }
+
+  /* CONTENT */
+  .content {
+    padding: 40px 40px 20px;
+    background: var(--white);
+  }
+
+  /* UNE */
+  .une {
+    margin-bottom: 40px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--gray-mid);
+  }
+
+  .une-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 12px;
+  }
+
+  .une h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 30px;
+    font-weight: 900;
+    color: var(--dark);
+    line-height: 1.25;
+    margin-bottom: 10px;
+  }
+
+  .une-sub {
+    font-size: 15px;
+    color: #888;
+    margin-bottom: 20px;
+    font-weight: 300;
+  }
+
+  .alert-box {
+    background: var(--teal-light);
+    border-left: 3px solid var(--teal);
+    padding: 14px 18px;
+    font-size: 14px;
+    color: var(--teal-dark);
+    border-radius: 0 4px 4px 0;
+  }
+
+  /* SECTION HEADER */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 28px;
+    margin-top: 8px;
+  }
+
+  .section-header .bar {
+    width: 3px;
+    height: 28px;
+    background: var(--teal);
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .section-header .emoji { font-size: 18px; }
+
+  .section-header h2 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--dark);
+  }
+
+  .section-header .pill {
+    font-size: 10px;
+    font-weight: 700;
+    background: var(--teal);
+    color: var(--black);
+    padding: 2px 8px;
+    border-radius: 20px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* ARTICLE */
+  .article {
+    margin-bottom: 36px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--gray-mid);
+  }
+
+  .article:last-child { border-bottom: none; }
+
+  .kicker {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 8px;
+  }
+
+  .article-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--dark);
+    line-height: 1.3;
+    margin-bottom: 12px;
+  }
+
+  .article-body {
+    font-size: 14.5px;
+    line-height: 1.7;
+    color: var(--gray);
+    margin-bottom: 14px;
+  }
+
+  .article-body ul {
+    list-style: none;
+    margin: 10px 0;
+    padding: 0;
+  }
+
+  .article-body ul li {
+    padding: 4px 0 4px 18px;
+    position: relative;
+    font-size: 14px;
+  }
+
+  .article-body ul li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--teal);
+    font-weight: 600;
+  }
+
+  .insight-box {
+    background: var(--teal-light);
+    border-left: 3px solid var(--teal);
+    padding: 12px 16px;
+    font-size: 13.5px;
+    color: var(--teal-dark);
+    border-radius: 0 4px 4px 0;
+    margin-top: 12px;
+  }
+
+  /* ACCORDEON */
+  .accordion-toggle {
+    background: none;
+    border: 1px solid var(--gray-mid);
+    color: var(--gray);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 8px 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+    transition: all 0.2s;
+  }
+
+  .accordion-toggle:hover { border-color: var(--teal); color: var(--teal); }
+
+  .accordion-toggle .arrow { transition: transform 0.25s; display: inline-block; }
+  .accordion-toggle.open .arrow { transform: rotate(180deg); }
+
+  .accordion-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+  }
+
+  .accordion-body.open { max-height: 600px; }
+  .accordion-inner { padding-top: 14px; }
+
+  /* QUOTE BOX */
+  .quote-box {
+    background: var(--black);
+    border-left: 3px solid var(--teal);
+    padding: 20px 24px;
+    margin-bottom: 16px;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .quote-box blockquote {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-style: italic;
+    color: var(--white);
+    line-height: 1.5;
+    margin-bottom: 8px;
+  }
+
+  .quote-box cite {
+    font-size: 12px;
+    color: var(--teal);
+    font-weight: 600;
+    letter-spacing: 1px;
+    font-style: normal;
+  }
+
+  /* TIPS */
+  .tip-item {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+    align-items: flex-start;
+  }
+
+  .tip-number {
+    width: 30px;
+    height: 30px;
+    background: var(--teal);
+    color: var(--black);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+
+  .tip-content { flex: 1; }
+
+  .tip-title {
+    font-weight: 600;
+    font-size: 14.5px;
+    color: var(--dark);
+    margin-bottom: 4px;
+  }
+
+  .tip-body {
+    font-size: 13.5px;
+    color: var(--gray);
+    line-height: 1.6;
+  }
+
+  /* CHECKLIST */
+  .check-item {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding: 12px 16px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    border: 1px solid var(--gray-mid);
+    transition: all 0.2s;
+  }
+
+  .check-item:hover { border-color: var(--teal); background: var(--teal-light); }
+  .check-item.done { opacity: 0.55; background: var(--gray-light); }
+
+  .check-box {
+    width: 22px;
+    height: 22px;
+    border: 2px solid var(--gray-mid);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
+
+  .check-box.checked { background: var(--teal); border-color: var(--teal); }
+
+  .tick {
+    color: var(--black);
+    font-size: 13px;
+    font-weight: 700;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .check-box.checked .tick { opacity: 1; }
+
+  .check-text { flex: 1; }
+  .check-title { font-weight: 600; font-size: 14px; color: var(--dark); margin-bottom: 2px; }
+  .check-sub { font-size: 12.5px; color: #888; }
+
+  /* IA SECTION */
+  .ia-section-wrapper {
+    padding: 0 0 32px;
+    border-bottom: 1px solid var(--gray-mid);
+  }
+
+  .ia-sub-label {
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 20px;
+    margin-top: -10px;
+  }
+
+  .ia-step {
+    background: var(--gray-light);
+    border-left: 3px solid var(--teal);
+    padding: 14px 18px;
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 10px;
+  }
+
+  .ia-step-title {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--dark);
+    margin-bottom: 4px;
+  }
+
+  .ia-step-body {
+    font-size: 13.5px;
+    color: var(--gray);
+    line-height: 1.6;
+  }
+
+  .ia-insight-box {
+    background: var(--teal-light);
+    border-left: 3px solid var(--teal);
+    padding: 12px 16px;
+    font-size: 13.5px;
+    color: var(--teal-dark);
+    border-radius: 0 4px 4px 0;
+    margin-top: 12px;
+  }
+
+  /* RETENIR */
+  .retenir-box {
+    background: var(--teal);
+    padding: 24px 28px;
+    border-radius: 6px;
+    margin-top: 8px;
+    margin-bottom: 32px;
+  }
+
+  .retenir-box h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--black);
+    margin-bottom: 14px;
+  }
+
+  .retenir-list {
+    list-style: none;
+    margin-bottom: 16px;
+  }
+
+  .retenir-list li {
+    font-size: 14px;
+    color: var(--black);
+    padding: 5px 0 5px 20px;
+    position: relative;
+  }
+
+  .retenir-list li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    font-weight: 700;
+  }
+
+  .retenir-key {
+    font-size: 14.5px;
+    font-weight: 700;
+    color: var(--black);
+    border-top: 1px solid rgba(0,0,0,0.15);
+    padding-top: 14px;
+    font-style: italic;
+  }
+
+  /* FOOTER */
+  .footer {
+    background: var(--black);
+    padding: 28px 40px;
+    text-align: center;
+  }
+
+  .footer-bar {
+    height: 3px;
+    background: var(--teal);
+    margin-bottom: 24px;
+  }
+
+  .footer-cta {
+    display: inline-block;
+    background: var(--teal);
+    color: var(--black);
+    font-weight: 700;
+    font-size: 14px;
+    padding: 10px 24px;
+    border-radius: 4px;
+    text-decoration: none;
+    margin-bottom: 14px;
+  }
+
+  .footer-tagline {
+    font-size: 13px;
+    color: #555;
+    margin-bottom: 12px;
+  }
+
+  .footer-legal {
+    font-size: 11px;
+    color: #333;
+  }
+
+  /* GLOSSAIRE */
+  .g {
+    color: var(--teal);
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-style: dashed;
+    text-decoration-color: var(--teal);
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+
+  .g:hover { opacity: 0.75; }
+
+  .g-def {
+    display: none;
+    background: var(--teal-light);
+    border-left: 3px solid var(--teal);
+    padding: 10px 14px;
+    border-radius: 0 4px 4px 0;
+    font-size: 13px;
+    color: var(--teal-dark);
+    margin-top: 6px;
+    line-height: 1.5;
+  }
+
+  .g-def.open { display: block; }
+
+  /* REVEAL */
+  .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* SEPARATOR BETWEEN SECTIONS */
+  .section-sep {
+    height: 1px;
+    background: var(--gray-mid);
+    margin: 8px 0 40px;
+  }
+
+  @media (max-width: 720px) {
+    .journal { margin: 0; box-shadow: none; }
+    .content { padding: 28px 20px 16px; }
+    .masthead { padding: 24px 20px 20px; }
+    .une h1 { font-size: 24px; }
+    .footer { padding: 24px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<div class="journal">
+
+  <!-- MASTHEAD -->
+  <header class="masthead">
+    <div class="masthead-logo">Le Brief <span>proMENTOR</span></div>
+    <div class="masthead-meta">
+      18 avril 2026 <span class="sep">—</span> N°07 <span class="sep">—</span> GRATUIT
+    </div>
+    <div class="badge-read">⏱ 7 min de lecture</div>
+    <div class="chips">
+      <div class="chip active">Instagram</div>
+      <div class="chip active">Claude AI</div>
+      <div class="chip active">Notion</div>
+      <div class="chip active">Vidéo IA</div>
+    </div>
+  </header>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- À LA UNE -->
+    <section class="une reveal">
+      <div class="une-label">📰 À la une</div>
+      <h1>Instagram a changé ses règles. Le DM est le nouveau reach.</h1>
+      <p class="une-sub">3 milliards d'utilisateurs, des hashtags qui ne servent plus à rien, et un seul signal qui compte vraiment : le partage en message privé. Voilà où en est Instagram en avril 2026.</p>
+      <div class="alert-box">
+        <strong>Cette semaine :</strong> Les fondamentaux Instagram sont réécrits, Claude Cowork sort officiellement, Notion s'automatise, et la vidéo IA devient accessible à tous les créateurs. Tour d'horizon complet.
+      </div>
+    </section>
+
+    <!-- INSTAGRAM -->
+    <div class="section-header reveal">
+      <div class="bar"></div>
+      <span class="emoji">🆕</span>
+      <h2>Nouveautés Instagram</h2>
+    </div>
+
+    <!-- Article 1 : 3 milliards + signaux algo -->
+    <div class="article reveal">
+      <div class="kicker">📊 Algorithme & Stratégie</div>
+      <div class="article-title">Le DM dépasse le like : les 3 signaux qui font exploser ta visibilité</div>
+      <p class="article-body">
+        Instagram vient de franchir les 3 milliards d'utilisateurs actifs mensuels. Mark Zuckerberg l'a annoncé officiellement, et Adam Mosseri a confirmé dans la foulée les trois moteurs de croissance de la plateforme : les DMs, les Reels, et les recommandations algorithmiques. Si tu ne travailles pas ces trois leviers, tu passes à côté de l'essentiel.
+      </p>
+      <p class="article-body">
+        Sur l'algorithme, les signaux ont clairement évolué. Mosseri l'a confirmé : les hashtags ne fonctionnent plus. Concentre ton énergie sur ce qui compte vraiment :
+      </p>
+      <p class="article-body">
+        <ul>
+          <li><strong>Le temps de visionnage</strong> — tes 3 premières secondes sont décisives. Si tu perds l'attention dès le début, ton Reel ne sera pas poussé.</li>
+          <li><strong>Les partages en DM (<span class="g" onclick="toggleGloss(this)">sends per reach</span><span class="g-def"><strong>Sends per Reach</strong> Indicateur qui mesure le nombre de fois où un contenu a été envoyé en message privé, rapporté à sa portée totale. C'est aujourd'hui le signal le plus fort pour l'algorithme Instagram.</span>)</strong> — un partage en message privé équivaut à 3 à 5 fois plus qu'un simple like en termes de signal algorithmique.</li>
+          <li><strong>Les sauvegardes</strong> — elles indiquent que ton contenu a de la valeur durable. Vise du contenu que les gens veulent revoir.</li>
+        </ul>
+      </p>
+      <p class="article-body">
+        La logique à retenir est simple : avant, la visibilité se jouait publiquement. Aujourd'hui, elle se joue dans les conversations privées. Un contenu qui circule en DM explose. Un contenu qui ne génère que des likes stagne.
+      </p>
+      <div class="insight-box">
+        <strong>À appliquer :</strong> Avant de publier ton prochain contenu, pose-toi cette question : "Est-ce que quelqu'un enverrait ça à un ami ?" Si la réponse est non, retravaille l'angle. Le contenu relatable, utile ou surprenant génère des partages. Le contenu générique génère des likes, et rien de plus.
+      </div>
+    </div>
+
+    <!-- Article 2 : Reels longs + Carrousel -->
+    <div class="article reveal">
+      <div class="kicker">🎬 Formats & Publications</div>
+      <div class="article-title">Reels jusqu'à 3 minutes et Carrousels boostés : les formats qui marchent en avril 2026</div>
+      <p class="article-body">
+        Instagram teste actuellement des Reels pouvant aller jusqu'à 3 minutes, pour concurrencer YouTube et TikTok sur le format long. C'est une vraie opportunité pour les coachs : tu peux maintenant développer une méthode complète, expliquer un concept en profondeur, ou partager une étude de cas sans être contraint par le format court.
+      </p>
+      <p class="article-body">
+        Attention : plus long ne veut pas dire plus lent. Garde des <span class="g" onclick="toggleGloss(this)">hooks</span><span class="g-def"><strong>Hook</strong> Accroche initiale d'une vidéo ou d'un texte. Son rôle est de captiver l'attention dans les toutes premières secondes pour que le spectateur continue à regarder ou lire.</span> forts, des cuts dynamiques et une structure claire.
+      </p>
+      <p class="article-body">
+        Sur les <span class="g" onclick="toggleGloss(this)">carrousels</span><span class="g-def"><strong>Carrousel</strong> Format de publication Instagram composé de plusieurs images ou vidéos que l'on fait défiler horizontalement. C'est l'un des formats les plus efficaces pour l'éducation et la rétention d'audience.</span>, les chiffres parlent d'eux-mêmes : +55% de <span class="g" onclick="toggleGloss(this)">portée organique</span><span class="g-def"><strong>Portée organique</strong> Nombre de personnes qui voient ton contenu sans que tu aies payé pour le promouvoir. Elle dépend uniquement de l'algorithme et des partages naturels.</span> et +70% de sauvegardes par rapport à une image seule. Et bonne nouvelle : Instagram te permet désormais de réorganiser les slides d'un carrousel après publication.
+      </p>
+      <div class="insight-box">
+        <strong>À tester :</strong> Publie un Reel long (1 à 3 min) avec une vraie structure pédagogique, type "méthode en 3 étapes" ou "étude de cas client". En parallèle, transforme ce même contenu en carrousel pour maximiser les sauvegardes.
+      </div>
+      <button class="accordion-toggle" onclick="toggleAccordion(this)">
+        <span class="arrow">▼</span> La règle 5-3-1 pour activer l'engagement
+      </button>
+      <div class="accordion-body">
+        <div class="accordion-inner">
+          <p class="article-body">
+            Pour chaque contenu que tu publies, applique cette méthode simple : like 5 posts dans ta niche, commente 3 posts avec de vrais commentaires (pas des emojis), suis 1 nouveau compte pertinent. Cela active l'engagement mutuel et signale à l'algo que tu es un acteur actif de ta communauté.
+          </p>
+          <div class="insight-box">
+            <strong>Pourquoi ça marche :</strong> L'algorithme Instagram identifie les comptes actifs dans leur niche. Plus tu interagis avec du contenu similaire au tien, plus Instagram sait à qui te recommander.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SIGNAL STRATÉGIQUE -->
+    <div class="section-header reveal">
+      <div class="bar"></div>
+      <span class="emoji">🗣️</span>
+      <h2>Signal Stratégique</h2>
+    </div>
+
+    <div class="article reveal">
+      <div class="quote-box">
+        <blockquote>« Instagram a toujours été un outil de connexion. En 2026, ce qui connecte le mieux, c'est ce qu'on partage en privé. »</blockquote>
+        <cite>— Adam Mosseri, Head of Instagram</cite>
+      </div>
+      <p class="article-body">
+        3 milliards d'utilisateurs, c'est une bonne nouvelle. Mais ce chiffre cache une réalité plus intéressante pour toi : Instagram ne cherche plus à être une vitrine publique. La plateforme oriente délibérément ses utilisateurs vers les échanges privés, les conversations, les recommandations entre proches.
+      </p>
+      <p class="article-body">
+        Pour un coach, c'est un signal fort sur comment vendre. Les gens n'achètent pas un coaching parce qu'ils ont vu une publication en scrollant. Ils achètent parce qu'un ami leur a dit "tu devrais regarder ce que fait cette personne" ou parce qu'ils ont suivi quelqu'un pendant des semaines en stories, en DMs, en contenu utile. Instagram pousse maintenant exactement ce modèle : moins de diffusion massive, plus de confiance construite en petit cercle.
+      </p>
+      <p class="article-body">
+        Ce que ça veut dire concrètement : ton contenu le plus précieux n'est pas forcément celui qui a le plus de vues. C'est celui qui déclenche une conversation, même avec une seule personne. Un DM "j'ai adoré ta vidéo sur la récupération" vaut plus que 500 likes silencieux.
+      </p>
+      <div class="insight-box">
+        <strong>À retenir :</strong> Construis ta présence Instagram comme tu construis une relation de confiance, pas comme une campagne publicitaire. Le contenu qui se vend est celui qui crée du lien, pas celui qui cherche la portée maximale.
+      </div>
+    </div>
+
+    <!-- OUTILS : NOTION -->
+    <div class="section-header reveal">
+      <div class="bar"></div>
+      <span class="emoji">🛠️</span>
+      <h2>Outil de la semaine — Notion</h2>
+    </div>
+
+    <div class="article reveal">
+      <div class="kicker">🤖 Automatisation & IA</div>
+      <div class="article-title">Notion devient ton assistant : ce que tu peux faire sans être un expert</div>
+      <p class="article-body">
+        Si tu utilises Notion pour stocker des notes clients, suivre tes séances ou organiser ton contenu, la mise à jour d'avril 2026 va te simplifier la vie. Voici ce qui change vraiment, expliqué simplement.
+      </p>
+
+      <p class="article-body"><strong>1. L'IA qui remplit tes tableaux à ta place</strong><br>
+        Tu as un tableau dans Notion avec tes notes de séances ? Notion peut maintenant lire ces notes et remplir automatiquement des colonnes comme "thème abordé", "action décidée" ou "prochain rendez-vous". Tu n'as plus à le faire manuellement. C'est ce qu'on appelle l'IA Autofill : tu crées la colonne, tu lui donnes une instruction ("résume le thème principal de cette note"), et Notion s'en occupe.
+      </p>
+
+      <p class="article-body"><strong>2. Chercher dans Notion comme si tu parlais à quelqu'un</strong><br>
+        Jusqu'ici, pour retrouver quelque chose dans Notion, tu devais te souvenir du mot exact que tu avais écrit. Maintenant, tu peux poser une vraie question : "Est-ce que j'ai des exercices de respiration pour mes clientes ?" ou "Qu'est-ce qu'on a prévu pour le programme de juin ?" Notion cherche dans tout ton espace et te répond directement. Beaucoup plus naturel.
+      </p>
+
+      <p class="article-body"><strong>3. Ton calendrier connecté à tes tâches</strong><br>
+        Tu as une liste de tâches dans Notion ? Tu peux maintenant glisser directement une tâche dans ton calendrier Notion pour la planifier. Fini les allers-retours entre ton agenda et ta to-do list.
+      </p>
+
+      <button class="accordion-toggle" onclick="toggleAccordion(this)">
+        <span class="arrow">▼</span> Par où commencer si tu débutes avec Notion ?
+      </button>
+      <div class="accordion-body">
+        <div class="accordion-inner">
+          <p class="article-body">
+            Si tu n'as pas encore de base de données dans Notion, commence simple : crée un tableau avec une ligne par client. Ajoute des colonnes basiques : nom, objectif, date de début, note de la dernière séance. Une fois ce tableau en place, tu peux demander à l'IA de le compléter ou de le résumer automatiquement. C'est le point de départ idéal avant d'activer les fonctionnalités avancées.
+          </p>
+          <div class="insight-box">
+            <strong>Si tu es déjà à l'aise avec Notion :</strong> active les Custom Agents dans les paramètres (Settings → IA → Agents). Crée un agent dédié à tes résumés de séances. Définis le format que tu veux en sortie. Notion le fera automatiquement à chaque nouvelle note ajoutée.
+          </div>
+        </div>
+      </div>
+
+      <div class="insight-box" style="margin-top:14px;">
+        <strong>À faire avant le 3 mai :</strong> Les Custom Agents sont gratuits jusqu'au 3 mai 2026. Ouvre Notion, va dans Settings → IA, et active cette option. Ensuite, essaie simplement de poser une question à Notion sur ton contenu existant. Pas besoin de tout reconfigurer : commence juste par tester la recherche IA.
+      </div>
+    </div>
+
+    <!-- IA -->
+    <div class="section-header reveal">
+      <div class="bar"></div>
+      <span class="emoji">🤖</span>
+      <h2>Intelligence Artificielle</h2>
+    </div>
+
+    <div class="ia-section-wrapper">
+      <div class="ia-sub-label">Épisode 7 : Claude Cowork est là, et la vidéo IA change tout</div>
+
+      <!-- Claude Cowork -->
+      <div class="article reveal" style="border-bottom:1px solid var(--gray-mid); padding-bottom:28px; margin-bottom:28px;">
+        <div class="kicker">🚀 Claude AI</div>
+        <div class="article-title">Claude Cowork est officiel : ton assistant IA qui travaille pendant que tu coaches</div>
+        <p class="article-body">
+          Claude Cowork, c'est une application de bureau (sur Mac ou Windows) qui te permet d'utiliser Claude directement sur ton ordinateur, connecté à tes fichiers, ta boîte mail et tes outils. Il n'est plus en phase test : il est disponible pour tous les abonnés payants depuis cette semaine.
+        </p>
+        <p class="article-body">
+          Concrètement, qu'est-ce que ça veut dire pour toi ? Quelques exemples réels :
+        </p>
+        <p class="article-body">
+          <ul>
+            <li>Tu as fini une séance de coaching. Tu dictes un résumé vocal. Claude l'analyse, extrait les actions décidées et met à jour ta fiche client dans Google Drive, sans que tu aies à ouvrir un seul document.</li>
+            <li>Tu prépares une newsletter. Tu dis à Claude : "Rédige-moi une newsletter de 300 mots sur la motivation matinale, dans mon style habituel." Il la génère en 30 secondes, en s'appuyant sur les exemples de tes anciens textes si tu les as connectés.</li>
+            <li>Tu pars en séance à 9h. Tu as configuré une tâche planifiée : Claude fait ta veille Instagram chaque matin à 8h, résume les 5 contenus les plus performants de ta niche, et dépose le récap dans ton Google Drive. Il travaille pendant que tu dors.</li>
+          </ul>
+        </p>
+        <p class="article-body">
+          Deux autres points importants : Claude Opus 4.7 est disponible, avec des performances améliorées sur les tâches complexes. Et depuis mars 2026, analyser un long document (un livre entier, un programme de formation complet) ne coûte pas plus cher qu'un simple message.
+        </p>
+
+        <button class="accordion-toggle" onclick="toggleAccordion(this)">
+          <span class="arrow">▼</span> 3 façons dont les coachs utilisent déjà Cowork au quotidien
+        </button>
+        <div class="accordion-body">
+          <div class="accordion-inner">
+            <p class="article-body"><strong>La coach en nutrition :</strong> Elle a connecté son Google Drive à Claude. Chaque semaine, elle lui demande de générer un plan alimentaire personnalisé à partir de la fiche de son client. Ce qui lui prenait 45 minutes lui prend maintenant 5 minutes de vérification.</p>
+            <p class="article-body"><strong>Le coach sportif :</strong> Il a créé une tâche planifiée : chaque dimanche soir, Claude analyse les Reels de sa niche publiés dans la semaine et lui prépare un mini-brief "voici ce qui performe en ce moment, voilà 3 idées de contenu pour toi". Il lit ça le lundi matin avec son café.</p>
+            <p class="article-body"><strong>La coach en développement personnel :</strong> Elle a configuré son style d'écriture une seule fois dans Claude. Maintenant, quand elle tape ses idées en vrac, Claude les transforme en post Instagram dans son ton exact, sans qu'elle ait à reformuler ou corriger le style.</p>
+            <div class="ia-insight-box">
+              <strong>Ce qui change vraiment :</strong> avant, tu devais ouvrir Claude, réexpliquer qui tu es, copier-coller tes textes depuis d'autres outils. Cowork supprime toutes ces étapes. Claude sait qui tu es, a accès à tes fichiers, et peut agir directement. C'est ça la vraie différence.
+            </div>
+          </div>
+        </div>
+
+        <div class="ia-insight-box" style="margin-top:14px;">
+          <strong>Pour commencer :</strong> télécharge Claude Cowork sur claude.ai (menu Applications), connecte ton Google Drive, et configure tes Instructions Globales. C'est la seule configuration à faire, une fois. Le reste suit naturellement.
+        </div>
+      </div>
+
+      <!-- Passage à l'action : Cowork -->
+      <div class="reveal" style="margin-bottom:28px;">
+        <div class="kicker">⚡ Passage à l'action</div>
+        <div class="article-title" style="font-family:'Playfair Display',serif; font-size:18px; font-weight:700; color:var(--dark); margin-bottom:16px;">Configurer Claude Cowork en 4 étapes</div>
+
+        <div class="ia-step">
+          <div class="ia-step-title">Étape 1 : Télécharge et installe Cowork</div>
+          <div class="ia-step-body">Va sur claude.ai depuis ton navigateur. Clique sur le menu en haut à droite, puis cherche "Applications" ou "Cowork". Télécharge la version pour Mac ou Windows selon ton ordinateur. Installe-la comme n'importe quelle application, connecte-toi avec ton compte Claude. C'est tout pour cette étape.</div>
+        </div>
+
+        <div class="ia-step">
+          <div class="ia-step-title">Étape 2 : Configure les Instructions Globales (5 minutes, une seule fois)</div>
+          <div class="ia-step-body">Dans Cowork, clique sur l'icône Paramètres (⚙️ en bas à gauche). Cherche "Instructions Globales" ou "System Prompt". C'est là que tu décris qui tu es, une fois pour toutes. Exemple de ce que tu peux écrire : "Je suis coach sportif spécialisé en remise en forme pour les femmes de 40 ans et plus. Mon ton est chaleureux, direct et encourageant. Je publie sur Instagram et j'envoie une newsletter mensuelle. Mes clientes cherchent à reprendre confiance en leur corps sans se blesser." À partir de là, Claude connaît ton contexte à chaque fois que tu l'ouvres.</div>
+        </div>
+
+        <div class="ia-step">
+          <div class="ia-step-title">Étape 3 : Crée ton premier "Style de contenu" (ce qu'on appelle un Skill)</div>
+          <div class="ia-step-body">Un Skill, c'est simplement une instruction sauvegardée que tu peux réutiliser. Imagine un post-it que Claude relit avant chaque tâche. Dans Cowork, cherche "Skills" dans le menu. Crée un Skill appelé "Mon style Instagram" et colle-y 3 exemples de posts Instagram que tu as déjà publiés et que tu aimes. Maintenant, quand tu lui demandes de rédiger un post, tu actives ce Skill et il respectera automatiquement ton style, sans que tu aies à le lui réexpliquer.</div>
+        </div>
+
+        <div class="ia-step">
+          <div class="ia-step-title">Étape 4 : Délègue ta première tâche récurrente</div>
+          <div class="ia-step-body">Dans Cowork, cherche "Scheduled Tasks" ou "Tâches planifiées". Crée une tâche simple pour commencer : par exemple, tous les lundis matin à 8h, Claude te prépare une liste de 5 idées de contenu Instagram pour la semaine, basées sur ta niche. Tu l'ouvres avec ton café, tu choisis, tu publies. Remplace une heure de réflexion par 5 minutes de sélection.</div>
+        </div>
+      </div>
+
+      <!-- Vidéo IA -->
+      <div class="article reveal" style="border:none; padding-bottom:0; margin-bottom:0;">
+        <div class="kicker">🎬 Coup de Projecteur</div>
+        <div class="article-title">La vidéo IA devient accessible : ce qui change pour les créateurs de contenu</div>
+        <p class="article-body">
+          OpenAI a officiellement arrêté Sora début 2026. Le marché s'est recomposé rapidement. Kling 3.0 (Kuaishou) s'impose aujourd'hui comme la référence : 4K natif, 60fps, storyboard multi-shots, audio intégré. Son chiffre d'affaires dépasse déjà les 300 millions de dollars avec 60 millions d'utilisateurs dans le monde.
+        </p>
+        <p class="article-body">
+          Les autres outils à connaître : Veo 3.1 (Google) pour la vidéo verticale native avec dialogue, Runway Gen-4.5 pour les créatifs indépendants, et Seedance 2.0 (ByteDance) avec audio dual-channel intégré.
+        </p>
+        <p class="article-body">
+          Ce que ça change concrètement : un court-métrage de 3 minutes produit en IA coûte aujourd'hui entre 60€ et 175€. Les coaches et créateurs peuvent produire des vidéos de qualité professionnelle sans équipe, sans studio, sans budget production.
+        </p>
+        <div class="ia-insight-box">
+          <strong>Signal fort :</strong> si tes clients hésitaient encore à créer de la vidéo par manque de moyens ou de compétences techniques, 2026 leur retire cette excuse. La vidéo IA est maintenant dans leur budget et à portée de main. C'est le moment d'intégrer ce levier dans leur stratégie de contenu.
+        </div>
+      </div>
+    </div>
+
+    <!-- TIPS -->
+    <div class="section-header reveal" style="margin-top:36px;">
+      <div class="bar"></div>
+      <span class="emoji">🧠</span>
+      <h2>Tips & Bonnes Pratiques</h2>
+    </div>
+
+    <div class="reveal">
+      <div class="tip-item">
+        <div class="tip-number">1</div>
+        <div class="tip-content">
+          <div class="tip-title">Avant de publier, pose cette seule question</div>
+          <div class="tip-body">"Est-ce que quelqu'un enverrait ça à un ami ?" Si tu hésites, retravaille l'angle. Un contenu qu'on partage à son entourage est automatiquement poussé par Instagram. Un contenu qu'on regarde seul en silence ne va nulle part, peu importe combien tu as travaillé dessus.</div>
+        </div>
+      </div>
+
+      <div class="tip-item">
+        <div class="tip-number">2</div>
+        <div class="tip-content">
+          <div class="tip-title">Essaie un Reel un peu plus long cette semaine</div>
+          <div class="tip-body">Pas besoin de faire 3 minutes d'un coup. Commence par 90 secondes avec un vrai sujet de fond : une méthode que tu utilises avec tes clients, une idée reçue que tu veux corriger, un avant/après concret. Le contenu éducatif structuré performe beaucoup mieux qu'un Reel court sans substance.</div>
+        </div>
+      </div>
+
+      <div class="tip-item">
+        <div class="tip-number">3</div>
+        <div class="tip-content">
+          <div class="tip-title">Teste la recherche par question dans Notion</div>
+          <div class="tip-body">Si tu utilises Notion, ouvre-le et cherche le bouton "Ask AI" ou l'icône IA (souvent représentée par une étoile ou un éclair). Pose-lui une vraie question sur ton contenu : "Quels sont mes clients qui ont commencé en janvier ?" ou "Est-ce que j'ai des notes sur la gestion du stress ?" C'est souvent une révélation pour ceux qui ne l'ont jamais essayé.</div>
+        </div>
+      </div>
+
+      <div class="tip-item">
+        <div class="tip-number">4</div>
+        <div class="tip-content">
+          <div class="tip-title">Parle à Claude comme à un collègue, pas comme à un moteur de recherche</div>
+          <div class="tip-body">Le réflexe à prendre : décris ce que tu veux obtenir, pas comment tu veux qu'il travaille. Au lieu de "écris-moi un post en 3 parties avec une intro et une conclusion", dis simplement "écris-moi un post Instagram sur les bienfaits du sommeil pour la récupération sportive, dans un style chaleureux et direct, pour mes clientes de 45 ans". Il fait le reste. Tu corriges si besoin.</div>
+        </div>
+      </div>
+
+      <div class="tip-item">
+        <div class="tip-number">5</div>
+        <div class="tip-content">
+          <div class="tip-title">La vidéo IA : commence par regarder avant de créer</div>
+          <div class="tip-body">Avant de te lancer dans la création de vidéos IA, prends 20 minutes pour regarder des exemples sur Kling 3.0 (kling.ai) ou Runway (runwayml.com). Tape dans la barre de recherche "wellness coach" ou "fitness". Tu vas voir ce que les créateurs de ta niche produisent déjà. C'est le meilleur moyen de comprendre ce qui est possible avant de tester par toi-même.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHECKLIST -->
+    <div class="section-header reveal" style="margin-top:36px;">
+      <div class="bar"></div>
+      <span class="emoji">🚀</span>
+      <h2>À tester cette semaine</h2>
+    </div>
+
+    <div class="reveal">
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="tick">✓</span></div>
+        <div class="check-text">
+          <div class="check-title">Publier un Carrousel avec cette seule question en tête</div>
+          <div class="check-sub">"Est-ce que quelqu'un enverrait ça à un ami ?" Si la réponse est oui pour les 3 premières slides, publie. Si non, change l'angle : rends-le plus relatable, plus utile ou plus surprenant.</div>
+        </div>
+      </div>
+
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="tick">✓</span></div>
+        <div class="check-text">
+          <div class="check-title">Filmer un Reel de 60 à 90 secondes sur un vrai sujet de fond</div>
+          <div class="check-sub">Choisis quelque chose que tu expliques souvent à tes clients. Filme-le en une prise, naturellement. L'accroche dans les 3 premières secondes est essentielle : commence par la conclusion, pas par l'introduction.</div>
+        </div>
+      </div>
+
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="tick">✓</span></div>
+        <div class="check-text">
+          <div class="check-title">Ouvrir Notion et poser une vraie question à l'IA</div>
+          <div class="check-sub">Clique sur le bouton IA (icône étoile ou éclair) et tape une question sur ton contenu existant. Ex : "Quels sont mes clients actifs ce mois-ci ?" ou "Est-ce que j'ai des notes sur la motivation ?" Juste pour voir ce que ça donne.</div>
+        </div>
+      </div>
+
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="tick">✓</span></div>
+        <div class="check-text">
+          <div class="check-title">Aller sur Notion Settings et activer l'option IA avant le 3 mai</div>
+          <div class="check-sub">Va dans Notion → Settings (icône engrenage) → cherche "AI" ou "Intelligence artificielle" → active les fonctionnalités IA. C'est gratuit jusqu'au 3 mai. Pas besoin de tout configurer : juste l'activer suffit pour commencer.</div>
+        </div>
+      </div>
+
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="tick">✓</span></div>
+        <div class="check-text">
+          <div class="check-title">Passer 15 minutes sur Kling.ai ou Runway pour voir ce que la vidéo IA produit</div>
+          <div class="check-sub">Pas pour créer, juste pour regarder. Va sur kling.ai ou runwayml.com, cherche "wellness" ou "fitness" dans les exemples. Tu verras ce que les créateurs de ta niche produisent déjà avec ces outils.</div>
+        </div>
+      </div>
+
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="tick">✓</span></div>
+        <div class="check-text">
+          <div class="check-title">Appliquer la règle 5-3-1 dans les 30 minutes après ta publication</div>
+          <div class="check-sub">Dès que tu publies : like 5 posts dans ta niche, écris 3 vrais commentaires (une phrase complète, pas un emoji), suis 1 nouveau compte pertinent. Ça prend 10 minutes et ça envoie un signal fort à l'algorithme.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- À RETENIR -->
+    <div class="section-header reveal" style="margin-top:36px;">
+      <div class="bar"></div>
+      <span class="emoji">🎯</span>
+      <h2>À retenir</h2>
+    </div>
+
+    <div class="reveal">
+      <div class="retenir-box">
+        <h3>📌 Les signaux de la semaine</h3>
+        <ul class="retenir-list">
+          <li>Le DM est le nouveau reach : un partage en message privé vaut 3 à 5 fois plus qu'un like pour l'algorithme Instagram</li>
+          <li>Les hashtags sont officiellement morts selon Mosseri : concentre-toi sur les partages, les sauvegardes et le temps de visionnage</li>
+          <li>Claude Cowork est officiel : connecte tes outils, configure tes Instructions Globales et délègue tes tâches récurrentes</li>
+          <li>Notion automatise tes bases de données : Custom Agents gratuits jusqu'au 3 mai, à activer maintenant</li>
+          <li>La vidéo IA est accessible à tous : entre 60€ et 175€ pour un court-métrage de 3 minutes, sans équipe ni studio</li>
+        </ul>
+        <div class="retenir-key">Le contenu qui ne circule pas en privé n'existe plus vraiment. Crée pour être transmis, pas juste pour être vu.</div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-bar"></div>
+    <a href="https://t.me/promEntor" class="footer-cta">📲 Rejoindre la chaîne Telegram</a>
+    <p class="footer-tagline">Le Brief proMENTOR — L'essentiel du digital pour les coachs, chaque semaine.</p>
+    <p class="footer-legal">© 2026 proMENTOR / FitCinetik — Michael Boulle. Diffusion gratuite.</p>
+  </footer>
+
+</div><!-- /journal -->
+
+<script>
+  // Progress bar
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    document.getElementById('progressBar').style.width = progress + '%';
+  });
+
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  revealEls.forEach(el => observer.observe(el));
+
+  // Accordéon
+  function toggleAccordion(btn) {
+    btn.classList.toggle('open');
+    btn.nextElementSibling.classList.toggle('open');
+  }
+
+  function toggleAccordionIA(btn) {
+    btn.classList.toggle('open');
+    btn.nextElementSibling.classList.toggle('open');
+  }
+
+  // Checklist
+  function toggleCheck(item) {
+    item.querySelector('.check-box').classList.toggle('checked');
+    item.classList.toggle('done');
+  }
+
+  // Glossaire
+  function toggleGloss(el) {
+    const def = el.nextElementSibling;
+    const isOpen = def.classList.contains('open');
+    document.querySelectorAll('.g-def.open').forEach(d => {
+      d.classList.remove('open');
+      d.previousElementSibling.classList.remove('active');
+    });
+    if (!isOpen) { def.classList.add('open'); el.classList.add('active'); }
+  }
+</script>
+
+</body>
+</html>
