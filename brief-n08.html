@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Brief proMENTOR — N°08 HORS-SÉRIE : Claude pour ton Business</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal:       #48C1BC;
+    --teal-light: #e8f9f8;
+    --teal-dark:  #2a8a86;
+    --black:      #0D0D0D;
+    --dark:       #1A1A1A;
+    --gray:       #444444;
+    --gray-light: #f5f5f5;
+    --gray-mid:   #e0e0e0;
+    --white:      #ffffff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #f0eeea; font-family: 'DM Sans', sans-serif; font-weight: 400; color: var(--gray); line-height: 1.7; }
+
+  .progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: var(--teal); width: 0%; z-index: 9999; transition: width 0.1s linear; }
+
+  .journal { max-width: 700px; margin: 32px auto; background: var(--white); box-shadow: 0 4px 40px rgba(0,0,0,0.12); }
+
+  /* MASTHEAD */
+  .masthead { background: var(--black); color: var(--white); padding: 32px 32px 24px; }
+  .masthead-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+  .logo { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--white); }
+  .logo span { color: var(--teal); }
+  .hors-serie-badge { background: var(--teal); color: var(--black); font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 4px 10px; border-radius: 2px; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.7} }
+  .masthead-meta { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #999; margin-bottom: 18px; flex-wrap: wrap; }
+  .masthead-meta span { color: #666; }
+  .reading-badge { background: rgba(72,193,188,.15); border: 1px solid rgba(72,193,188,.3); color: var(--teal); font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 20px; }
+  .masthead-title { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 900; color: var(--white); line-height: 1.25; margin-bottom: 10px; }
+  .masthead-title .teal { color: var(--teal); }
+  .masthead-subtitle { font-size: 14px; color: #aaa; margin-bottom: 20px; line-height: 1.5; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { background: #1a1a1a; border: 1px solid #333; color: #888; font-size: 11px; font-weight: 500; padding: 4px 12px; border-radius: 20px; }
+  .chip.active { background: var(--teal); border-color: var(--teal); color: var(--black); font-weight: 600; }
+
+  /* CONTENT */
+  .content { background: var(--white); padding: 32px; }
+
+  /* À LA UNE */
+  .une { margin-bottom: 40px; padding-bottom: 32px; border-bottom: 1px solid var(--gray-mid); }
+  .une-label { font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--teal); margin-bottom: 12px; }
+  .une h1 { font-family: 'Playfair Display', serif; font-size: 30px; font-weight: 900; color: var(--dark); line-height: 1.2; margin-bottom: 10px; }
+  .une-sub { font-size: 15px; color: #888; margin-bottom: 20px; line-height: 1.6; }
+  .alert-box { background: var(--teal-light); border-left: 3px solid var(--teal); padding: 14px 18px; border-radius: 0 6px 6px 0; font-size: 14px; color: var(--teal-dark); line-height: 1.6; }
+  .hors-serie-banner { background: var(--black); border-left: 4px solid var(--teal); padding: 16px 20px; border-radius: 0 6px 6px 0; margin-bottom: 20px; }
+  .hors-serie-banner .hs-label { font-size: 10px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--teal); margin-bottom: 6px; }
+  .hors-serie-banner p { font-size: 14px; color: #ccc; line-height: 1.5; margin: 0; }
+
+  /* SECTION HEADER */
+  .section-header { display: flex; align-items: center; gap: 10px; margin: 36px 0 20px; flex-wrap: wrap; }
+  .section-header .bar { width: 4px; height: 28px; background: var(--teal); border-radius: 2px; flex-shrink: 0; }
+  .section-header .emoji { font-size: 20px; }
+  .section-header h2 { font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--dark); }
+  .section-header .pill { background: var(--teal); color: var(--black); font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 2px 8px; border-radius: 20px; }
+
+  /* ARTICLE */
+  .article { margin-bottom: 32px; padding-bottom: 32px; border-bottom: 1px solid var(--gray-mid); }
+  .article:last-child { border-bottom: none; }
+  .kicker { font-size: 10px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--teal); margin-bottom: 8px; }
+  .article-title { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--dark); line-height: 1.3; margin-bottom: 12px; }
+  .article-body { font-size: 15px; color: var(--gray); line-height: 1.75; margin-bottom: 14px; }
+  .insight-box { background: var(--teal-light); border-left: 3px solid var(--teal); padding: 12px 16px; border-radius: 0 6px 6px 0; font-size: 14px; color: var(--teal-dark); line-height: 1.6; }
+
+  /* ÉTHIQUE BOX */
+  .ethique-box { background: #fff8e8; border-left: 3px solid #e6a817; padding: 14px 18px; border-radius: 0 6px 6px 0; font-size: 14px; color: #7a5c10; line-height: 1.6; margin: 14px 0; }
+  .ethique-box strong { color: #5a4008; }
+
+  /* ACCORDION */
+  .accordion-toggle { background: none; border: 1px solid var(--gray-mid); color: var(--teal); font-size: 13px; font-weight: 500; font-family: 'DM Sans', sans-serif; padding: 8px 14px; border-radius: 4px; cursor: pointer; margin-top: 10px; display: flex; align-items: center; gap: 6px; transition: all .2s; }
+  .accordion-toggle:hover { background: var(--teal-light); }
+  .accordion-toggle .arrow { transition: transform .2s; font-size: 10px; }
+  .accordion-toggle.open .arrow { transform: rotate(180deg); }
+  .accordion-body { max-height: 0; overflow: hidden; transition: max-height .4s ease; }
+  .accordion-body.open { max-height: 4000px; }
+  .accordion-inner { padding: 16px 0 0; }
+
+  /* TIPS */
+  .tips-list { display: flex; flex-direction: column; gap: 16px; }
+  .tip-item { display: flex; gap: 14px; align-items: flex-start; }
+  .tip-number { width: 28px; height: 28px; background: var(--teal); color: var(--black); border-radius: 50%; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+  .tip-title { font-size: 14px; font-weight: 600; color: var(--dark); margin-bottom: 4px; }
+  .tip-body { font-size: 14px; color: var(--gray); line-height: 1.65; }
+
+  /* IA STEPS */
+  .ia-step { background: var(--gray-light); border-left: 3px solid var(--teal); padding: 14px 18px; border-radius: 0 6px 6px 0; margin-bottom: 10px; }
+  .ia-step-title { font-size: 14px; font-weight: 600; color: var(--dark); margin-bottom: 6px; }
+  .ia-step-body { font-size: 14px; color: var(--gray); line-height: 1.65; }
+  .ia-insight-box { background: var(--teal-light); border-left: 3px solid var(--teal); padding: 12px 16px; border-radius: 0 6px 6px 0; font-size: 14px; color: var(--teal-dark); line-height: 1.6; margin-top: 14px; }
+
+  /* PROMPT BOX */
+  .prompt-box { background: #f8f8f8; border: 1px solid var(--gray-mid); border-left: 3px solid var(--teal); padding: 14px 18px; border-radius: 0 6px 6px 0; margin: 12px 0; font-family: monospace; font-size: 13px; color: #333; line-height: 1.7; white-space: pre-wrap; word-break: break-word; }
+  .prompt-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--teal); margin-bottom: 8px; font-family: 'DM Sans', sans-serif; display: block; }
+
+  /* COPIER BOX */
+  .copier-box { background: #0D0D0D; border-left: 3px solid var(--teal); padding: 16px 18px; border-radius: 0 6px 6px 0; margin: 14px 0; }
+  .copier-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--teal); margin-bottom: 10px; display: block; }
+  .copier-text { font-family: monospace; font-size: 13px; color: #e0e0e0; line-height: 1.65; white-space: pre-wrap; word-break: break-word; }
+  .copier-btn { display: inline-block; background: var(--teal); color: var(--black); font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 6px 14px; border-radius: 3px; cursor: pointer; border: none; font-family: 'DM Sans', sans-serif; margin-top: 12px; transition: opacity .2s; }
+  .copier-btn:hover { opacity: .8; }
+  .copier-btn.copied { background: #2a8a86; }
+
+  /* MEMO TABLE */
+  .memo-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13px; }
+  .memo-table th { background: var(--black); color: var(--teal); padding: 10px 12px; text-align: left; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
+  .memo-table td { padding: 11px 12px; border-bottom: 1px solid var(--gray-mid); color: var(--gray); vertical-align: top; line-height: 1.55; }
+  .memo-table tr:nth-child(even) td { background: var(--gray-light); }
+  .model-name { font-weight: 700; color: var(--dark); }
+  .model-tag { display: inline-block; font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 2px 7px; border-radius: 20px; margin-left: 6px; }
+  .tag-power { background: rgba(72,193,188,.15); color: var(--teal); }
+  .tag-daily { background: #f0f0f0; color: #666; }
+  .tag-fast  { background: #fff3e0; color: #b36200; }
+
+  /* COMPARE TABLE */
+  .compare-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13px; }
+  .compare-table th { background: var(--black); color: var(--teal); padding: 10px 12px; text-align: left; font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+  .compare-table td { padding: 10px 12px; border-bottom: 1px solid var(--gray-mid); color: var(--gray); vertical-align: top; line-height: 1.55; }
+  .compare-table tr:nth-child(even) td { background: var(--gray-light); }
+  .compare-table .feature { font-weight: 600; color: var(--dark); }
+
+  /* SKILL CARD */
+  .skill-card { background: var(--gray-light); border: 1px solid var(--gray-mid); border-left: 3px solid var(--teal); border-radius: 0 6px 6px 0; padding: 14px 18px; margin-bottom: 10px; }
+  .skill-card-title { font-size: 13px; font-weight: 600; color: var(--dark); margin-bottom: 6px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .skill-card-title .tag { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; background: var(--teal); color: var(--black); padding: 2px 7px; border-radius: 20px; }
+  .skill-card-body { font-size: 13px; color: var(--gray); line-height: 1.6; }
+
+  /* DIM BADGE */
+  .dim-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--black); color: var(--teal); font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; padding: 4px 12px; border-radius: 20px; margin-bottom: 10px; border: 1px solid rgba(72,193,188,.3); }
+
+  /* FILE BOX */
+  .file-box { background: #f0f8f7; border: 1px solid rgba(72,193,188,.3); border-radius: 6px; padding: 16px 18px; margin: 12px 0; }
+  .file-box .file-title { font-size: 13px; font-weight: 600; color: var(--dark); margin-bottom: 8px; }
+  .file-box .file-content { font-family: monospace; font-size: 12px; color: var(--teal-dark); line-height: 1.7; white-space: pre-wrap; background: #fff; border: 1px solid rgba(72,193,188,.2); padding: 10px 12px; border-radius: 4px; }
+
+  /* CHECKLIST */
+  .checklist { display: flex; flex-direction: column; gap: 10px; }
+  .check-item { display: flex; gap: 14px; align-items: flex-start; cursor: pointer; padding: 12px 14px; border: 1px solid var(--gray-mid); border-radius: 6px; transition: all .2s; user-select: none; }
+  .check-item:hover { border-color: var(--teal); background: var(--teal-light); }
+  .check-item.done { opacity: .5; background: var(--gray-light); }
+  .check-box { width: 22px; height: 22px; border: 2px solid var(--gray-mid); border-radius: 4px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; transition: all .2s; }
+  .check-box.checked { background: var(--teal); border-color: var(--teal); }
+  .tick { font-size: 12px; color: var(--black); display: none; }
+  .check-box.checked .tick { display: block; }
+  .check-title { font-size: 14px; font-weight: 600; color: var(--dark); margin-bottom: 3px; }
+  .check-sub { font-size: 13px; color: #888; line-height: 1.5; }
+
+  /* À RETENIR */
+  .retenir-box { background: var(--teal); padding: 24px 28px; border-radius: 6px; margin-top: 8px; }
+  .retenir-box h3 { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--black); margin-bottom: 16px; }
+  .retenir-list { list-style: none; padding: 0; margin-bottom: 16px; }
+  .retenir-list li { font-size: 14px; color: var(--black); padding: 5px 0 5px 18px; position: relative; line-height: 1.55; }
+  .retenir-list li::before { content: '→'; position: absolute; left: 0; color: var(--black); font-weight: 700; }
+  .retenir-key { font-size: 15px; font-weight: 600; color: var(--black); border-top: 1px solid rgba(0,0,0,.2); padding-top: 14px; line-height: 1.5; }
+
+  /* FOOTER */
+  .footer { background: var(--black); padding: 28px 32px; border-top: 3px solid var(--teal); text-align: center; }
+  .footer-cta { display: inline-block; background: var(--teal); color: var(--black); font-size: 13px; font-weight: 700; padding: 10px 24px; border-radius: 4px; text-decoration: none; letter-spacing: .5px; margin-bottom: 16px; transition: opacity .2s; }
+  .footer-cta:hover { opacity: .85; }
+  .footer-tagline { font-size: 13px; color: #666; margin-bottom: 8px; }
+  .footer-legal { font-size: 11px; color: #444; line-height: 1.6; }
+
+  /* GLOSSAIRE */
+  .g { color: var(--teal); font-weight: 600; border-bottom: 2px dashed var(--teal); cursor: pointer; transition: opacity .15s; }
+  .g:hover, .g.active { opacity: .75; }
+  .g-def { display: none; background: var(--teal-light); border-left: 3px solid var(--teal); padding: 10px 14px; border-radius: 0 6px 6px 0; font-size: 13px; color: var(--teal-dark); line-height: 1.55; margin: 6px 0 4px; }
+  .g-def.open { display: block; }
+
+  /* REVEAL */
+  .reveal { opacity: 0; transform: translateY(16px); transition: opacity .5s ease, transform .5s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 600px) {
+    .journal { margin: 0; }
+    .masthead, .content, .footer { padding: 24px 20px; }
+    .masthead-title { font-size: 22px; }
+    .une h1 { font-size: 24px; }
+    .memo-table, .compare-table { font-size: 12px; }
+    .memo-table th, .memo-table td, .compare-table th, .compare-table td { padding: 8px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<div class="journal">
+
+  <!-- MASTHEAD -->
+  <header class="masthead">
+    <div class="masthead-top">
+      <div class="logo">Le Brief <span>proMENTOR</span></div>
+      <div class="hors-serie-badge">✦ Hors-Série</div>
+    </div>
+    <div class="masthead-meta">
+      <span>Mai 2026</span> — <span>N°08</span> — <span>GRATUIT</span>
+      <span class="reading-badge">⏱ 14 min de lecture</span>
+    </div>
+    <div class="masthead-title">Claude pour <span class="teal">ton business</span> : le guide complet</div>
+    <div class="masthead-subtitle">Numéro spécial : tout ce que tu dois savoir pour faire de Claude ton assistant business le plus puissant en 2026.</div>
+    <div class="chips">
+      <span class="chip active">Claude IA</span>
+      <span class="chip active">Prompts</span>
+      <span class="chip active">Projects & Skills</span>
+      <span class="chip active">Tokens</span>
+      <span class="chip active">Actionnable</span>
+    </div>
+  </header>
+
+  <div class="content">
+
+    <!-- À LA UNE -->
+    <section class="une reveal">
+      <div class="une-label">📰 À la une — Numéro Spécial</div>
+      <h1>Claude n'est pas un chatbot. C'est ton assistant business.</h1>
+      <p class="une-sub">La plupart des coachs utilisent 5% de ce que Claude peut faire. Ce numéro hors-série te donne les 95% restants, adaptés à ton activité.</p>
+      <div class="hors-serie-banner">
+        <div class="hs-label">✦ Numéro Hors-Série N°08</div>
+        <p>Ce Brief est différent. Pas de rubriques habituelles cette semaine : je te livre un guide complet, actionnable, pensé pour les coachs qui veulent faire de Claude un vrai levier business, pas juste un outil pour générer du texte.</p>
+      </div>
+      <div class="alert-box">
+        <strong>Ce que tu vas maîtriser après ce numéro :</strong> comprendre pourquoi Claude est différent, écrire des prompts qui produisent de vrais résultats, configurer Projects et Skills pour ne plus jamais repartir de zéro, économiser tes tokens intelligemment, et passer à l'action avec ta première configuration en moins de 30 minutes.
+      </div>
+    </section>
+
+    <!-- ═══ PARTIE 1 : POURQUOI CLAUDE ═══ -->
+    <div class="section-header reveal">
+      <div class="bar"></div><span class="emoji">🎯</span>
+      <h2>Pourquoi Claude en 2026</h2>
+    </div>
+
+    <div class="article reveal">
+      <div class="kicker">🔍 Le vrai problème</div>
+      <div class="article-title">L'erreur que presque tout le monde fait au départ</div>
+      <p class="article-body">Tu ouvres Claude, tu poses une question, tu lis la réponse. Tu te dis que c'est bien, mais pas vraiment différent de ChatGPT. Et tu refermes l'onglet.<br><br>
+      C'est normal. C'est ce que fait la majorité. Et c'est pour ça que la majorité obtient des résultats ordinaires.<br><br>
+      Claude n'est pas conçu pour être utilisé comme un moteur de questions-réponses. C'est un <span class="g" onclick="toggleGloss(this)">système de production</span><span class="g-def"><strong>Système de production</strong> : une façon d'utiliser l'IA non pas pour générer du texte brut à copier-coller, mais pour produire des livrables finalisés directement exploitables dans ton business.</span> qui combine six dimensions complémentaires. Bien configuré, il ne t'aide plus : il produit à ta place.</p>
+      <div class="insight-box"><strong>La vraie différence :</strong> comparer Claude et ChatGPT sur une question rapide, c'est comme comparer Notion et Word en n'ouvrant que la page blanche. Le potentiel n'est pas là où tu regardes.</div>
+    </div>
+
+    <div class="article reveal">
+      <div class="kicker">⚡ Les 3 différences clés</div>
+      <div class="article-title">Ce qui change concrètement pour toi en tant que coach</div>
+      <p class="article-body">Oublie la comparaison technique. Voici les trois choses qui vont directement impacter ton quotidien.</p>
+
+      <div class="dim-badge">1 — La profondeur de raisonnement</div>
+      <p class="article-body">Claude excelle sur les tâches qui demandent de la réflexion structurée : analyser une offre en profondeur, rédiger un contenu long format cohérent du début à la fin, synthétiser des dizaines de pages de notes clients.<br><br>
+      Exemple : donne-lui les retours de tes 20 dernières séances et demande-lui une synthèse des blocages récurrents avec des pistes de communication. Il maintient le fil et la cohérence sur l'ensemble du document. ChatGPT commence à dériver passé un certain point.</p>
+
+      <div class="ethique-box"><strong>⚠️ Point important :</strong> Claude peut t'aider à <em>rédiger et mettre en forme</em> un document, mais la conception d'un programme, qu'il soit sportif, alimentaire ou d'accompagnement, reste entièrement de ta compétence. C'est ton expertise, ton expérience terrain et ta responsabilité professionnelle qui construisent le programme. L'IA formate et présente. Toi, tu conçois.</div>
+
+      <div class="dim-badge">2 — Le suivi d'instructions précis</div>
+      <p class="article-body">Tu peux lui donner un contexte de 2000 mots avec des règles très précises sur ton ton, ton style, ta cible. Il les respecte toutes. Du début à la fin de la conversation.<br><br>
+      Pour une coach en santé hormonale qui cible les femmes de 45-55 ans : lui décrire précisément son positionnement, ses interdictions de langage, ses exemples. Claude applique tout. Sans oubli.</p>
+
+      <div class="dim-badge">3 — La production de livrables réels</div>
+      <p class="article-body">Claude ne génère pas du texte à copier-coller. Il produit des fichiers téléchargeables : documents Word, tableurs Excel avec formules, pages web fonctionnelles.<br><br>
+      Tu ne lui demandes plus de "t'aider à rédiger". Tu lui demandes de "mettre en forme le programme de 8 semaines que tu as conçu, en fichier Word structuré, prêt à envoyer à ta cliente."</p>
+      <div class="insight-box"><strong>En résumé :</strong> Claude est fait pour la précision, la profondeur et la production de livrables professionnels. Pas pour les réponses rapides et génériques.</div>
+
+      <button class="accordion-toggle" onclick="toggleAccordion(this)">
+        <span class="arrow">▼</span> Voir le comparatif complet Claude vs autres modèles
+      </button>
+      <div class="accordion-body">
+        <div class="accordion-inner">
+          <table class="compare-table">
+            <tr><th>Capacité</th><th>Claude Opus 4.6</th><th>Autres modèles</th></tr>
+            <tr><td class="feature">Fenêtre de contexte</td><td>1 million de <span class="g" onclick="toggleGloss(this)">tokens</span><span class="g-def"><strong>Token</strong> : unité de mesure du texte traité par une IA. Environ 750 mots = 1 000 tokens. Plus la fenêtre est grande, plus l'IA peut lire et traiter de contenu en une seule fois.</span> (500+ pages)</td><td>128k à 200k tokens</td></tr>
+            <tr><td class="feature">Cohérence longue durée</td><td>Maintient le fil sur 2h</td><td>Dérive après 30-45 min</td></tr>
+            <tr><td class="feature">Production de fichiers</td><td>Natif (.docx, .xlsx, .pptx, .html)</td><td>Texte à copier-coller</td></tr>
+            <tr><td class="feature">Qualité en français</td><td>Excellente, expressions naturelles</td><td>Correcte, parfois traduit de l'anglais</td></tr>
+            <tr><td class="feature">Génération d'images</td><td>Non disponible</td><td>Gemini, Midjourney : oui</td></tr>
+            <tr><td class="feature">Recherche web temps réel</td><td>Limité</td><td>Grok (connecté à X) : supérieur</td></tr>
+          </table>
+          <div class="insight-box"><strong>Honnêteté :</strong> Claude ne génère pas d'images (utilise Gemini ou Midjourney), n'est pas le meilleur pour la recherche web en temps réel (Grok est plus fort), et ne fait pas de vidéos (Gemini VEO-4 pour ça). Pour tout ce qui est écriture, analyse et production de livrables : rien ne le bat aujourd'hui.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ PARTIE 2 : PROMPTS ═══ -->
+    <div class="section-header reveal">
+      <div class="bar"></div><span class="emoji">✍️</span>
+      <h2>L'art du prompt parfait</h2>
+    </div>
+
+    <div class="article reveal">
+      <div class="kicker">📋 Les bases</div>
+      <div class="article-title">Tu sais déjà prompter. Voilà ce qui change avec Claude.</div>
+      <p class="article-body">Si tu as déjà travaillé avec moi sur ChatGPT, tu connais le principe du <span class="g" onclick="toggleGloss(this)">prompt engineering</span><span class="g-def"><strong>Prompt engineering</strong> : l'art de formuler ses instructions à une IA pour obtenir les meilleurs résultats possibles. Plus ton instruction est précise et structurée, plus la réponse est exploitable.</span> : donner des instructions claires, précises, contextualisées pour obtenir un résultat de qualité. Cette logique est la même avec Claude.<br><br>
+      Si c'est encore flou pour toi, voici le principe en une phrase : tu n'écris pas une question, tu rédiges un brief. Plus il est complet, plus le résultat est exploitable.<br><br>
+      Ce qui change avec Claude par rapport à ChatGPT, c'est l'ampleur du contexte qu'il peut traiter sans se perdre. Là où ChatGPT commence à "oublier" tes règles en cours de conversation, Claude les applique du début à la fin, même sur de longues sessions.</p>
+      <div class="insight-box"><strong>La règle d'or :</strong> donne-lui beaucoup d'informations structurées au départ. Claude ne devine pas. Il produit avec ce que tu lui donnes.</div>
+    </div>
+
+    <div class="article reveal">
+      <div class="kicker">📝 La méthode</div>
+      <div class="article-title">Les 3 niveaux de prompt : où en es-tu ?</div>
+      <p class="article-body">Voici la progression concrète, avec des exemples dans ton univers de coach.</p>
+
+      <p class="article-body"><strong>Niveau 1 — Ce que tout le monde fait</strong></p>
+      <div class="prompt-box"><span class="prompt-label">Prompt basique</span>"Écris-moi un post Instagram sur la motivation"</div>
+      <p class="article-body" style="font-size:13px;color:#999;margin-top:4px;margin-bottom:18px;">Résultat : un post générique que tu ne peux pas publier tel quel.</p>
+
+      <p class="article-body"><strong>Niveau 2 — Mieux, mais incomplet</strong></p>
+      <div class="prompt-box"><span class="prompt-label">Prompt contextualisé</span>"Écris-moi un post Instagram sur la motivation pour mes clientes. Ton bienveillant, pas moralisateur."</div>
+      <p class="article-body" style="font-size:13px;color:#999;margin-top:4px;margin-bottom:18px;">Résultat : utilisable, mais qui ne sonne pas vraiment comme toi.</p>
+
+      <p class="article-body"><strong>Niveau 3 — Ce qui produit des résultats pro</strong></p>
+      <div class="prompt-box"><span class="prompt-label">Prompt structuré — framework ECOT</span>Tu es mon ghostwriter Instagram. Contexte : j'accompagne des femmes de 45-55 ans en rééquilibrage hormonal. Elles sont fatiguées d'entendre qu'elles doivent "juste faire du sport et manger moins".
+
+Écris un post qui :
+- Fait 150-180 mots
+- Commence par une question qui leur parle directement
+- Valide ce qu'elles vivent avant de proposer une autre perspective
+- Se termine par un CTA doux (inviter à commenter)
+- Ton : chaleureux, direct, sans jargon médical
+
+Jamais de : "Tu mérites mieux", "Il suffit de", "Prends soin de toi".</div>
+      <p class="article-body" style="margin-top:6px;">Résultat : un post que tu peux publier avec des ajustements minimes.</p>
+
+      <button class="accordion-toggle" onclick="toggleAccordion(this)">
+        <span class="arrow">▼</span> Voir le framework ECOT complet + les 7 erreurs à éviter
+      </button>
+      <div class="accordion-body">
+        <div class="accordion-inner">
+          <p class="article-body"><strong>Le framework ECOT : Expertise — Contexte — Objectif — Ton</strong></p>
+          <div class="ia-step"><div class="ia-step-title">E — Expertise : depuis quel angle Claude répond</div><div class="ia-step-body">"Tu es coach spécialisé en reconversion professionnelle pour femmes après 40 ans, ghostwriter de mes contenus Instagram depuis 2 ans."<br>Pas juste un rôle : une expertise précise avec un angle spécifique.</div></div>
+          <div class="ia-step"><div class="ia-step-title">C — Contexte : toutes les infos de situation</div><div class="ia-step-body">"J'accompagne des femmes 40-55 ans qui rêvent de créer leur activité bien-être mais ont peur de perdre leur sécurité financière. Leur objection principale : 'Je n'ai pas les compétences'."<br>Plus le contexte est riche, meilleur est le résultat.</div></div>
+          <div class="ia-step"><div class="ia-step-title">O — Objectif : le livrable précis attendu</div><div class="ia-step-body">"Crée une séquence de 3 posts Instagram. Post 1 : identification du problème. Post 2 (J+2) : histoire de transformation. Post 3 (J+5) : invitation à mon atelier gratuit."<br>Sois spécifique sur le livrable, pas juste sur le sujet.</div></div>
+          <div class="ia-step"><div class="ia-step-title">T — Ton : la voix et les interdictions</div><div class="ia-step-body">"Chaleureux, ancré, sans clichés du développement personnel. Jamais de : 'Crois en toi', 'Tu es capable', 'La vie est un voyage'. Phrases courtes. Pas d'émojis en milieu de phrase."<br>Dire ce qu'il ne faut PAS faire est aussi important que dire ce qu'il faut faire.</div></div>
+
+          <p class="article-body" style="margin-top:20px;"><strong>Les 7 erreurs qui tuent tes résultats</strong></p>
+          <div class="tips-list">
+            <div class="tip-item"><div class="tip-number" style="background:#f0eeea;color:#888;border:1px solid #ddd;">1</div><div><div class="tip-title">Pas d'expertise définie</div><div class="tip-body">Claude ne sait pas depuis quel angle répondre. Résultat générique garanti.</div></div></div>
+            <div class="tip-item"><div class="tip-number" style="background:#f0eeea;color:#888;border:1px solid #ddd;">2</div><div><div class="tip-title">Contexte insuffisant</div><div class="tip-body">20 mots de contexte = une réponse qui pourrait s'appliquer à n'importe qui.</div></div></div>
+            <div class="tip-item"><div class="tip-number" style="background:#f0eeea;color:#888;border:1px solid #ddd;">3</div><div><div class="tip-title">Objectif flou</div><div class="tip-body">"Aide-moi avec ça" vs "Crée un document Word de 5 pages avec cette structure." La précision = la qualité.</div></div></div>
+            <div class="tip-item"><div class="tip-number" style="background:#f0eeea;color:#888;border:1px solid #ddd;">4</div><div><div class="tip-title">Absence de ton</div><div class="tip-body">Sans directive de ton, Claude utilise son ton par défaut : poli, neutre, légèrement générique.</div></div></div>
+            <div class="tip-item"><div class="tip-number" style="background:#f0eeea;color:#888;border:1px solid #ddd;">5</div><div><div class="tip-title">Oubli des interdictions</div><div class="tip-body">Lister ce qu'il ne faut pas faire est aussi puissant que lister ce qu'il faut faire.</div></div></div>
+            <div class="tip-item"><div class="tip-number" style="background:#f0eeea;color:#888;border:1px solid #ddd;">6</div><div><div class="tip-title">Prompt unique sans itération</div><div class="tip-body">Le premier jet est rarement parfait. Affine : "Raccourcis de 30%, rends le hook plus direct."</div></div></div>
+            <div class="tip-item"><div class="tip-number" style="background:#f0eeea;color:#888;border:1px solid #ddd;">7</div><div><div class="tip-title">Plusieurs tâches dans un seul prompt</div><div class="tip-body">Un prompt = une tâche. Plan, rédaction, mise en forme : trois prompts successifs, pas un seul.</div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ PARTIE 3 : LES 6 DIMENSIONS ═══ -->
+    <div class="section-header reveal">
+      <div class="bar"></div><span class="emoji">⚙️</span>
+      <h2>Les 6 outils dans Claude</h2>
+    </div>
+
+    <div class="article reveal">
+      <div class="kicker">🛠️ L'écosystème complet</div>
+      <div class="article-title">Claude n'est pas un outil. C'est un écosystème de 6 dimensions.</div>
+      <p class="article-body">La majorité des gens n'utilisent que la surface. Voici ce qui est disponible, traduit en cas d'usage concrets pour un coach.</p>
+
+      <div class="dim-badge">1 — Projects : ton expert permanent</div>
+      <p class="article-body">Sans Projects, chaque conversation repart de zéro. Tu réexpliques ton activité, ta cible, ton ton à chaque fois. Avec Projects, Claude a un contexte permanent.<br><br>
+      <strong>Configuration en 5 minutes :</strong> sur claude.ai, clique "Projects" dans la barre gauche, crée un projet, dépose tes fichiers clés (positionnement, exemples de posts, description de tes offres), colle tes instructions dans le champ dédié.</p>
+      <div class="skill-card">
+        <div class="skill-card-title"><span class="tag">Exemple coach</span> Project "Contenu Instagram"</div>
+        <div class="skill-card-body">Instructions : "Je suis coach en nutrition sportive, je cible les femmes actives 30-45 ans. Mon ton est direct et ancré dans la science, sans jargon. Mes sujets : énergie, inflammation, performance féminine. Voici 5 de mes meilleurs posts (fichiers joints)."<br><br>Résultat : Claude connaît ton univers avant même que tu poses ta question.</div>
+      </div>
+
+      <div class="dim-badge" style="margin-top:20px;">2 — Skills (Compétences) : ta méthode automatisée</div>
+      <p class="article-body">Un <span class="g" onclick="toggleGloss(this)">Skill</span><span class="g-def"><strong>Skill (Compétence)</strong> : ensemble d'instructions que tu configures une fois dans Claude. Il les applique automatiquement à chaque fois que tu lui demandes ce type de tâche, sans que tu aies à les répéter.</span>, c'est l'ensemble d'instructions que Claude applique automatiquement pour produire un certain type de livrable. Tu le configures une fois. Il l'applique à chaque demande.</p>
+      <div class="skill-card">
+        <div class="skill-card-title"><span class="tag">Sans Skill</span> Ce que tu écris à chaque fois</div>
+        <div class="skill-card-body">"Écris un post Instagram. Mon ton est direct, bienveillant, pas moralisateur. 150 mots max. Hook question. Pas d'émojis en milieu de phrase. Jamais de 'Crois en toi'…"</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-title"><span class="tag" style="background:#0D0D0D;color:#48C1BC;">Avec Skill</span> Ce que tu écris désormais</div>
+        <div class="skill-card-body">"Post Instagram sur la fatigue surrénalienne."<br><br>Claude applique automatiquement toutes tes règles. Tu n'écris plus que le sujet.</div>
+      </div>
+
+      <div class="dim-badge" style="margin-top:20px;">3 — Memory : Claude se souvient de toi</div>
+      <p class="article-body">La <span class="g" onclick="toggleGloss(this)">Memory</span><span class="g-def"><strong>Memory</strong> : fonctionnalité de Claude qui lui permet de retenir automatiquement des informations sur toi au fil de tes conversations (ton métier, tes préférences de format, tes projets en cours), sans que tu aies besoin de les répéter.</span> retient automatiquement des infos au fil de tes conversations.<br><br>
+      <strong>Pour forcer une mémorisation :</strong> "Retiens que j'accompagne des coachs en bien-être, que je veux toujours un ton direct et que je n'utilise jamais d'émojis dans mes posts."<br>
+      <strong>Pour voir ce qu'il a retenu :</strong> "Qu'est-ce que tu sais sur moi ?"<br>
+      <strong>Activation :</strong> Paramètres → Memory → Activer.</p>
+
+      <div class="dim-badge" style="margin-top:20px;">4 — Connectors : Claude branché sur tes outils</div>
+      <p class="article-body">Disponibles gratuitement depuis début 2026, les Connectors permettent à Claude d'accéder directement à tes outils sans copier-coller.</p>
+      <div class="skill-card">
+        <div class="skill-card-title">Connectors disponibles</div>
+        <div class="skill-card-body">Google Drive, Gmail, Google Sheets, Notion, Slack et plus de 50 autres.<br><br><strong>Activation :</strong> Paramètres → Connected Apps → Connect à côté du service voulu.<br><br><strong>Exemple coach :</strong> "Résume la dernière note de séance dans mon Notion" ou "Rédige une réponse à l'email de ma cliente Sarah reçu ce matin."</div>
+      </div>
+
+      <div class="dim-badge" style="margin-top:20px;">5 — Artifacts : produis, ne discute plus</div>
+      <p class="article-body">Les <span class="g" onclick="toggleGloss(this)">Artifacts</span><span class="g-def"><strong>Artifacts</strong> : fonctionnalité de Claude qui permet de produire des éléments interactifs directement dans le chat (calculateurs, tableaux, pages web, planificateurs...) plutôt que du simple texte à copier.</span> sont des outputs interactifs dans Claude. Pas juste du texte : des éléments utilisables immédiatement.</p>
+      <div class="prompt-box"><span class="prompt-label">Exemple de prompt</span>"Crée un tableau de suivi hebdomadaire pour mes clientes avec colonnes : Objectif de la semaine, Actions réalisées, Blocages rencontrés, Niveau d'énergie (1-5). Design épuré, fond blanc."</div>
+      <div class="ethique-box"><strong>Rappel :</strong> Claude peut créer le support, le tableau, le document de suivi. La définition des objectifs, le contenu des séances et le suivi personnalisé restent entièrement de ton ressort en tant que coach qualifié. C'est ton expertise qui donne du sens à l'outil.</div>
+
+      <div class="dim-badge" style="margin-top:20px;">6 — Claude Code : construis sans coder</div>
+      <p class="article-body">Claude Code est un outil en ligne de commande où tu parles à Claude en français, et il écrit ET exécute le code directement sur ta machine.<br><br>
+      <strong>Exemples pour un coach :</strong> créer une page de formulaire pour les bilans d'entrée de tes clients, automatiser le tri de tes fichiers PDF de séances, construire un tableau de bord pour suivre tes revenus mensuels.<br><br>
+      <strong>Installation :</strong> dans ton Terminal (Mac) ou PowerShell (Windows), tape :<br>
+      <code style="background:#f5f5f5;padding:3px 7px;border-radius:3px;font-size:12px;">npm install -g @anthropic-ai/claude-code</code> puis <code style="background:#f5f5f5;padding:3px 7px;border-radius:3px;font-size:12px;">claude</code>. Node.js requis (nodejs.org).</p>
+
+      <div class="insight-box"><strong>La combinaison gagnante :</strong> Project (ton contexte permanent) + Skill (ta méthode automatisée) = Claude qui travaille dans ta voix, avec tes règles, sans réexpliquer. C'est la différence entre parler à un inconnu et briefer un collaborateur qui travaille avec toi depuis 6 mois.</div>
+    </div>
+
+    <!-- ═══ PARTIE 4 : DOSSIER DE CONTEXTE ═══ -->
+    <div class="section-header reveal">
+      <div class="bar"></div><span class="emoji">📁</span>
+      <h2>Ton dossier de contexte</h2>
+    </div>
+
+    <div class="article reveal">
+      <div class="kicker">💡 La configuration qui change tout</div>
+      <div class="article-title">Comment faire en sorte que Claude ne reparte jamais de zéro</div>
+      <p class="article-body">Il existe une configuration très simple que la majorité des gens ne connaissent pas. Elle te permet de ne plus jamais réexpliquer qui tu es, ce que tu fais et comment tu veux que Claude te parle. Voici comment la mettre en place, étape par étape.</p>
+
+      <div class="dim-badge">Le principe</div>
+      <p class="article-body">Tu crées un dossier sur ton bureau avec des fichiers texte simples au format .md (appelés fichiers Markdown). Chaque fichier contient une partie de ton contexte. Dans l'application Claude Cowork (version desktop), tu pointes vers ce dossier. Claude lit ces fichiers avant chaque réponse, automatiquement, sans que tu aies à les copier-coller.</p>
+
+      <div class="ia-step">
+        <div class="ia-step-title">Étape 1 : Crée ton dossier sur le bureau</div>
+        <div class="ia-step-body">Fais un clic droit sur ton bureau → Nouveau dossier. Appelle-le "Mon Contexte Claude". C'est un dossier ordinaire, rien de technique.</div>
+      </div>
+
+      <div class="ia-step">
+        <div class="ia-step-title">Étape 2 : Crée tes fichiers de contexte (.md)</div>
+        <div class="ia-step-body">
+          Un fichier .md, c'est un fichier texte simple avec une extension différente. Voici comment le créer :<br><br>
+          <strong>Sur Mac :</strong> ouvre TextEdit → menu Format → Convertir en texte brut → enregistre le fichier en lui donnant le nom <em>qui-je-suis.md</em> (change bien l'extension de .txt à .md)<br><br>
+          <strong>Sur Windows :</strong> ouvre le Bloc-notes → Fichier → Enregistrer sous → dans "Type de fichier", choisis "Tous les fichiers (*.*)" → nomme le fichier <em>qui-je-suis.md</em><br><br>
+          Crée ces 3 fichiers dans ton dossier :
+        </div>
+      </div>
+
+      <div class="file-box">
+        <div class="file-title">📄 qui-je-suis.md — Ton identité professionnelle</div>
+        <div class="file-content">Je suis [ton prénom], coach [ta spécialité].
+J'accompagne [ta cible précise] à [ton résultat principal].
+Mon positionnement : [ce qui te différencie en 1-2 phrases].
+Mes offres : [liste courte de tes programmes avec durée].
+Mon canal principal : Instagram (@[ton compte]).</div>
+      </div>
+
+      <div class="file-box">
+        <div class="file-title">📄 mon-style.md — Ton ton éditorial</div>
+        <div class="file-content">Ton éditorial : [chaleureux / direct / scientifique / bienveillant...].
+Je tutoie toujours mes clientes.
+Phrases courtes. Pas de jargon médical ou technique.
+Jamais de : [liste tes formules à bannir absolument].
+Exemples de posts que j'aime :
+[Colle ici 2-3 de tes meilleurs posts, avec leurs légendes complètes].</div>
+      </div>
+
+      <div class="file-box">
+        <div class="file-title">📄 mes-offres.md — Tes programmes et ta promesse</div>
+        <div class="file-content">Programme 1 : [nom] — [durée] — [ce que ça inclut].
+Programme 2 : [nom] — [durée] — [ce que ça inclut].
+Prochain lancement : [date et thème si applicable].
+Ma promesse principale : [résultat en 1 phrase claire].</div>
+      </div>
+
+      <div class="ia-step">
+        <div class="ia-step-title">Étape 3 : Connecte le dossier dans Claude Cowork</div>
+        <div class="ia-step-body">Télécharge l'application Claude Cowork sur <strong>claude.com/download</strong>. Ouvre l'app, clique sur l'onglet "Cowork", puis clique sur "Sélectionner un dossier" et choisis ton dossier "Mon Contexte Claude". À partir de maintenant, Claude lit tes fichiers avant chaque réponse.</div>
+      </div>
+
+      <div class="ia-step">
+        <div class="ia-step-title">Étape 4 : Teste et valide</div>
+        <div class="ia-step-body">Dans Claude Cowork, tape :<br><br>
+        <em>"Lis d'abord tous les fichiers de ce dossier. Ensuite, présente-moi en 5 lignes ce que tu as retenu de qui je suis et comment je travaille."</em><br><br>
+        Si le résumé est juste : tu es prêt. Si quelque chose manque ou est inexact, mets à jour le fichier correspondant. C'est aussi simple que ça.</div>
+      </div>
+
+      <div class="insight-box"><strong>Avantage clé :</strong> quand ton positionnement évolue (nouvelle offre, nouvelle cible, nouveau ton), tu n'as qu'à mettre à jour le fichier concerné. Claude suit automatiquement, dès la prochaine conversation.</div>
+    </div>
+
+    <!-- ═══ IA ÉPISODE 8 ═══ -->
+    <div class="section-header reveal">
+      <div class="bar"></div><span class="emoji">🤖</span>
+      <h2>Intelligence Artificielle</h2>
+      <span class="pill">IA</span>
+    </div>
+    <div style="margin-top:-12px;margin-bottom:20px;">
+      <span style="font-size:12px;color:#999;font-style:italic;">Épisode 8 : Crée ton premier Skill Instagram en 10 minutes</span>
+    </div>
+
+    <div class="article reveal">
+      <div class="kicker">🚀 Passage à l'action</div>
+      <div class="article-title">Ton premier Skill Instagram configuré, testé et validé</div>
+      <p class="article-body">C'est la configuration qui va changer ton rapport à la création de contenu. Une fois ce Skill en place, chaque demande de post sera traitée dans ton style, avec tes règles, sans que tu aies à les répéter. Suis ces étapes dans l'ordre.</p>
+
+      <div class="ia-step">
+        <div class="ia-step-title">Étape 1 : Accède aux Compétences</div>
+        <div class="ia-step-body">Sur claude.ai, clique sur ton nom ou ton icône en bas à gauche → Paramètres → Compétences → "Ajouter une compétence".</div>
+      </div>
+
+      <div class="ia-step">
+        <div class="ia-step-title">Étape 2 : Nomme ton Skill et décris quand l'utiliser</div>
+        <div class="ia-step-body"><strong>Nom :</strong> Post Instagram<br><br><strong>Description :</strong> "Utilise cette compétence quand je demande de rédiger un post Instagram, une légende ou du contenu pour mon compte." C'est cette description qui déclenche l'activation automatique du Skill.</div>
+      </div>
+
+      <div class="ia-step">
+        <div class="ia-step-title">Étape 3 : Colle tes instructions dans le champ dédié</div>
+        <div class="ia-step-body">Voici un modèle à adapter. Remplace chaque [zone] par ta réalité :</div>
+      </div>
+
+      <div class="prompt-box"><span class="prompt-label">Modèle à personnaliser et coller dans les instructions</span>Tu es mon ghostwriter Instagram. Mon activité : [décris ton coaching en 2 phrases].
+Mon client idéal : [décris ta cible précisément, avec ses problèmes et objections].
+
+Règles absolues :
+- [X] mots maximum
+- Hook : première phrase qui arrête le scroll (question, chiffre ou affirmation forte)
+- Ton : [chaleureux / direct / scientifique / bienveillant…]
+- Pas d'émojis en milieu de phrase
+- Conclusion : invitation douce à commenter ou à répondre
+- Aucun hashtag dans le corps du texte
+
+Jamais de : [liste précisément tes formules à bannir]
+
+Structure : Hook → Corps en 2-3 blocs courts → CTA doux
+
+Exemples de posts que j'aime :
+[Colle ici 2-3 de tes meilleurs posts avec leurs légendes complètes]</div>
+
+      <div class="ia-step">
+        <div class="ia-step-title">Étape 4 : Enregistre</div>
+        <div class="ia-step-body">Clique "Enregistrer". Le Skill est maintenant actif dans ton compte Claude.</div>
+      </div>
+
+      <div class="ia-step">
+        <div class="ia-step-title">Étape 5 : Teste avec une demande simple</div>
+        <div class="ia-step-body">Ouvre une <strong>nouvelle conversation</strong> (important : le Skill s'active au début d'un nouveau chat, pas dans une conversation déjà ouverte). Tape simplement :<br><br>
+        <em>"Post Instagram sur [un sujet lié à ton coaching]."</em><br><br>
+        Observe si Claude applique automatiquement ton ton, ta structure et tes interdictions.</div>
+      </div>
+
+      <div class="ia-step">
+        <div class="ia-step-title">Étape 6 : Vérifie que le Skill est bien actif</div>
+        <div class="ia-step-body">Pour t'assurer que tout fonctionne, pose cette question dans le chat :<br><br>
+        <em>"Quelles compétences as-tu d'actives pour cette conversation ?"</em><br><br>
+        Claude doit te confirmer qu'il a chargé ton Skill "Post Instagram". S'il ne le mentionne pas, retourne dans Paramètres → Compétences et vérifie que le champ "Description" est bien renseigné : c'est lui qui déclenche l'activation.<br><br>
+        Tu peux aussi tester en lui demandant :<br>
+        <em>"Rappelle-moi les règles que tu dois respecter pour rédiger mes posts Instagram."</em><br><br>
+        Il doit te restituer exactement ce que tu as écrit dans les instructions. Si c'est le cas : ton Skill est opérationnel.</div>
+      </div>
+
+      <div class="ia-step">
+        <div class="ia-step-title">Étape 7 : Affine au fil du temps</div>
+        <div class="ia-step-body">Si le résultat n'est pas encore parfait, note ce qui manque et mets à jour les instructions. 5 à 10 règles claires valent mieux qu'un pavé de 50 instructions. Tu affines au fil du temps, comme tu affinerais le brief d'un vrai collaborateur.</div>
+      </div>
+
+      <div class="ia-insight-box"><strong>Astuce coach :</strong> crée un deuxième Skill "Message de suivi client". Tu définis une fois ton ton pour les messages de relance, de félicitations ou de check-in entre deux séances. Tu décris la situation, Claude rédige dans ta voix. Tu valides, tu envoies. La relation client reste 100% humaine : l'IA t'aide juste à ne jamais manquer de mots.</div>
+    </div>
+
+    <!-- ═══ PARTIE 5 : ÉCONOMIE DE TOKENS ═══ -->
+    <div class="section-header reveal">
+      <div class="bar"></div><span class="emoji">🔋</span>
+      <h2>Économiser tes tokens</h2>
+    </div>
+
+    <div class="article reveal">
+      <div class="kicker">💰 Travailler mieux, pas plus</div>
+      <div class="article-title">Les 5 astuces pour ne plus jamais être bloqué par la limite de tokens</div>
+      <p class="article-body">Les <span class="g" onclick="toggleGloss(this)">tokens</span><span class="g-def"><strong>Token</strong> : unité de mesure du texte traité par une IA. Environ 750 mots = 1 000 tokens. Chaque plan Claude a une limite de tokens par conversation. Quand tu l'atteins, Claude te demande d'attendre ou d'ouvrir un nouveau chat.</span> sont la ressource limitée de Claude. Quand tu les épuises, tu dois attendre avant de continuer. Voici comment les utiliser intelligemment.</p>
+
+      <div class="tips-list">
+        <div class="tip-item">
+          <div class="tip-number">1</div>
+          <div class="tip-content">
+            <div class="tip-title">Sois concis dans tes prompts</div>
+            <div class="tip-body">Chaque mot que tu écris consomme des tokens. Supprime les formules de politesse et les introductions inutiles ("Bonjour, j'espère que tu vas bien, je voulais te demander si…"). Claude n'en a pas besoin. Va directement à l'instruction.</div>
+          </div>
+        </div>
+        <div class="tip-item">
+          <div class="tip-number">2</div>
+          <div class="tip-content">
+            <div class="tip-title">Une tâche = une conversation</div>
+            <div class="tip-body">Ne mélange pas 5 sujets différents dans le même fil. Chaque nouvelle tâche mérite un nouveau chat. En plus d'économiser des tokens, tes conversations restent claires et retrouvables facilement.</div>
+          </div>
+        </div>
+        <div class="tip-item">
+          <div class="tip-number">3</div>
+          <div class="tip-content">
+            <div class="tip-title">Utilise Projects plutôt que de recoller ton contexte</div>
+            <div class="tip-body">Au lieu de copier-coller tes 500 mots de contexte dans chaque prompt, mets-les une fois dans un Project. Claude y accède directement. Tu ne consommes pas de tokens pour du contexte répétitif à chaque conversation.</div>
+          </div>
+        </div>
+        <div class="tip-item">
+          <div class="tip-number">4</div>
+          <div class="tip-content">
+            <div class="tip-title">Choisis le bon modèle selon la tâche</div>
+            <div class="tip-body">Utiliser Opus pour reformuler une phrase de 10 mots, c'est comme prendre un taxi pour traverser la rue. Voici le mémo pour ne plus te tromper :</div>
+          </div>
+        </div>
+      </div>
+
+      <table class="memo-table" style="margin-top:16px;margin-bottom:20px;">
+        <tr><th>Modèle</th><th>Pour quoi</th><th>Exemples concrets pour un coach</th></tr>
+        <tr>
+          <td><span class="model-name">Opus 4.6</span><span class="model-tag tag-power">Puissant</span></td>
+          <td>Tâches complexes, analyse, rédaction longue, planification stratégique</td>
+          <td>Rédiger une offre commerciale, analyser 20 retours clients, structurer un webinaire, préparer un lancement</td>
+        </tr>
+        <tr>
+          <td><span class="model-name">Sonnet 4.6</span><span class="model-tag tag-daily">Quotidien</span></td>
+          <td>Tâches du quotidien, contenu moyen format, réponses structurées</td>
+          <td>Posts Instagram, emails clients, résumés de séances, séquences de messages WhatsApp</td>
+        </tr>
+        <tr>
+          <td><span class="model-name">Haiku 4.5</span><span class="model-tag tag-fast">Rapide</span></td>
+          <td>Tâches simples et répétitives, reformulations courtes, vérifications rapides</td>
+          <td>Corriger une faute, reformuler une phrase, répondre à un commentaire court, vérifier un titre</td>
+        </tr>
+      </table>
+
+      <div class="tip-item">
+        <div class="tip-number">5</div>
+        <div class="tip-content">
+          <div class="tip-title">La commande "récap" : reparts de zéro sans perdre le fil</div>
+          <div class="tip-body">Quand une conversation devient longue et que tu approches des limites, utilise cette commande avant d'ouvrir un nouveau chat. Il n'existe pas de raccourci clavier natif dans Claude : tu dois la taper ou la copier depuis tes notes. Voici la commande exacte, prête à l'emploi :</div>
+        </div>
+      </div>
+
+      <div class="copier-box">
+        <span class="copier-label">📋 Commande récap — copie-la une fois, garde-la dans tes notes</span>
+        <div class="copier-text" id="recapText">Fais-moi un résumé structuré de cette conversation : contexte de départ, décisions prises, fichiers ou livrables produits, points importants à retenir, prochaines étapes identifiées. Je vais copier ce résumé pour l'utiliser dans une nouvelle conversation.</div>
+        <button class="copier-btn" id="recapBtn" onclick="copyRecap()">Copier la commande</button>
+      </div>
+
+      <p class="article-body">Une fois le résumé généré, copie-le. Ouvre un nouveau chat. Colle-le en début de conversation avec ce préfixe : <em>"Voici le contexte de notre conversation précédente : [résumé]"</em>. Claude reprend exactement là où tu en étais, sans avoir à relire 2h de fil.</p>
+
+      <div class="insight-box"><strong>Conseil pratique :</strong> colle la commande récap dans tes notes (Notion, mémos iOS, Notes Mac). Tu n'auras qu'à la copier depuis là quand tu en as besoin. 10 secondes économisées à chaque fois, sur des dizaines de conversations.</div>
+    </div>
+
+    <!-- ═══ TIPS ═══ -->
+    <div class="section-header reveal">
+      <div class="bar"></div><span class="emoji">🧠</span>
+      <h2>Tips & Bonnes Pratiques</h2>
+    </div>
+
+    <div class="article reveal">
+      <div class="tips-list">
+        <div class="tip-item">
+          <div class="tip-number">1</div>
+          <div class="tip-content">
+            <div class="tip-title">Commence par un fichier de contexte "qui je suis"</div>
+            <div class="tip-body">Crée un fichier .md avec ce que tu fais, ta cible précise, ton ton éditorial et 2-3 exemples de contenus dont tu es fier. Dépose-le dans ton Project principal. Claude le lit avant chaque réponse : il sonne comme toi, pas comme une IA générique.</div>
+          </div>
+        </div>
+        <div class="tip-item">
+          <div class="tip-number">2</div>
+          <div class="tip-content">
+            <div class="tip-title">Utilise la règle des 3 passes</div>
+            <div class="tip-body">Passe 1 : "Crée-moi un plan détaillé pour [tâche]." Tu valides. Passe 2 : "Parfait. Rédige la version complète en suivant ce plan." Passe 3 : "Raccourcis de 20%, rends l'intro plus directe, change le ton de la partie 2." Ce processus produit des résultats bien meilleurs qu'un prompt unique, même très détaillé.</div>
+          </div>
+        </div>
+        <div class="tip-item">
+          <div class="tip-number">3</div>
+          <div class="tip-content">
+            <div class="tip-title">Active Extended Thinking pour les décisions importantes</div>
+            <div class="tip-body">Pour les tâches complexes (structurer une offre, analyser une stratégie, préparer un lancement), active Extended Thinking dans le sélecteur de modèle. Claude "réfléchit à voix haute" avant de répondre : la qualité est sensiblement meilleure sur les sujets qui demandent de la profondeur.</div>
+          </div>
+        </div>
+        <div class="tip-item">
+          <div class="tip-number">4</div>
+          <div class="tip-content">
+            <div class="tip-title">Demande des livrables, pas du texte</div>
+            <div class="tip-body">"Aide-moi à structurer mes séances" vs "Crée un document Word avec le déroulé type d'une séance en 8 étapes, un encart par étape avec objectif, durée et questions clés." Claude produit le fichier. Tu le télécharges. Tu l'utilises. La différence est immense. Et tu restes celui qui a conçu le contenu.</div>
+          </div>
+        </div>
+        <div class="tip-item">
+          <div class="tip-number">5</div>
+          <div class="tip-content">
+            <div class="tip-title">Connecte Notion et Gmail pour supprimer le copier-coller</div>
+            <div class="tip-body">Une fois les Connectors activés, dis "Résume la dernière note de séance dans mon Notion" ou "Rédige une réponse à l'email de ma cliente Sarah". Claude accède à tes outils directement. Fini l'aller-retour entre les onglets.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ CHECKLIST ═══ -->
+    <div class="section-header reveal">
+      <div class="bar"></div><span class="emoji">🚀</span>
+      <h2>À tester cette semaine</h2>
+    </div>
+
+    <div class="article reveal">
+      <p class="article-body" style="margin-bottom:20px;">Tu as tout le contexte. Maintenant, c'est à toi de jouer. Ces 5 actions sont classées par ordre de priorité. Commence par la première.</p>
+      <div class="checklist">
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"><span class="tick">✓</span></div>
+          <div class="check-text">
+            <div class="check-title">Crée ton dossier de contexte sur le bureau</div>
+            <div class="check-sub">3 fichiers .md : qui-je-suis.md, mon-style.md, mes-offres.md. Utilise les modèles de la Partie 4. 15 minutes chrono.</div>
+          </div>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"><span class="tick">✓</span></div>
+          <div class="check-text">
+            <div class="check-title">Crée ton premier Skill "Post Instagram"</div>
+            <div class="check-sub">Paramètres → Compétences → Ajouter. Utilise le modèle de l'Épisode 8. Ouvre un nouveau chat, teste, et vérifie l'activation avec la question de l'étape 6.</div>
+          </div>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"><span class="tick">✓</span></div>
+          <div class="check-text">
+            <div class="check-title">Crée ton Project principal</div>
+            <div class="check-sub">claude.ai → Projects → Nouveau projet → Dépose tes fichiers de contexte + colle tes instructions. Claude devient ton expert métier permanent.</div>
+          </div>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"><span class="tick">✓</span></div>
+          <div class="check-text">
+            <div class="check-title">Sauvegarde la commande récap dans tes notes</div>
+            <div class="check-sub">Copie la commande depuis la section "Économiser tes tokens". Colle-la dans Notion, tes mémos iOS ou Notes Mac. Tu en auras besoin très vite.</div>
+          </div>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"><span class="tick">✓</span></div>
+          <div class="check-text">
+            <div class="check-title">Demande un vrai livrable cette semaine</div>
+            <div class="check-sub">Choisis une tâche récurrente (séquence de posts, email de bienvenue, document de suivi) et demande à Claude de produire le fichier final. Pas juste du texte : le fichier complet, prêt à utiliser.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ À RETENIR ═══ -->
+    <div class="section-header reveal">
+      <div class="bar"></div><span class="emoji">🎯</span>
+      <h2>À retenir</h2>
+    </div>
+
+    <div class="reveal">
+      <div class="retenir-box">
+        <h3>📌 Les signaux de ce hors-série</h3>
+        <ul class="retenir-list">
+          <li>Claude n'est pas un chatbot : c'est un système de production. La qualité de ce qu'il te livre dépend directement de la qualité de ce que tu lui donnes.</li>
+          <li>Skills + Projects = ton assistant expert permanent. Une fois configurés, Claude travaille dans ta voix, avec tes règles, sans que tu réexpliques rien.</li>
+          <li>Tu es le seul à concevoir tes programmes sportifs, alimentaires ou d'accompagnement. Claude rédige, formate et met en page. Ton expertise reste irremplaçable.</li>
+          <li>La commande récap + le bon choix de modèle (Haiku / Sonnet / Opus) te permettent de travailler sans jamais être bloqué par les limites de tokens.</li>
+          <li>Ton dossier de contexte sur le bureau est la fondation de tout. Bien fait une fois, il t'économise des heures chaque semaine.</li>
+        </ul>
+        <div class="retenir-key">En 2026, la question n'est plus "est-ce que j'utilise l'IA". C'est "est-ce que je l'utilise correctement". Ce guide t'a donné les clés. La prochaine étape, c'est d'ouvrir Claude et de commencer.</div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <a href="https://t.me/lebriefproMENTOR" class="footer-cta" target="_blank">📣 Rejoindre la communauté Telegram</a>
+    <p class="footer-tagline">Le Brief proMENTOR — Le journal qui te donne une longueur d'avance chaque semaine.</p>
+    <p class="footer-legal">© 2026 proMENTOR / FitCinetik — Michael Boulle<br>Distribué gratuitement via Telegram · Hébergé sur GitHub Pages</p>
+  </footer>
+
+</div><!-- /journal -->
+
+<script>
+window.addEventListener('scroll', function() {
+  const el = document.getElementById('progressBar');
+  const s = document.body.scrollTop || document.documentElement.scrollTop;
+  const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  el.style.width = (s / h * 100) + '%';
+});
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+function toggleAccordion(btn) {
+  btn.classList.toggle('open');
+  btn.nextElementSibling.classList.toggle('open');
+}
+
+function toggleCheck(item) {
+  item.querySelector('.check-box').classList.toggle('checked');
+  item.classList.toggle('done');
+}
+
+function toggleGloss(el) {
+  const def = el.nextElementSibling;
+  const isOpen = def.classList.contains('open');
+  document.querySelectorAll('.g-def.open').forEach(d => { d.classList.remove('open'); d.previousElementSibling.classList.remove('active'); });
+  if (!isOpen) { def.classList.add('open'); el.classList.add('active'); }
+}
+
+function copyRecap() {
+  const text = document.getElementById('recapText').innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('recapBtn');
+    btn.textContent = '✓ Copié !';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copier la commande'; btn.classList.remove('copied'); }, 2500);
+  });
+}
+</script>
+</body>
+</html>
