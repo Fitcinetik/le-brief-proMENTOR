@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Le Brief proMENTOR — N°09</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --teal: #48C1BC;
+      --teal-light: #e8f9f8;
+      --teal-dark: #2a8a86;
+      --black: #0D0D0D;
+      --dark: #1A1A1A;
+      --gray: #444444;
+      --gray-light: #f5f5f5;
+      --gray-mid: #e0e0e0;
+      --white: #ffffff;
+      --ia-bg: #0D0D1F;
+      --ia-card: #151525;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #f0eeea;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--gray);
+      font-weight: 400;
+    }
+
+    /* PROGRESS BAR */
+    #progress-bar {
+      position: fixed;
+      top: 0; left: 0;
+      height: 3px;
+      background: var(--teal);
+      width: 0%;
+      z-index: 9999;
+      transition: width 0.1s linear;
+    }
+
+    /* JOURNAL WRAPPER */
+    .journal {
+      max-width: 680px;
+      margin: 0 auto;
+      background: var(--white);
+      box-shadow: 0 4px 40px rgba(0,0,0,0.12);
+    }
+
+    /* MASTHEAD */
+    .masthead {
+      background: var(--black);
+      color: var(--white);
+      padding: 28px 32px 24px;
+    }
+    .masthead-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+    .masthead-logo span { color: var(--teal); }
+    .masthead-meta {
+      font-size: 12px;
+      color: #aaa;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .masthead-meta strong { color: var(--white); }
+    .masthead-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(72,193,188,0.15);
+      border: 1px solid rgba(72,193,188,0.3);
+      color: var(--teal);
+      font-size: 12px;
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+    }
+    .masthead-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .chip {
+      font-size: 11px;
+      font-weight: 500;
+      padding: 4px 12px;
+      border-radius: 20px;
+      border: 1px solid #333;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .chip.active {
+      background: var(--teal);
+      color: var(--black);
+      border-color: var(--teal);
+      font-weight: 600;
+    }
+
+    /* CONTENT */
+    .content {
+      background: var(--white);
+      padding: 32px;
+    }
+
+    /* À LA UNE */
+    .une {
+      margin-bottom: 40px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--gray-mid);
+    }
+    .une-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 12px;
+    }
+    .une h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--black);
+      line-height: 1.25;
+      margin-bottom: 10px;
+    }
+    .une-sub {
+      font-size: 15px;
+      color: #888;
+      line-height: 1.6;
+      margin-bottom: 18px;
+    }
+    .alert-box {
+      background: var(--teal-light);
+      border-left: 3px solid var(--teal);
+      padding: 14px 16px;
+      font-size: 14px;
+      color: var(--teal-dark);
+      line-height: 1.6;
+      border-radius: 0 4px 4px 0;
+    }
+
+    /* SECTION HEADER */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 36px 0 22px;
+    }
+    .section-header .bar {
+      width: 4px;
+      height: 28px;
+      background: var(--teal);
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+    .section-header .emoji { font-size: 18px; }
+    .section-header h2 {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--black);
+    }
+    .section-header .pill {
+      font-size: 10px;
+      font-weight: 600;
+      background: var(--teal);
+      color: var(--black);
+      padding: 2px 8px;
+      border-radius: 10px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .section-sublabel {
+      font-size: 12px;
+      color: #999;
+      margin-top: -14px;
+      margin-bottom: 20px;
+      padding-left: 14px;
+    }
+
+    /* ARTICLE */
+    .article {
+      margin-bottom: 32px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--gray-mid);
+    }
+    .article:last-of-type { border-bottom: none; }
+    .kicker {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 8px;
+    }
+    .article-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--black);
+      line-height: 1.3;
+      margin-bottom: 12px;
+    }
+    .article-body {
+      font-size: 14px;
+      line-height: 1.75;
+      color: var(--gray);
+      margin-bottom: 14px;
+    }
+    .insight-box {
+      background: var(--teal-light);
+      border-left: 3px solid var(--teal);
+      padding: 12px 14px;
+      font-size: 13px;
+      color: var(--teal-dark);
+      line-height: 1.6;
+      border-radius: 0 4px 4px 0;
+      margin-top: 14px;
+    }
+
+    /* ACCORDION */
+    .accordion-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: none;
+      border: 1px solid var(--gray-mid);
+      color: var(--gray);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 9px 14px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 12px;
+      transition: all 0.2s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .accordion-toggle:hover { border-color: var(--teal); color: var(--teal-dark); }
+    .accordion-toggle .arrow { font-size: 10px; transition: transform 0.2s; }
+    .accordion-toggle.open .arrow { transform: rotate(180deg); }
+    .accordion-body { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+    .accordion-body.open { max-height: 800px; }
+    .accordion-inner { padding-top: 14px; }
+
+    /* QUOTE BOX */
+    .quote-box {
+      background: var(--black);
+      border-left: 3px solid var(--teal);
+      padding: 20px 22px;
+      border-radius: 0 6px 6px 0;
+      margin-bottom: 16px;
+    }
+    .quote-box blockquote {
+      font-family: 'Playfair Display', serif;
+      font-size: 17px;
+      color: var(--white);
+      line-height: 1.6;
+      font-style: italic;
+      margin-bottom: 10px;
+    }
+    .quote-box cite {
+      font-size: 12px;
+      color: var(--teal);
+      font-style: normal;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+    }
+
+    /* TIPS */
+    .tip-item {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 20px;
+      align-items: flex-start;
+    }
+    .tip-number {
+      width: 30px;
+      height: 30px;
+      background: var(--teal);
+      color: var(--black);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .tip-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--black);
+      margin-bottom: 5px;
+    }
+    .tip-body {
+      font-size: 13px;
+      line-height: 1.65;
+      color: var(--gray);
+    }
+
+    /* IA SECTION */
+    .ia-step {
+      background: var(--gray-light);
+      border-left: 3px solid var(--teal);
+      padding: 14px 16px;
+      border-radius: 0 6px 6px 0;
+      margin-bottom: 10px;
+    }
+    .ia-step-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--black);
+      margin-bottom: 5px;
+    }
+    .ia-step-body {
+      font-size: 13px;
+      line-height: 1.65;
+      color: var(--gray);
+    }
+    .ia-insight-box {
+      background: var(--teal-light);
+      border-left: 3px solid var(--teal);
+      padding: 12px 14px;
+      font-size: 13px;
+      color: var(--teal-dark);
+      line-height: 1.6;
+      border-radius: 0 4px 4px 0;
+      margin-top: 14px;
+    }
+    .ia-astuce {
+      background: var(--teal-light);
+      border-left: 3px solid var(--teal);
+      padding: 14px 16px;
+      font-size: 13px;
+      color: var(--teal-dark);
+      line-height: 1.65;
+      border-radius: 0 6px 6px 0;
+      margin-top: 16px;
+    }
+    .ia-astuce strong { display: block; margin-bottom: 4px; color: var(--teal-dark); }
+
+    /* CHECKLIST */
+    .check-item {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--gray-mid);
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .check-item:last-child { border-bottom: none; }
+    .check-box {
+      width: 22px;
+      height: 22px;
+      border: 2px solid var(--gray-mid);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+      transition: all 0.2s;
+    }
+    .check-box.checked { background: var(--teal); border-color: var(--teal); }
+    .tick { font-size: 12px; color: white; opacity: 0; transition: opacity 0.2s; }
+    .check-box.checked .tick { opacity: 1; }
+    .check-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--black);
+      margin-bottom: 3px;
+    }
+    .check-sub {
+      font-size: 12px;
+      color: #888;
+      line-height: 1.5;
+    }
+    .check-item.done .check-title { text-decoration: line-through; color: #aaa; }
+    .check-item.done .check-sub { opacity: 0.5; }
+
+    /* À RETENIR */
+    .retenir-box {
+      background: var(--teal);
+      padding: 24px;
+      border-radius: 6px;
+      margin-top: 10px;
+    }
+    .retenir-box h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      color: var(--black);
+      margin-bottom: 14px;
+    }
+    .retenir-list {
+      list-style: none;
+      margin-bottom: 16px;
+    }
+    .retenir-list li {
+      font-size: 13px;
+      color: var(--black);
+      padding: 5px 0;
+      line-height: 1.55;
+    }
+    .retenir-list li::before {
+      content: "→ ";
+      font-weight: 700;
+    }
+    .retenir-key {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--black);
+      border-top: 1px solid rgba(0,0,0,0.15);
+      padding-top: 14px;
+      line-height: 1.5;
+    }
+
+    /* IA SEPARATOR */
+    .ia-separator {
+      height: 3px;
+      background: var(--teal);
+    }
+
+    /* FOOTER */
+    .footer {
+      background: var(--black);
+      padding: 28px 32px;
+      text-align: center;
+    }
+    .footer-bar { height: 3px; background: var(--teal); margin: -28px -32px 24px; }
+    .footer-cta {
+      display: inline-block;
+      background: var(--teal);
+      color: var(--black);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 10px 22px;
+      border-radius: 4px;
+      text-decoration: none;
+      margin-bottom: 14px;
+    }
+    .footer-tagline {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 10px;
+    }
+    .footer-legal {
+      font-size: 11px;
+      color: #444;
+    }
+
+    /* GLOSSAIRE */
+    .g {
+      color: var(--teal);
+      font-weight: 600;
+      text-decoration: underline;
+      text-decoration-style: dotted;
+      text-underline-offset: 3px;
+      cursor: pointer;
+    }
+    .g-def {
+      display: none;
+      background: var(--teal-light);
+      border: 1px solid var(--teal);
+      border-radius: 4px;
+      padding: 10px 13px;
+      font-size: 12px;
+      color: var(--teal-dark);
+      line-height: 1.6;
+      margin: 6px 0 4px;
+    }
+    .g-def.open { display: block; }
+
+    /* SCROLL REVEAL */
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 680px) {
+      .content { padding: 22px 18px; }
+      .masthead { padding: 22px 18px 18px; }
+      .une h1 { font-size: 22px; }
+      .footer { padding: 22px 18px; }
+      .footer-bar { margin: -22px -18px 20px; }
+    }
+  </style>
+</head>
+<body>
+<div id="progress-bar"></div>
+<div class="journal">
+
+  <!-- MASTHEAD -->
+  <header class="masthead">
+    <div class="masthead-logo">Le Brief <span>proMENTOR</span></div>
+    <div class="masthead-meta">
+      26 mai 2026 — <strong>N°09</strong> — GRATUIT
+    </div>
+    <div class="masthead-badge">⏱ 8 min de lecture</div>
+    <div class="masthead-chips">
+      <span class="chip active">Instagram</span>
+      <span class="chip active">Edits</span>
+      <span class="chip active">Notion 3.5</span>
+      <span class="chip active">Claude AI</span>
+    </div>
+  </header>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- À LA UNE -->
+    <section class="une reveal">
+      <div class="une-label">📰 À la une</div>
+      <h1>Instagram, Notion, Claude : une semaine chargée pour ton business en ligne</h1>
+      <p class="une-sub">Trois nouvelles métriques Instagram à connaître, une app de montage qui devient incontournable, Notion qui se connecte à tout, et Claude qui s'invite directement dans les outils des solopreneurs.</p>
+      <div class="alert-box">
+        <strong>Cette semaine, l'essentiel en une phrase :</strong> Instagram mesure désormais l'attention seconde par seconde, Notion connecte toutes tes données sans code, et Anthropic vient de lancer un pack gratuit pour les petits entrepreneurs. Tout ça en 8 minutes.
+      </div>
+    </section>
+
+    <!-- NOUVEAUTÉS INSTAGRAM -->
+    <div class="section-header reveal">
+      <div class="bar"></div>
+      <span class="emoji">🆕</span>
+      <h2>Nouveautés Instagram</h2>
+    </div>
+
+    <!-- Article 1 : Edits -->
+    <div class="article reveal">
+      <div class="kicker">🎬 Outil de création</div>
+      <div class="article-title">Edits devient une vraie alternative à CapCut (et ça change tout)</div>
+      <p class="article-body">
+        L'app de montage native d'Instagram vient de recevoir plusieurs mises à jour importantes. D'abord, un <strong>téléprompteur intégré</strong> : tu peux désormais faire défiler ton script directement dans l'interface de création des Reels, sans jongler avec une autre app ni perdre le regard caméra. Ensuite, l'<strong>audio est amélioré de 150%</strong> et tu peux partager tes brouillons à un collaborateur avant publication.
+      </p>
+      <p class="article-body">
+        Et ce n'est pas tout : Adam Mosseri a confirmé qu'utiliser Edits donne un <strong>léger avantage de distribution</strong>. Instagram reconnaît mieux les contenus créés avec ses propres outils. Ce n'est pas un boost massif, mais c'est un signal clair : Meta favorise les <span class="g" onclick="toggleGloss(this)">workflows</span><span class="g-def"><strong>Workflow</strong> Enchaînement d'étapes dans un processus de travail. Ici : filmer, monter et publier dans la même application, sans passer par des outils extérieurs.</span> natifs.
+      </p>
+      <div class="insight-box">
+        <strong>À tester dès cette semaine :</strong> filme un Reel, monte-le entièrement dans Edits et publie directement depuis l'app. Pas besoin que ce soit parfait, l'objectif est de tester le workflow complet pour voir la différence de portée.
+      </div>
+      <button class="accordion-toggle" onclick="toggleAccordion(this)">
+        <span class="arrow">▼</span> Comment utiliser le téléprompteur Edits concrètement
+      </button>
+      <div class="accordion-body">
+        <div class="accordion-inner">
+          <p class="article-body">Ouvre Edits, lance un nouveau projet Reel. Dans le menu de création, tu trouveras l'icône téléprompteur à côté des options audio et effets. Colle ton script, règle la vitesse de défilement, et filme. Le texte défile devant toi pendant que tu parles caméra. Résultat : tu restes dans ton axe, ton regard est naturel, et tu perds moins de temps à refaire des prises.</p>
+          <div class="insight-box">
+            <strong>Astuce coach :</strong> structure ton script en 3 blocs (accroche forte en 2 secondes, contenu en 30 à 45 secondes, CTA en 5 secondes). Le téléprompteur fonctionne mieux avec des phrases courtes et percutantes.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Article 2 : Skip Rate -->
+    <div class="article reveal">
+      <div class="kicker">📊 Nouvelles métriques</div>
+      <div class="article-title">Le Skip Rate : Instagram te dit maintenant exactement où tu perds l'attention</div>
+      <p class="article-body">
+        Instagram ajoute deux nouvelles métriques dans les <span class="g" onclick="toggleGloss(this)">Insights</span><span class="g-def"><strong>Insights</strong> Statistiques disponibles sur ton compte Instagram. Elles te donnent des données précises sur la portée de tes publications, l'engagement de ton audience et le comportement des personnes qui regardent tes vidéos.</span> de tes Reels : le <strong>Skip Rate</strong> (taux de scroll instantané) et la <strong>rétention détaillée</strong> seconde par seconde. Autrement dit, tu sais maintenant précisément à quel moment les gens quittent ta vidéo.
+      </p>
+      <p class="article-body">
+        C'est une information décisive. Avant, tu savais que ton Reel n'avait pas bien marché. Maintenant, tu sais <em>pourquoi</em> : trop long à démarrer, message pas clair à la 8e seconde, chute d'attention après le premier point. Avec ça, tu peux corriger avec précision plutôt que de tout refaire à l'aveugle.
+      </p>
+      <div class="insight-box">
+        <strong>Méthode concrète :</strong> prends tes 3 derniers Reels, regarde où la rétention chute. Si tout le monde part dans les 3 premières secondes, ton <span class="g" onclick="toggleGloss(this)">hook</span><span class="g-def"><strong>Hook</strong> Accroche de départ d'une vidéo ou d'un texte. Son rôle est de capter l'attention dans les 2 à 3 premières secondes pour que la personne continue à regarder ou lire.</span> est trop faible. Refais uniquement cette partie et republie. Pas besoin de tout recréer.
+      </div>
+    </div>
+
+    <!-- Article 3 : Repost natif -->
+    <div class="article reveal">
+      <div class="kicker">🔁 Mise à jour produit</div>
+      <div class="article-title">Repost natif officiel : enfin disponible, mais avec une règle importante</div>
+      <p class="article-body">
+        Instagram généralise la fonction "Repost" native : tu peux repartager directement un Reel ou un post d'un autre créateur sur ton propre profil, sans passer par des captures d'écran ou des téléchargements. C'était attendu depuis longtemps.
+      </p>
+      <p class="article-body">
+        Mais voilà la règle à retenir : en même temps que le Repost officiel, Instagram renforce les <strong>pénalités contre le reupload manuel</strong>. Télécharger la vidéo de quelqu'un et la republier comme si c'était la tienne est désormais activement sanctionné. La plateforme différencie clairement le repartage natif autorisé du reupload non transformé qui nuit aux créateurs originaux.
+      </p>
+      <div class="insight-box">
+        <strong>La règle simple :</strong> si tu veux partager le contenu de quelqu'un, utilise le bouton Repost, propose une collaboration ou tague le créateur. Télécharger et reposter manuellement, c'est terminé.
+      </div>
+    </div>
+
+    <!-- SIGNAL STRATÉGIQUE -->
+    <div class="section-header reveal">
+      <div class="bar"></div>
+      <span class="emoji">🗣️</span>
+      <h2>Signal Stratégique</h2>
+    </div>
+
+    <div class="article reveal">
+      <div class="kicker">📣 Parole au CEO</div>
+      <div class="article-title">Ton compte entier est devenu ton CV</div>
+      <div class="quote-box">
+        <blockquote>« Les créateurs qui réussiront seront ceux qui parviennent à maintenir la confiance et à afficher leur authenticité, en étant sincères, transparents et cohérents. »</blockquote>
+        <cite>— Adam Mosseri, Head of Instagram</cite>
+      </div>
+      <p class="article-body">
+        Mosseri a évoqué un changement important dans la façon dont Instagram évalue les contenus : la plateforme ne regarde plus seulement le post publié, mais aussi la <strong>réputation globale du créateur</strong>. Sa cohérence dans le temps, la clarté de son positionnement, la crédibilité perçue par l'algorithme.
+      </p>
+      <p class="article-body">
+        Conséquence concrète : deux coachs publient exactement le même Reel éducatif. L'un poste de façon régulière sur son expertise depuis 3 mois. L'autre publie en ordre dispersé. Les résultats seront différents, pas à cause du contenu, mais à cause du signal de réputation que chaque compte envoie à Instagram.
+      </p>
+      <p class="article-body">
+        Pour toi en tant que coach, c'est une excellente nouvelle. Ton expertise, ton vécu, ton approche unique ne se génèrent pas par IA. C'est précisément ce que l'algorithme cherche à valoriser face à l'inflation de contenus synthétiques.
+      </p>
+      <div class="insight-box">
+        <strong>Ce que ça change dans ta pratique :</strong> la régularité et la cohérence thématique deviennent plus importantes que la fréquence pure. Mieux vaut 3 posts par semaine sur ton expertise que 7 posts dans tous les sens.
+      </div>
+    </div>
+
+    <!-- OUTILS : NOTION -->
+    <div class="section-header reveal">
+      <div class="bar"></div>
+      <span class="emoji">🛠️</span>
+      <h2>Outils</h2>
+    </div>
+
+    <div class="article reveal">
+      <div class="kicker">🗂️ Notion 3.5</div>
+      <div class="article-title">Notion se connecte à tout : ce que la mise à jour du 13 mai change pour toi</div>
+      <p class="article-body">
+        Notion vient de lancer sa version 3.5 avec une nouveauté structurante : les <strong>Notion Workers</strong>. Concrètement, Notion peut désormais se synchroniser avec n'importe quelle source de données externe via une <span class="g" onclick="toggleGloss(this)">API</span><span class="g-def"><strong>API</strong> Interface qui permet à deux applications de communiquer entre elles. Par exemple, Notion peut "parler" à ton outil CRM pour récupérer automatiquement des données clients sans que tu aies à les copier à la main.</span>, sans serveur à gérer. Tu peux aussi intégrer directement des agents IA dans Notion, comme Claude, pour qu'il travaille sur tes données.
+      </p>
+      <p class="article-body">
+        Pour un coach solo, l'angle le plus utile : connecter ton outil de gestion clients à Notion pour centraliser les suivis, automatiser les rappels et avoir une vue complète de chaque accompagnement sans double saisie. Notion Workers est gratuit pendant la bêta.
+      </p>
+      <div class="insight-box">
+        <strong>Point de départ concret :</strong> si tu utilises déjà Notion pour suivre tes clients, explore l'onglet "Connexions" dans tes paramètres. La synchronisation avec Google Workspace est disponible maintenant. C'est le premier pas pour centraliser tes données sans effort.
+      </div>
+      <button class="accordion-toggle" onclick="toggleAccordion(this)">
+        <span class="arrow">▼</span> 3 cas d'usage concrets pour un coach
+      </button>
+      <div class="accordion-body">
+        <div class="accordion-inner">
+          <div class="ia-step">
+            <div class="ia-step-title">Cas 1 : Suivi client centralisé</div>
+            <div class="ia-step-body">Synchronise ta boîte mail Google avec Notion. Chaque échange avec un client peut alimenter automatiquement sa fiche de suivi. Tu arrêtes de chercher dans tes mails et tu retrouves tout au même endroit.</div>
+          </div>
+          <div class="ia-step">
+            <div class="ia-step-title">Cas 2 : Planification de contenu connectée</div>
+            <div class="ia-step-body">Connecte ton Google Calendar à ta base de contenu Notion. Tes dates de publication s'alignent automatiquement avec ton agenda. Plus de copier-coller entre deux outils.</div>
+          </div>
+          <div class="ia-step">
+            <div class="ia-step-title">Cas 3 : Agent IA dans ton espace de travail</div>
+            <div class="ia-step-body">Notion permet maintenant d'intégrer Claude directement dans ton workspace. Tu peux lui demander de résumer tes notes de session, de rédiger un compte-rendu ou de générer une idée de contenu à partir de tes données clients, sans quitter Notion.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INTELLIGENCE ARTIFICIELLE -->
+    <div class="section-header reveal">
+      <div class="bar"></div>
+      <span class="emoji">🤖</span>
+      <h2>Intelligence Artificielle</h2>
+      <span class="pill">NOUVEAU</span>
+    </div>
+    <p class="section-sublabel">Épisode 9 : Claude s'invite dans les outils des solopreneurs</p>
+
+    <div class="article reveal">
+      <div class="kicker">🚀 Actualité IA</div>
+      <div class="article-title">Claude for Small Business : Anthropic cible enfin les indépendants</div>
+      <p class="article-body">
+        Le 13 mai 2026, Anthropic a lancé <strong>Claude for Small Business</strong> : un ensemble de 15 <span class="g" onclick="toggleGloss(this)">workflows</span><span class="g-def"><strong>Workflow</strong> Enchaînement automatisé de tâches. Ici, Claude peut, en une seule instruction, récupérer des données dans un outil, les analyser, rédiger un document et le préparer à l'envoi.</span> prêts à l'emploi et 7 connecteurs directs avec des outils que tu connais déjà : HubSpot, Canva, Google Workspace, Microsoft 365, PayPal, QuickBooks et DocuSign.
+      </p>
+      <p class="article-body">
+        Ce qui change vraiment : Claude fonctionne désormais directement <em>à l'intérieur</em> de ces outils, pas à côté. Tu ne copies plus tes données dans Claude pour lui demander quelque chose. Claude accède à tes données et agit, dans l'outil. Et il te demande toujours validation avant d'envoyer, publier ou payer.
+      </p>
+      <p class="article-body">
+        Bonne nouvelle pour le budget : ce pack est <strong>inclus sans surcoût</strong> dans un abonnement Claude Pro existant (20€/mois). Il suffit d'ouvrir Claude Cowork et d'activer le mode Small Business.
+      </p>
+      <div class="ia-insight-box">
+        <strong>Ce que ça veut dire pour toi :</strong> si tu utilises déjà Canva et Google Workspace, Claude peut désormais préparer un plan de contenu mensuel, générer les visuels correspondants dans Canva et les planifier, en suivant tes instructions, sans sortir de ton environnement de travail habituel.
+      </div>
+
+      <button class="accordion-toggle" onclick="toggleAccordionIA(this)">
+        <span class="arrow">▼</span> Les 3 workflows les plus utiles pour un coach solo
+      </button>
+      <div class="accordion-body">
+        <div class="accordion-inner">
+          <div class="ia-step">
+            <div class="ia-step-title">Workflow 1 : Stratégie de contenu + visuels Canva</div>
+            <div class="ia-step-body">Claude analyse tes dernières publications, propose un plan de contenu sur 4 semaines adapté à ta niche, puis génère les designs de base dans Canva. Tu valides et tu publies. Ce qui prenait une demi-journée se fait en 20 minutes.</div>
+          </div>
+          <div class="ia-step">
+            <div class="ia-step-title">Workflow 2 : Relance des impayés</div>
+            <div class="ia-step-body">Claude croise tes données PayPal avec ton historique clients, identifie les factures en retard, rédige les emails de relance adaptés à chaque situation et les prépare à l'envoi. Tu valides avant qu'il n'envoie quoi que ce soit.</div>
+          </div>
+          <div class="ia-step">
+            <div class="ia-step-title">Workflow 3 : Compte-rendu de suivi client</div>
+            <div class="ia-step-body">À partir de tes notes dans Google Docs ou Notion, Claude structure un compte-rendu de séance, identifie les points de progression et prépare les actions pour la prochaine session. Il ne fait pas l'analyse coaching, il met en forme ce que toi tu as observé.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ia-astuce" style="margin-top:16px;">
+        <strong>Astuce coach :</strong> Claude ne remplace pas ton expertise de coach. Il prend en charge la mise en forme, l'organisation et les tâches administratives pour que toi tu te concentres sur ce que seul un humain peut faire : écouter, analyser, accompagner. C'est exactement là que se situe ta valeur.
+      </div>
+    </div>
+
+    <!-- TIPS -->
+    <div class="section-header reveal">
+      <div class="bar"></div>
+      <span class="emoji">🧠</span>
+      <h2>Tips &amp; Bonnes Pratiques</h2>
+    </div>
+
+    <div class="reveal">
+      <div class="tip-item">
+        <div class="tip-number">1</div>
+        <div class="tip-content">
+          <div class="tip-title">Optimise tes 3 premières secondes en priorité</div>
+          <div class="tip-body">Avec le Skip Rate, Instagram sait exactement si les gens fuient dès le début. Une seule règle : ta première seconde doit déjà répondre à la question "pourquoi je reste ?" Montre quelque chose, dis quelque chose fort, mets du mouvement. Le texte d'accroche doit apparaître dans la première frame.</div>
+        </div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-number">2</div>
+        <div class="tip-content">
+          <div class="tip-title">Construis ta réputation sur 90 jours, pas sur un post</div>
+          <div class="tip-body">Instagram évalue la cohérence du compte sur la durée. Choisis 2 à 3 thèmes liés à ton expertise et tiens-toi-y pendant 3 mois. Un compte identifiable sur sa thématique obtient une meilleure distribution qu'un compte qui change de sujet chaque semaine.</div>
+        </div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-number">3</div>
+        <div class="tip-content">
+          <div class="tip-title">Privilégie les outils natifs Meta pour créer</div>
+          <div class="tip-body">Edits, la musique Instagram, les stickers natifs, les sous-titres intégrés : Instagram reconnaît et favorise les contenus créés dans son écosystème. Ce n'est pas une obligation, mais c'est un avantage supplémentaire gratuit. Teste sur 2 à 3 Reels avant de tirer des conclusions.</div>
+        </div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-number">4</div>
+        <div class="tip-content">
+          <div class="tip-title">Le contenu brut et imparfait reprend de la valeur</div>
+          <div class="tip-body">Mosseri l'a dit : face à l'explosion des contenus générés par IA, l'imperfection devient un signal de réalité. Une vidéo face caméra filmée d'une main, une lumière naturelle, un fond un peu ordinaire : ça prouve que c'est toi, vrai, présent. Pour un coach, c'est ton meilleur argument.</div>
+        </div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-number">5</div>
+        <div class="tip-content">
+          <div class="tip-title">Si tu as moins de 1000 abonnés, diversifie tes leviers de contact</div>
+          <div class="tip-body">Instagram teste une restriction des Lives pour les comptes en dessous de 1000 abonnés. Ce n'est pas encore généralisé, mais c'est un signal : ne construis pas toute ta relation client sur un seul format. Stories, DM, Notes et contenu conversationnel sont tes alternatives solides.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- À TESTER CETTE SEMAINE -->
+    <div class="section-header reveal">
+      <div class="bar"></div>
+      <span class="emoji">🚀</span>
+      <h2>À tester cette semaine</h2>
+    </div>
+
+    <div class="reveal">
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="tick">✓</span></div>
+        <div class="check-text">
+          <div class="check-title">Analyse le Skip Rate de tes 3 derniers Reels</div>
+          <div class="check-sub">Va dans tes Insights Reels, regarde où la rétention chute. Note le moment exact et identifie pourquoi les gens partent.</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="tick">✓</span></div>
+        <div class="check-text">
+          <div class="check-title">Tourne et monte un Reel entièrement dans Edits</div>
+          <div class="check-sub">Teste le workflow 100% natif : tournage, téléprompteur, montage, export. Compare la portée avec tes Reels habituels sur 48h.</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="tick">✓</span></div>
+        <div class="check-text">
+          <div class="check-title">Utilise le bouton Repost au lieu de republier manuellement</div>
+          <div class="check-sub">La prochaine fois que tu veux partager le contenu d'un autre créateur, passe par la fonction native. Évite le téléchargement/repost.</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="tick">✓</span></div>
+        <div class="check-text">
+          <div class="check-title">Explore les Notion Workers si tu utilises déjà Notion</div>
+          <div class="check-sub">Va dans Paramètres, puis Connexions. Connecte au moins un outil que tu utilises déjà (Gmail, Google Calendar). C'est gratuit pendant la bêta.</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="tick">✓</span></div>
+        <div class="check-text">
+          <div class="check-title">Active Claude for Small Business si tu as un abonnement Pro</div>
+          <div class="check-sub">Ouvre Claude Cowork, active le mode Small Business, connecte Google Workspace ou Canva. Lance un seul workflow pour tester. Pas besoin de tout configurer d'un coup.</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="tick">✓</span></div>
+        <div class="check-text">
+          <div class="check-title">Définis tes 2 à 3 thèmes de contenu pour les 90 prochains jours</div>
+          <div class="check-sub">Note-les par écrit. Tous tes prochains posts devront rentrer dans l'un de ces thèmes. C'est le premier pas pour construire une réputation créateur solide.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- À RETENIR -->
+    <div class="section-header reveal">
+      <div class="bar"></div>
+      <span class="emoji">🎯</span>
+      <h2>À retenir</h2>
+    </div>
+
+    <div class="reveal">
+      <div class="retenir-box">
+        <h3>📌 Les signaux de la semaine</h3>
+        <ul class="retenir-list">
+          <li>Instagram mesure maintenant l'attention seconde par seconde : le Skip Rate change la façon d'analyser et d'améliorer tes Reels.</li>
+          <li>Edits confirme son statut d'alternative sérieuse à CapCut, avec un léger avantage de distribution pour les contenus natifs Meta.</li>
+          <li>Ta réputation de créateur pèse autant que la qualité d'un post isolé : la cohérence sur 90 jours est devenue un signal algorithmique.</li>
+          <li>Notion 3.5 et Claude for Small Business arrivent au même moment : la centralisation des outils pour les solopreneurs n'a jamais été aussi accessible.</li>
+        </ul>
+        <div class="retenir-key">En 2026, ce qui fait la différence sur Instagram, c'est moins ce que tu publies que ce que tu incarnes de façon régulière. Les outils s'améliorent pour te faire gagner du temps : utilise ce temps pour être plus présent, plus vrai, plus cohérent.</div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-bar"></div>
+    <a href="https://t.me/lebriefpromentor" class="footer-cta">📲 Rejoindre la communauté Telegram</a>
+    <p class="footer-tagline">Le Brief proMENTOR — La veille qui fait gagner du temps aux coachs.</p>
+    <p class="footer-legal">© 2026 proMENTOR / FitCinetik — Michael Boulle — Diffusion gratuite</p>
+  </footer>
+
+</div><!-- /journal -->
+
+<script>
+  // Progress bar
+  window.addEventListener('scroll', () => {
+    const doc = document.documentElement;
+    const scrollTop = doc.scrollTop || document.body.scrollTop;
+    const scrollHeight = doc.scrollHeight - doc.clientHeight;
+    const pct = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+    document.getElementById('progress-bar').style.width = pct + '%';
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  reveals.forEach(r => obs.observe(r));
+
+  // Accordéon Instagram
+  function toggleAccordion(btn) {
+    btn.classList.toggle('open');
+    btn.nextElementSibling.classList.toggle('open');
+  }
+
+  // Accordéon IA
+  function toggleAccordionIA(btn) {
+    btn.classList.toggle('open');
+    btn.nextElementSibling.classList.toggle('open');
+  }
+
+  // Checklist
+  function toggleCheck(item) {
+    item.querySelector('.check-box').classList.toggle('checked');
+    item.classList.toggle('done');
+  }
+
+  // Glossaire
+  function toggleGloss(el) {
+    const def = el.nextElementSibling;
+    const isOpen = def.classList.contains('open');
+    document.querySelectorAll('.g-def.open').forEach(d => {
+      d.classList.remove('open');
+      d.previousElementSibling.classList.remove('active');
+    });
+    if (!isOpen) { def.classList.add('open'); el.classList.add('active'); }
+  }
+</script>
+</body>
+</html>
