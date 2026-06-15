@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Le Brief proMENTOR — N°10</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --teal: #48C1BC;
+      --teal-light: #e8f9f8;
+      --teal-dark: #2a8a86;
+      --black: #0D0D0D;
+      --dark: #1A1A1A;
+      --gray: #444444;
+      --gray-light: #f5f5f5;
+      --gray-mid: #e0e0e0;
+      --white: #ffffff;
+      --ia-bg: #0D0D1F;
+      --ia-card: #151525;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #f0eeea;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--gray);
+      font-weight: 400;
+    }
+
+    /* PROGRESS BAR */
+    #progress-bar {
+      position: fixed;
+      top: 0; left: 0;
+      height: 3px;
+      background: var(--teal);
+      width: 0%;
+      z-index: 9999;
+      transition: width 0.1s linear;
+    }
+
+    /* JOURNAL WRAPPER */
+    .journal {
+      max-width: 680px;
+      margin: 0 auto;
+      background: var(--white);
+      box-shadow: 0 4px 40px rgba(0,0,0,0.12);
+    }
+
+    /* MASTHEAD */
+    .masthead {
+      background: var(--black);
+      color: var(--white);
+      padding: 28px 32px 24px;
+    }
+    .masthead-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+    .masthead-logo span { color: var(--teal); }
+    .masthead-meta {
+      font-size: 12px;
+      color: #aaa;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .masthead-meta strong { color: var(--white); }
+    .masthead-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(72,193,188,0.15);
+      border: 1px solid rgba(72,193,188,0.3);
+      color: var(--teal);
+      font-size: 12px;
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+    }
+    .masthead-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .chip {
+      font-size: 11px;
+      font-weight: 500;
+      padding: 4px 12px;
+      border-radius: 20px;
+      border: 1px solid #333;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .chip.active {
+      background: var(--teal);
+      color: var(--black);
+      border-color: var(--teal);
+      font-weight: 600;
+    }
+
+    /* CONTENT */
+    .content {
+      background: var(--white);
+      padding: 32px;
+    }
+
+    /* À LA UNE */
+    .une {
+      margin-bottom: 40px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--gray-mid);
+    }
+    .une-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 12px;
+    }
+    .une h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--black);
+      line-height: 1.25;
+      margin-bottom: 10px;
+    }
+    .une-sub {
+      font-size: 15px;
+      color: #888;
+      line-height: 1.6;
+      margin-bottom: 18px;
+    }
+    .alert-box {
+      background: var(--teal-light);
+      border-left: 3px solid var(--teal);
+      padding: 14px 16px;
+      font-size: 14px;
+      color: var(--teal-dark);
+      line-height: 1.6;
+      border-radius: 0 4px 4px 0;
+    }
+
+    /* SECTION HEADER */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 36px 0 22px;
+    }
+    .section-header .bar {
+      width: 4px;
+      height: 28px;
+      background: var(--teal);
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+    .section-header .emoji { font-size: 18px; }
+    .section-header h2 {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--black);
+    }
+    .section-header .pill {
+      font-size: 10px;
+      font-weight: 600;
+      background: var(--teal);
+      color: var(--black);
+      padding: 2px 8px;
+      border-radius: 10px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .section-sublabel {
+      font-size: 12px;
+      color: #999;
+      margin-top: -14px;
+      margin-bottom: 20px;
+      padding-left: 14px;
+    }
+
+    /* ARTICLE */
+    .article {
+      margin-bottom: 32px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--gray-mid);
+    }
+    .article:last-of-type { border-bottom: none; }
+    .kicker {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 8px;
+    }
+    .article-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--black);
+      line-height: 1.3;
+      margin-bottom: 12px;
+    }
+    .article-body {
+      font-size: 14px;
+      line-height: 1.75;
+      color: var(--gray);
+      margin-bottom: 14px;
+    }
+    .insight-box {
+      background: var(--teal-light);
+      border-left: 3px solid var(--teal);
+      padding: 12px 14px;
+      font-size: 13px;
+      color: var(--teal-dark);
+      line-height: 1.6;
+      border-radius: 0 4px 4px 0;
+      margin-top: 14px;
+    }
+
+    /* ACCORDION */
+    .accordion-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: none;
+      border: 1px solid var(--gray-mid);
+      color: var(--gray);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 9px 14px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 12px;
+      transition: all 0.2s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .accordion-toggle:hover { border-color: var(--teal); color: var(--teal-dark); }
+    .accordion-toggle .arrow { font-size: 10px; transition: transform 0.2s; }
+    .accordion-toggle.open .arrow { transform: rotate(180deg); }
+    .accordion-body { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+    .accordion-body.open { max-height: 800px; }
+    .accordion-inner { padding-top: 14px; }
+
+    /* QUOTE BOX */
+    .quote-box {
+      background: var(--black);
+      border-left: 3px solid var(--teal);
+      padding: 20px 22px;
+      border-radius: 0 6px 6px 0;
+      margin-bottom: 16px;
+    }
+    .quote-box blockquote {
+      font-family: 'Playfair Display', serif;
+      font-size: 17px;
+      color: var(--white);
+      line-height: 1.6;
+      font-style: italic;
+      margin-bottom: 10px;
+    }
+    .quote-box cite {
+      font-size: 12px;
+      color: var(--teal);
+      font-style: normal;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+    }
+
+    /* TIPS */
+    .tip-item {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 20px;
+      align-items: flex-start;
+    }
+    .tip-number {
+      width: 30px;
+      height: 30px;
+      background: var(--teal);
+      color: var(--black);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .tip-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--black);
+      margin-bottom: 5px;
+    }
+    .tip-body {
+      font-size: 13px;
+      line-height: 1.65;
+      color: var(--gray);
+    }
+
+    /* IA SECTION */
+    .ia-step {
+      background: var(--gray-light);
+      border-left: 3px solid var(--teal);
+      padding: 14px 16px;
+      border-radius: 0 6px 6px 0;
+      margin-bottom: 10px;
+    }
+    .ia-step-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--black);
+      margin-bottom: 5px;
+    }
+    .ia-step-body {
+      font-size: 13px;
+      line-height: 1.65;
+      color: var(--gray);
+    }
+    .ia-insight-box {
+      background: var(--teal-light);
+      border-left: 3px solid var(--teal);
+      padding: 12px 14px;
+      font-size: 13px;
+      color: var(--teal-dark);
+      line-height: 1.6;
+      border-radius: 0 4px 4px 0;
+      margin-top: 14px;
+    }
+    .ia-astuce {
+      background: var(--teal-light);
+      border-left: 3px solid var(--teal);
+      padding: 14px 16px;
+      font-size: 13px;
+      color: var(--teal-dark);
+      line-height: 1.65;
+      border-radius: 0 6px 6px 0;
+      margin-top: 16px;
+    }
+    .ia-astuce strong { display: block; margin-bottom: 4px; color: var(--teal-dark); }
+
+    /* CHECKLIST */
+    .check-item {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--gray-mid);
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .check-item:last-child { border-bottom: none; }
+    .check-box {
+      width: 22px;
+      height: 22px;
+      border: 2px solid var(--gray-mid);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+      transition: all 0.2s;
+    }
+    .check-box.checked { background: var(--teal); border-color: var(--teal); }
+    .tick { font-size: 12px; color: white; opacity: 0; transition: opacity 0.2s; }
+    .check-box.checked .tick { opacity: 1; }
+    .check-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--black);
+      margin-bottom: 3px;
+    }
+    .check-sub {
+      font-size: 12px;
+      color: #888;
+      line-height: 1.5;
+    }
+    .check-item.done .check-title { text-decoration: line-through; color: #aaa; }
+    .check-item.done .check-sub { opacity: 0.5; }
+
+    /* À RETENIR */
+    .retenir-box {
+      background: var(--teal);
+      padding: 24px;
+      border-radius: 6px;
+      margin-top: 10px;
+    }
+    .retenir-box h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      color: var(--black);
+      margin-bottom: 14px;
+    }
+    .retenir-list {
+      list-style: none;
+      margin-bottom: 16px;
+    }
+    .retenir-list li {
+      font-size: 13px;
+      color: var(--black);
+      padding: 5px 0;
+      line-height: 1.55;
+    }
+    .retenir-list li::before {
+      content: "→ ";
+      font-weight: 700;
+    }
+    .retenir-key {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--black);
+      border-top: 1px solid rgba(0,0,0,0.15);
+      padding-top: 14px;
+      line-height: 1.5;
+    }
+
+    /* IA SEPARATOR */
+    .ia-separator {
+      height: 3px;
+      background: var(--teal);
+    }
+
+    /* FOOTER */
+    .footer {
+      background: var(--black);
+      padding: 28px 32px;
+      text-align: center;
+    }
+    .footer-bar { height: 3px; background: var(--teal); margin: -28px -32px 24px; }
+    .footer-cta {
+      display: inline-block;
+      background: var(--teal);
+      color: var(--black);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 10px 22px;
+      border-radius: 4px;
+      text-decoration: none;
+      margin-bottom: 14px;
+    }
+    .footer-tagline {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 10px;
+    }
+    .footer-legal {
+      font-size: 11px;
+      color: #444;
+    }
+
+    /* GLOSSAIRE */
+    .g {
+      color: var(--teal);
+      font-weight: 600;
+      text-decoration: underline;
+      text-decoration-style: dotted;
+      text-underline-offset: 3px;
+      cursor: pointer;
+    }
+    .g-def {
+      display: none;
+      background: var(--teal-light);
+      border: 1px solid var(--teal);
+      border-radius: 4px;
+      padding: 10px 13px;
+      font-size: 12px;
+      color: var(--teal-dark);
+      line-height: 1.6;
+      margin: 6px 0 4px;
+    }
+    .g-def.open { display: block; }
+
+    /* SCROLL REVEAL */
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 680px) {
+      .content { padding: 22px 18px; }
+      .masthead { padding: 22px 18px 18px; }
+      .une h1 { font-size: 22px; }
+      .footer { padding: 22px 18px; }
+      .footer-bar { margin: -22px -18px 20px; }
+    }
+  </style>
+</head>
+<body>
+<div id="progress-bar"></div>
+<div class="journal">
+
+  <!-- MASTHEAD -->
+  <header class="masthead">
+    <div class="masthead-logo">Le Brief <span>proMENTOR</span></div>
+    <div class="masthead-meta">
+      20 juin 2026 — <strong>N°10</strong> — GRATUIT
+    </div>
+    <div class="masthead-badge">⏱ 7 min de lecture</div>
+    <div class="masthead-chips">
+      <span class="chip active">Référencement IA</span>
+      <span class="chip active">Instagram</span>
+      <span class="chip active">NotebookLM</span>
+      <span class="chip active">ChatGPT</span>
+    </div>
+  </header>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- À LA UNE -->
+    <section class="une reveal">
+      <div class="une-label">📰 À la une</div>
+      <h1>Ta prochaine cliente ne te cherchera pas sur Google. Elle demandera à une IA.</h1>
+      <p class="une-sub">Une histoire vraie, vécue vendredi dernier, qui dit tout du grand basculement de 2026 : les gens demandent à ChatGPT de leur recommander un coach, et ils suivent la réponse.</p>
+      <div class="alert-box">
+        <strong>L'essentiel en une phrase :</strong> en 2026, une partie de tes futurs clients te découvrent via une IA, pas via une recherche classique. La bonne nouvelle : ce que l'IA répète sur toi, ça se travaille. On te montre comment, en 7 minutes.
+      </div>
+    </section>
+
+    <!-- NOUVEAUTÉS INSTAGRAM -->
+    <div class="section-header reveal">
+      <div class="bar"></div>
+      <span class="emoji">🆕</span>
+      <h2>Nouveautés Instagram</h2>
+    </div>
+
+    <!-- Article 1 : DM pro -->
+    <div class="article reveal">
+      <div class="kicker">💬 Messagerie pro</div>
+      <div class="article-title">Tes DM Instagram deviennent un vrai outil de vente</div>
+      <p class="article-body">
+        La messagerie privée vient de recevoir une série de mises à jour qui changent la donne pour qui vend en direct. Tu peux désormais <strong>planifier un message</strong> jusqu'à 30 jours à l'avance (tu maintiens le bouton d'envoi enfoncé et tu choisis ton créneau), <strong>modifier un message</strong> dans les 15 minutes qui suivent l'envoi, <strong>traduire</strong> une conversation d'un clic, et <strong>épingler tes 3 discussions prioritaires</strong> tout en haut de ta boîte.
+      </p>
+      <p class="article-body">
+        Pour un coach, c'est ta relation client qui gagne en confort : tu prépares tes relances tranquillement, tu rattrapes une faute de frappe sans tout réécrire, et tu gardes tes prospects chauds en haut de la pile.
+      </p>
+      <div class="insight-box">
+        <strong>Idée concrète :</strong> repère un prospect tiède, écris-lui un message de relance utile (pas commercial), et programme-le pour demain matin. Tu restes présent sans y penser, et sans harceler.
+      </div>
+    </div>
+
+    <!-- Article 2 : Grille -->
+    <div class="article reveal">
+      <div class="kicker">🎛️ Contrôle visuel</div>
+      <div class="article-title">Reprends la main sur ta grille, même après publication</div>
+      <p class="article-body">
+        Deux petites nouveautés qui font gagner du temps. Depuis mars 2026, tu peux <strong>réordonner les images d'un carrousel déjà publié</strong> par simple glisser-déposer, sans le supprimer ni le reposter. Et tu peux désormais <strong>personnaliser la miniature</strong> de chaque publication directement depuis ta grille, pour soigner la première impression de ton profil.
+      </p>
+      <button class="accordion-toggle" onclick="toggleAccordion(this)">
+        <span class="arrow">▼</span> Pourquoi ta grille mérite ces 2 minutes
+      </button>
+      <div class="accordion-body">
+        <div class="accordion-inner">
+          <p class="article-body">Ta grille, c'est ta vitrine. Un visiteur décide en quelques secondes s'il te suit ou non, juste en la balayant du regard. Une miniature mal cadrée, ou un carrousel dont la première image n'est pas la plus forte, et tu perds des abonnés potentiels sans le savoir. Ces deux réglages te permettent de corriger après coup, sans rien refaire.</p>
+          <div class="insight-box">
+            <strong>À faire ce soir :</strong> ouvre ton dernier carrousel. Si la diapo la plus percutante n'est pas en première position, déplace-la. C'est elle qui décide si on s'arrête.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SIGNAL STRATÉGIQUE -->
+    <div class="section-header reveal">
+      <div class="bar"></div>
+      <span class="emoji">🗣️</span>
+      <h2>Signal Stratégique</h2>
+    </div>
+
+    <div class="article reveal">
+      <div class="kicker">📣 Parole au CEO</div>
+      <div class="article-title">Arrête de regarder ton reach comme un seul chiffre</div>
+      <div class="quote-box">
+        <blockquote>« Ne te concentre pas sur le reach de ton post, mais sur ce qui le provoque : ton taux d'engagement. »</blockquote>
+        <cite>— Adam Mosseri, Head of Instagram (mai 2026)</cite>
+      </div>
+      <p class="article-body">
+        Fin mai, Mosseri a livré un de ses messages les plus concrets depuis longtemps. Son idée : ton <span class="g" onclick="toggleGloss(this)">reach</span><span class="g-def"><strong>Reach</strong> Le nombre de comptes uniques qui ont vu ton contenu. À ne pas confondre avec les impressions, qui comptent chaque affichage, même répété.</span> n'est pas une métrique à gonfler, c'est une conséquence. Si tes abonnés interagissent (likes, commentaires, sauvegardes et surtout partages), l'algorithme distribue ton contenu plus largement. Sinon, il le laisse dans sa case.
+      </p>
+      <p class="article-body">
+        Il a aussi confirmé la hiérarchie des signaux qui comptent en 2026 : le temps de visionnage d'abord, puis les partages en DM, puis les likes. Un partage privé pèse 3 à 5 fois plus qu'un like pour toucher de nouvelles personnes. Logique : partager, c'est engager sa propre crédibilité pour te recommander.
+      </p>
+      <p class="article-body">
+        Alors arrête de fixer le chiffre global. Regarde <em>d'où</em> vient ton reach : combien d'abonnés, combien de non-abonnés. C'est ça qui te dit si ton contenu tourne en vase clos ou s'il part à la conquête de nouvelles personnes.
+      </p>
+      <div class="insight-box">
+        <strong>Ce que ça change pour toi :</strong> conçois au moins un post par semaine pensé pour être partagé en privé. Le format qui marche : « Envoie ça à la personne qui en a besoin. » Puis regarde tes partages sur 48h.
+      </div>
+    </div>
+
+    <!-- OUTILS : NOTEBOOKLM -->
+    <div class="section-header reveal">
+      <div class="bar"></div>
+      <span class="emoji">🛠️</span>
+      <h2>Outils</h2>
+    </div>
+
+    <div class="article reveal">
+      <div class="kicker">🧠 NotebookLM</div>
+      <div class="article-title">NotebookLM : transforme tes propres contenus en assistant fiable</div>
+      <p class="article-body">
+        NotebookLM, c'est l'outil gratuit de Google qui ne travaille qu'à partir des documents <em>que tu lui donnes</em>. Tu déposes tes PDF, tes notes, tes anciens posts, tes transcriptions de séances, et il devient une base de connaissances que tu interroges en langage naturel. Sa particularité tient à sa technologie <span class="g" onclick="toggleGloss(this)">RAG</span><span class="g-def"><strong>RAG</strong> Retrieval-Augmented Generation. L'IA ne répond qu'à partir des sources que tu lui fournis, et cite ses passages. Résultat : beaucoup moins d'erreurs inventées qu'un chatbot classique.</span> : s'il ne trouve pas l'info dans tes sources, il ne l'invente pas. Pour un coach, c'est précieux, il reste fidèle à <em>ta</em> méthode.
+      </p>
+      <p class="article-body">
+        Et le 9 juin, il est passé sous le moteur Gemini 3.5, avec des réponses plus fines. Mais la fonction qui change le quotidien existe déjà : l'<strong>Audio Overview</strong>, qui génère à partir de tes documents un mini-podcast de 10 à 20 minutes entre deux voix, disponible en français. Idéal pour réécouter ta propre matière en marchant ou en voiture.
+      </p>
+      <div class="insight-box">
+        <strong>Cas d'usage coach :</strong> regroupe tes 3 programmes phares et ta FAQ client dans un notebook, puis demande-lui « quelles objections reviennent le plus, et comment j'y réponds ? ». Tu obtiens une synthèse de ta propre expertise, prête à devenir des posts.
+      </div>
+    </div>
+
+    <!-- INTELLIGENCE ARTIFICIELLE -->
+    <div class="section-header reveal">
+      <div class="bar"></div>
+      <span class="emoji">🤖</span>
+      <h2>Intelligence Artificielle</h2>
+      <span class="pill">NOUVEAU</span>
+    </div>
+    <p class="section-sublabel">Épisode 10 : quand l'IA devient ton meilleur commercial, à ton insu</p>
+
+    <div class="article reveal">
+      <div class="kicker">🔎 Référencement par l'IA</div>
+      <div class="article-title">Comment une cliente m'a trouvé… en demandant à ChatGPT</div>
+      <p class="article-body">
+        Vendredi dernier, une femme me contacte pour un coaching. Rien d'inhabituel, sauf un détail : elle en savait déjà beaucoup sur moi. Ce que je fais, les retours de mes clients, mes axes de travail, et même les mots-clés qui me décrivent le mieux. Tellement précise que je lui ai demandé d'où elle me connaissait. Une recommandation d'un ancien élève ?
+      </p>
+      <p class="article-body">
+        Sa réponse m'a scotché. La recommandation venait bien de quelqu'un, mais pas d'un humain : elle avait demandé à ChatGPT de lui trouver un coach sportif près de chez elle. Elle lui a donné ses critères, posé une foule de questions, m'a fait comparer à d'autres coachs. Et à chaque fois, je ressortais avec des éloges. Ultra précis, et plutôt flatteur. Je ne vais pas mentir : sur ce coup-là, je me suis satisfait tout seul.
+      </p>
+      <p class="article-body">
+        Voilà le vrai sujet de 2026 : <strong>l'IA est devenue un moteur de recherche</strong>. Plus de 40% des recherches en ligne passent désormais par une IA comme ChatGPT, Gemini ou Perplexity. Et la différence avec Google est énorme : Google indexe une liste de liens, l'IA <strong>recommande une réponse</strong>. On appelle ça le <span class="g" onclick="toggleGloss(this)">GEO</span><span class="g-def"><strong>GEO</strong> Generative Engine Optimization. L'art d'être repéré et recommandé par les IA génératives, un peu comme le SEO servait à bien se classer sur Google.</span>. Et la place de « coach recommandé », il n'y en a pas dix.
+      </p>
+      <div class="ia-insight-box">
+        <strong>Ce que ça veut dire pour toi :</strong> tes futurs clients posent peut-être déjà la question « quel bon coach pour moi ? » à une IA. La seule chose qui compte, c'est de savoir si tu sors, et avec quels mots. Et ça, ça se vérifie en 5 minutes.
+      </div>
+
+      <button class="accordion-toggle" onclick="toggleAccordionIA(this)">
+        <span class="arrow">▼</span> Pourquoi l'IA m'a recommandé (et ce qu'elle regarde vraiment)
+      </button>
+      <div class="accordion-body">
+        <div class="accordion-inner">
+          <p class="article-body">L'IA ne tire pas ses recommandations au hasard, et elle ne regarde pas que ton compte Instagram. Elle recoupe ta réputation sur tout le web : ton site, tes avis clients, les annuaires, les mentions de ton nom ailleurs. Pour une recherche locale, elle s'appuie sur des bases géographiques et sur la cohérence de tes infos (nom, ville, activité). Plus ta présence est claire, cohérente et bien notée, plus tu deviens une « source de confiance » à ses yeux.</p>
+          <div class="ia-insight-box">
+            <strong>La bonne nouvelle :</strong> l'IA ne fabrique pas ta réputation, elle la reflète. Ton sérieux, tes résultats, tes avis clients : c'est ça qu'elle répète. Ton travail de coach reste le moteur. L'IA n'est que le haut-parleur.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="article reveal">
+      <div class="kicker">🎯 Passage à l'action</div>
+      <div class="article-title">Teste-toi : que dit l'IA de toi ?</div>
+      <p class="article-body">15 minutes, et tu sais exactement où tu en es. Tu peux le faire sur ChatGPT en version gratuite, et même en navigation privée (déconnecté) pour un résultat neutre, non influencé par ton historique.</p>
+      <div class="ia-step">
+        <div class="ia-step-title">Étape 1 : Demande un coach comme toi</div>
+        <div class="ia-step-body">Ouvre ChatGPT (gratuit, idéalement en navigation privée). Écris un <span class="g" onclick="toggleGloss(this)">prompt</span><span class="g-def"><strong>Prompt</strong> L'instruction que tu donnes à une IA. Plus elle est précise et contextualisée, meilleure est la réponse.</span> simple : « Recommande-moi un coach [ta spécialité] à [ta ville] pour [un besoin précis]. » Regarde si tu sors, et avec quels mots.</div>
+      </div>
+      <div class="ia-step">
+        <div class="ia-step-title">Étape 2 : Fais l'avocat du diable</div>
+        <div class="ia-step-body">Continue comme une vraie cliente : « Pourquoi lui plutôt qu'un autre ? », « Compare-le à 2 autres coachs. » Tu vois comment l'IA te positionne, et sur quels arguments elle s'appuie.</div>
+      </div>
+      <div class="ia-step">
+        <div class="ia-step-title">Étape 3 : Demande-lui ce qu'il sait de toi</div>
+        <div class="ia-step-body">Donne ton nom et ton activité : « Que sais-tu sur [ton nom], coach à [ta ville] ? » Note ce qui est juste, ce qui est flou, ce qui est faux. Important : l'IA peut se tromper. Une info fausse n'est pas une vérité, c'est un drapeau rouge à corriger ailleurs sur le web.</div>
+      </div>
+      <div class="ia-step">
+        <div class="ia-step-title">Étape 4 : Travaille tes points faibles, muscle tes points forts</div>
+        <div class="ia-step-body">Trop flou ? Renforce ta présence : des avis clients qui citent ta spécialité et ta ville, des infos cohérentes partout, du contenu qui montre ton expertise. Déjà bien positionné ? Capitalise sur les angles qui ressortent le mieux.</div>
+      </div>
+      <div class="ia-astuce">
+        <strong>Astuce coach :</strong> ne cherche pas à « tromper » l'IA, ça ne tient pas dans le temps. Construis une vraie réputation, claire et cohérente, et l'IA suivra. Elle ne fait que répéter ce que le web dit de toi. À toi de lui donner de la bonne matière.
+      </div>
+    </div>
+
+    <!-- TIPS -->
+    <div class="section-header reveal">
+      <div class="bar"></div>
+      <span class="emoji">🧠</span>
+      <h2>Tips &amp; Bonnes Pratiques</h2>
+    </div>
+
+    <div class="reveal">
+      <div class="tip-item">
+        <div class="tip-number">1</div>
+        <div class="tip-content">
+          <div class="tip-title">Soigne ta réputation partout, pas seulement sur Insta</div>
+          <div class="tip-body">L'IA recoupe ton site, tes avis, les annuaires et les mentions de ton nom. Une présence cohérente sur 3 ou 4 endroits pèse plus lourd qu'un seul beau compte Instagram. Vérifie que ton nom, ta ville et ta spécialité disent partout la même chose.</div>
+        </div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-number">2</div>
+        <div class="tip-content">
+          <div class="tip-title">Demande des avis qui parlent vrai</div>
+          <div class="tip-body">Un avis comme « super coach de course à pied à Lyon pour la reprise après blessure » est de l'or pour une IA : il contient ta spécialité, ta ville et le besoin. Guide gentiment tes clients satisfaits pour qu'ils précisent ces éléments plutôt qu'un simple « au top ».</div>
+        </div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-number">3</div>
+        <div class="tip-content">
+          <div class="tip-title">Un contenu, plusieurs vies</div>
+          <div class="tip-body">Passe tes vidéos, tes notes et tes séances dans NotebookLM, et ressors-en des résumés, un audio à réécouter et des idées de posts. Tu produis moins, tu diffuses plus, et tout reste dans ta voix puisqu'il part de ta matière.</div>
+        </div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-number">4</div>
+        <div class="tip-content">
+          <div class="tip-title">En DM, vends comme un humain</div>
+          <div class="tip-body">Programme tes relances pour rester régulier, mais garde une vraie conversation. Personne n'a envie d'acheter à un robot, surtout pas un accompagnement humain. La planification te sert à être présent, pas à automatiser ta relation.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- À TESTER CETTE SEMAINE -->
+    <div class="section-header reveal">
+      <div class="bar"></div>
+      <span class="emoji">🚀</span>
+      <h2>À tester cette semaine</h2>
+    </div>
+
+    <div class="reveal">
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="tick">✓</span></div>
+        <div class="check-text">
+          <div class="check-title">Fais le test ChatGPT sur toi (en navigation privée)</div>
+          <div class="check-sub">Demande un coach comme toi, puis « que sais-tu sur moi ? ». Note 3 infos justes et 1 floue à corriger. Environ 10 min.</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="tick">✓</span></div>
+        <div class="check-text">
+          <div class="check-title">Récupère 1 avis client qui cite ta spécialité ET ta ville</div>
+          <div class="check-sub">Un simple message vocal à un client content suffit. Demande-lui de préciser le besoin sur lequel tu l'as aidé. Environ 5 min.</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="tick">✓</span></div>
+        <div class="check-text">
+          <div class="check-title">Crée ton premier notebook sur notebooklm.google.com</div>
+          <div class="check-sub">Dépose 3 de tes contenus (programme, FAQ, transcription), puis clique sur « Audio Overview » pour générer ton podcast. Environ 15 min.</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="tick">✓</span></div>
+        <div class="check-text">
+          <div class="check-title">Programme un message de relance en DM</div>
+          <div class="check-sub">Vise un prospect tiède. Rédige ton message, maintiens le bouton d'envoi enfoncé, choisis le créneau de demain matin. Environ 3 min.</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="tick">✓</span></div>
+        <div class="check-text">
+          <div class="check-title">Réordonne ton dernier carrousel</div>
+          <div class="check-sub">Ouvre-le, et si la diapo la plus forte n'est pas en première position, glisse-la en tête. Environ 2 min.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- À RETENIR -->
+    <div class="section-header reveal">
+      <div class="bar"></div>
+      <span class="emoji">🎯</span>
+      <h2>À retenir</h2>
+    </div>
+
+    <div class="reveal">
+      <div class="retenir-box">
+        <h3>📌 Les signaux de la semaine</h3>
+        <ul class="retenir-list">
+          <li>Tes futurs clients demandent à une IA avant, ou à la place, de Google. Plus de 40% des recherches passent déjà par là.</li>
+          <li>L'IA recommande celles et ceux dont la réputation est claire, cohérente et bien notée. Elle reflète, elle n'invente pas.</li>
+          <li>NotebookLM transforme tes propres contenus en allié fiable, sans rien inventer en dehors de tes sources.</li>
+          <li>Sur Instagram, l'engagement crée le reach, jamais l'inverse. Et un partage privé vaut plusieurs likes.</li>
+        </ul>
+        <div class="retenir-key">L'IA ne remplace pas ton travail de coach. Elle décide juste à qui elle en parle. Ton job : lui donner de quoi bien parler de toi.</div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-bar"></div>
+    <a href="https://t.me/lebriefpromentor" class="footer-cta">📲 Rejoindre la communauté Telegram</a>
+    <p class="footer-tagline">Le Brief proMENTOR — La veille qui fait gagner du temps aux coachs.</p>
+    <p class="footer-legal">© 2026 proMENTOR / FitCinetik — Michael Boulle — Diffusion gratuite</p>
+  </footer>
+
+</div><!-- /journal -->
+
+<script>
+  // Progress bar
+  window.addEventListener('scroll', () => {
+    const doc = document.documentElement;
+    const scrollTop = doc.scrollTop || document.body.scrollTop;
+    const scrollHeight = doc.scrollHeight - doc.clientHeight;
+    const pct = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+    document.getElementById('progress-bar').style.width = pct + '%';
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  reveals.forEach(r => obs.observe(r));
+
+  // Accordéon Instagram
+  function toggleAccordion(btn) {
+    btn.classList.toggle('open');
+    btn.nextElementSibling.classList.toggle('open');
+  }
+
+  // Accordéon IA
+  function toggleAccordionIA(btn) {
+    btn.classList.toggle('open');
+    btn.nextElementSibling.classList.toggle('open');
+  }
+
+  // Checklist
+  function toggleCheck(item) {
+    item.querySelector('.check-box').classList.toggle('checked');
+    item.classList.toggle('done');
+  }
+
+  // Glossaire
+  function toggleGloss(el) {
+    const def = el.nextElementSibling;
+    const isOpen = def.classList.contains('open');
+    document.querySelectorAll('.g-def.open').forEach(d => {
+      d.classList.remove('open');
+      d.previousElementSibling.classList.remove('active');
+    });
+    if (!isOpen) { def.classList.add('open'); el.classList.add('active'); }
+  }
+</script>
+</body>
+</html>
