@@ -1,0 +1,2 @@
+<!DOCTYPE html><html><body style="margin:0"><img id="i" src="vi.png" style="width:600px"><button id="b" style="font-size:30px;position:fixed;top:10px;right:10px">COPIER</button>
+<script>document.getElementById('b').onclick=async()=>{const r=await fetch('vi.png');const bl=await r.blob();await navigator.clipboard.write([new ClipboardItem({'image/png':bl})]);document.getElementById('b').textContent='OK';};</script></body></html>
