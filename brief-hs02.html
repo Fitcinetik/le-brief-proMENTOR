@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Le Brief proMENTOR — Hors-Série N°2</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --teal: #48C1BC;
+      --teal-light: #e8f9f8;
+      --teal-dark: #2a8a86;
+      --black: #0D0D0D;
+      --dark: #1A1A1A;
+      --gray: #444444;
+      --gray-light: #f5f5f5;
+      --gray-mid: #e0e0e0;
+      --white: #ffffff;
+      --ia-bg: #0D0D1F;
+      --ia-card: #151525;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #f0eeea;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--gray);
+      font-weight: 400;
+    }
+
+    /* PROGRESS BAR */
+    #progress-bar {
+      position: fixed;
+      top: 0; left: 0;
+      height: 3px;
+      background: var(--teal);
+      width: 0%;
+      z-index: 9999;
+      transition: width 0.1s linear;
+    }
+
+    /* JOURNAL WRAPPER */
+    .journal {
+      max-width: 680px;
+      margin: 0 auto;
+      background: var(--white);
+      box-shadow: 0 4px 40px rgba(0,0,0,0.12);
+    }
+
+    /* MASTHEAD */
+    .masthead {
+      background: var(--black);
+      color: var(--white);
+      padding: 28px 32px 24px;
+    }
+    .masthead-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+    .masthead-logo span { color: var(--teal); }
+    .masthead-meta {
+      font-size: 12px;
+      color: #aaa;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .masthead-meta strong { color: var(--white); }
+    .masthead-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(72,193,188,0.15);
+      border: 1px solid rgba(72,193,188,0.3);
+      color: var(--teal);
+      font-size: 12px;
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+    }
+    .masthead-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .chip {
+      font-size: 11px;
+      font-weight: 500;
+      padding: 4px 12px;
+      border-radius: 20px;
+      border: 1px solid #333;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .chip.active {
+      background: var(--teal);
+      color: var(--black);
+      border-color: var(--teal);
+      font-weight: 600;
+    }
+
+    /* CONTENT */
+    .content {
+      background: var(--white);
+      padding: 32px;
+    }
+
+    /* À LA UNE */
+    .une {
+      margin-bottom: 40px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--gray-mid);
+    }
+    .une-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 12px;
+    }
+    .une h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--black);
+      line-height: 1.25;
+      margin-bottom: 10px;
+    }
+    .une-sub {
+      font-size: 15px;
+      color: #888;
+      line-height: 1.6;
+      margin-bottom: 18px;
+    }
+    .alert-box {
+      background: var(--teal-light);
+      border-left: 3px solid var(--teal);
+      padding: 14px 16px;
+      font-size: 14px;
+      color: var(--teal-dark);
+      line-height: 1.6;
+      border-radius: 0 4px 4px 0;
+    }
+
+    /* SECTION HEADER */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 36px 0 22px;
+    }
+    .section-header .bar {
+      width: 4px;
+      height: 28px;
+      background: var(--teal);
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+    .section-header .emoji { font-size: 18px; }
+    .section-header h2 {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--black);
+    }
+    .section-header .pill {
+      font-size: 10px;
+      font-weight: 600;
+      background: var(--teal);
+      color: var(--black);
+      padding: 2px 8px;
+      border-radius: 10px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .section-sublabel {
+      font-size: 12px;
+      color: #999;
+      margin-top: -14px;
+      margin-bottom: 20px;
+      padding-left: 14px;
+    }
+
+    /* ARTICLE */
+    .article {
+      margin-bottom: 32px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--gray-mid);
+    }
+    .article:last-of-type { border-bottom: none; }
+    .kicker {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 8px;
+    }
+    .article-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--black);
+      line-height: 1.3;
+      margin-bottom: 12px;
+    }
+    .article-body {
+      font-size: 14px;
+      line-height: 1.75;
+      color: var(--gray);
+      margin-bottom: 14px;
+    }
+    .insight-box {
+      background: var(--teal-light);
+      border-left: 3px solid var(--teal);
+      padding: 12px 14px;
+      font-size: 13px;
+      color: var(--teal-dark);
+      line-height: 1.6;
+      border-radius: 0 4px 4px 0;
+      margin-top: 14px;
+    }
+
+    /* ACCORDION */
+    .accordion-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: none;
+      border: 1px solid var(--gray-mid);
+      color: var(--gray);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 9px 14px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 12px;
+      transition: all 0.2s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .accordion-toggle:hover { border-color: var(--teal); color: var(--teal-dark); }
+    .accordion-toggle .arrow { font-size: 10px; transition: transform 0.2s; }
+    .accordion-toggle.open .arrow { transform: rotate(180deg); }
+    .accordion-body { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+    .accordion-body.open { max-height: 800px; }
+    .accordion-inner { padding-top: 14px; }
+
+    /* QUOTE BOX */
+    .quote-box {
+      background: var(--black);
+      border-left: 3px solid var(--teal);
+      padding: 20px 22px;
+      border-radius: 0 6px 6px 0;
+      margin-bottom: 16px;
+    }
+    .quote-box blockquote {
+      font-family: 'Playfair Display', serif;
+      font-size: 17px;
+      color: var(--white);
+      line-height: 1.6;
+      font-style: italic;
+      margin-bottom: 10px;
+    }
+    .quote-box cite {
+      font-size: 12px;
+      color: var(--teal);
+      font-style: normal;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+    }
+
+    /* TIPS */
+    .tip-item {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 20px;
+      align-items: flex-start;
+    }
+    .tip-number {
+      width: 30px;
+      height: 30px;
+      background: var(--teal);
+      color: var(--black);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .tip-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--black);
+      margin-bottom: 5px;
+    }
+    .tip-body {
+      font-size: 13px;
+      line-height: 1.65;
+      color: var(--gray);
+    }
+
+    /* IA SECTION */
+    .ia-step {
+      background: var(--gray-light);
+      border-left: 3px solid var(--teal);
+      padding: 14px 16px;
+      border-radius: 0 6px 6px 0;
+      margin-bottom: 10px;
+    }
+    .ia-step-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--black);
+      margin-bottom: 5px;
+    }
+    .ia-step-body {
+      font-size: 13px;
+      line-height: 1.65;
+      color: var(--gray);
+    }
+    .ia-insight-box {
+      background: var(--teal-light);
+      border-left: 3px solid var(--teal);
+      padding: 12px 14px;
+      font-size: 13px;
+      color: var(--teal-dark);
+      line-height: 1.6;
+      border-radius: 0 4px 4px 0;
+      margin-top: 14px;
+    }
+    .ia-astuce {
+      background: var(--teal-light);
+      border-left: 3px solid var(--teal);
+      padding: 14px 16px;
+      font-size: 13px;
+      color: var(--teal-dark);
+      line-height: 1.65;
+      border-radius: 0 6px 6px 0;
+      margin-top: 16px;
+    }
+    .ia-astuce strong { display: block; margin-bottom: 4px; color: var(--teal-dark); }
+
+    /* CHECKLIST */
+    .check-item {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--gray-mid);
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .check-item:last-child { border-bottom: none; }
+    .check-box {
+      width: 22px;
+      height: 22px;
+      border: 2px solid var(--gray-mid);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+      transition: all 0.2s;
+    }
+    .check-box.checked { background: var(--teal); border-color: var(--teal); }
+    .tick { font-size: 12px; color: white; opacity: 0; transition: opacity 0.2s; }
+    .check-box.checked .tick { opacity: 1; }
+    .check-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--black);
+      margin-bottom: 3px;
+    }
+    .check-sub {
+      font-size: 12px;
+      color: #888;
+      line-height: 1.5;
+    }
+    .check-item.done .check-title { text-decoration: line-through; color: #aaa; }
+    .check-item.done .check-sub { opacity: 0.5; }
+
+    /* À RETENIR */
+    .retenir-box {
+      background: var(--teal);
+      padding: 24px;
+      border-radius: 6px;
+      margin-top: 10px;
+    }
+    .retenir-box h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      color: var(--black);
+      margin-bottom: 14px;
+    }
+    .retenir-list {
+      list-style: none;
+      margin-bottom: 16px;
+    }
+    .retenir-list li {
+      font-size: 13px;
+      color: var(--black);
+      padding: 5px 0;
+      line-height: 1.55;
+    }
+    .retenir-list li::before {
+      content: "→ ";
+      font-weight: 700;
+    }
+    .retenir-key {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--black);
+      border-top: 1px solid rgba(0,0,0,0.15);
+      padding-top: 14px;
+      line-height: 1.5;
+    }
+
+    /* IA SEPARATOR */
+    .ia-separator {
+      height: 3px;
+      background: var(--teal);
+    }
+
+    /* FOOTER */
+    .footer {
+      background: var(--black);
+      padding: 28px 32px;
+      text-align: center;
+    }
+    .footer-bar { height: 3px; background: var(--teal); margin: -28px -32px 24px; }
+    .footer-cta {
+      display: inline-block;
+      background: var(--teal);
+      color: var(--black);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 10px 22px;
+      border-radius: 4px;
+      text-decoration: none;
+      margin-bottom: 14px;
+    }
+    .footer-tagline {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 10px;
+    }
+    .footer-legal {
+      font-size: 11px;
+      color: #444;
+    }
+
+    /* GLOSSAIRE */
+    .g {
+      color: var(--teal);
+      font-weight: 600;
+      text-decoration: underline;
+      text-decoration-style: dotted;
+      text-underline-offset: 3px;
+      cursor: pointer;
+    }
+    .g-def {
+      display: none;
+      background: var(--teal-light);
+      border: 1px solid var(--teal);
+      border-radius: 4px;
+      padding: 10px 13px;
+      font-size: 12px;
+      color: var(--teal-dark);
+      line-height: 1.6;
+      margin: 6px 0 4px;
+    }
+    .g-def.open { display: block; }
+
+    /* SCROLL REVEAL */
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 680px) {
+      .content { padding: 22px 18px; }
+      .masthead { padding: 22px 18px 18px; }
+      .une h1 { font-size: 22px; }
+      .footer { padding: 22px 18px; }
+      .footer-bar { margin: -22px -18px 20px; }
+    }
+  </style>
+</head>
+<body>
+<div id="progress-bar"></div>
+<div class="journal">
+
+  <!-- MASTHEAD -->
+  <header class="masthead">
+    <div class="masthead-logo">Le Brief <span>proMENTOR</span></div>
+    <div class="masthead-meta">
+      2 novembre 2026 — <strong>HORS-SÉRIE N°2</strong> — GRATUIT
+    </div>
+    <div class="masthead-badge">⏱ 10 min de lecture</div>
+    <div class="masthead-chips">
+      <span class="chip active">Hors-Série</span>
+      <span class="chip active">Features</span>
+      <span class="chip active">Instagram TV</span>
+      <span class="chip active">Vidéo longue</span>
+      <span class="chip active">Tella</span>
+    </div>
+  </header>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- À LA UNE -->
+    <section class="une reveal">
+      <div class="une-label">📰 À la une</div>
+      <h1>Instagram veut devenir ta télé. Ce que ça change (vraiment) pour ton coaching.</h1>
+      <p class="une-sub">Vidéos de 90 minutes, Reels qui renvoient vers la vidéo complète, séries en épisodes, application sur les téléviseurs : en une semaine, Instagram a officialisé son virage vers la vidéo longue. Un numéro spécial pour faire le tri entre ce qui est réel, ce qui est en test, et ce que tu peux préparer dès maintenant.</p>
+      <div class="alert-box">
+        <strong>L'essentiel en une phrase :</strong> tout ce que tu vas lire ici est en test, surtout aux États-Unis et au Brésil, et rien n'est annoncé pour la France. Pas de panique, pas de matériel à acheter. Par contre, la logique qui se dessine (un contenu court qui attire, un contenu long qui crée la confiance) se prépare dès aujourd'hui, avec ce que tu produis déjà.
+      </div>
+    </section>
+
+    <!-- NOUVEAUTÉS INSTAGRAM -->
+    <div class="section-header reveal">
+      <div class="bar"></div>
+      <span class="emoji">🆕</span>
+      <h2>Nouveautés Instagram</h2>
+    </div>
+
+    <!-- Article 1 : Features -->
+    <div class="article reveal">
+      <div class="kicker">🎬 Nouveau format</div>
+      <div class="article-title">Features : des vidéos jusqu'à 90 minutes sur Instagram</div>
+      <p class="article-body">
+        Le 26 octobre, Adam Mosseri et Tessa Lyons, vice-présidente produit d'Instagram, ont présenté <strong>Features</strong> : un nouveau <span class="g" onclick="toggleGloss(this)">format long</span><span class="g-def"><strong>Format long</strong> Une vidéo de plusieurs minutes à plus d'une heure (podcast, interview, masterclass), par opposition aux Reels, conçus pour être vus en quelques secondes.</span>, en horizontal, qui peut durer jusqu'à 90 minutes. Instagram cible clairement les podcasts, les interviews, les émissions et les contenus pédagogiques.
+      </p>
+      <p class="article-body">
+        Ces vidéos ne seront pas rangées dans un coin à part. Elles apparaîtront dans le fil d'actualité et dans l'onglet <span class="g" onclick="toggleGloss(this)">Explorer</span><span class="g-def"><strong>Explorer</strong> L'onglet loupe d'Instagram, où l'algorithme propose des contenus de comptes que la personne ne suit pas encore. C'est la principale porte d'entrée vers de nouveaux abonnés.</span>, là où les gens découvrent de nouveaux comptes. Le test a commencé au Brésil, puis s'est ouvert à une sélection de créateurs américains. Instagram prévoit de l'élargir dans les mois qui viennent, sans calendrier pour la France.
+      </p>
+      <div class="insight-box">
+        <strong>Pour toi, concrètement :</strong> tu n'as rien à changer aujourd'hui. Mais si tu animes déjà des masterclasses, des lives ou des interviews, tu as peut-être déjà ton futur contenu Features sous la main. Garde tes enregistrements, ils pourraient servir plus tard.
+      </div>
+    </div>
+
+    <!-- Article 2 : Clips as Reels -->
+    <div class="article reveal">
+      <div class="kicker">🔗 Clips as Reels</div>
+      <div class="article-title">Jusqu'à 8 Reels pour mener vers ta vidéo complète</div>
+      <p class="article-body">
+        C'est la vraie nouveauté stratégique. Avec l'outil <strong>Clips as Reels</strong>, un créateur peut extraire de courts passages de sa vidéo longue, les publier en Reels, et relier jusqu'à 8 de ces extraits à la même vidéo Features. Le spectateur tombe sur un extrait, appuie sur « Voir la vidéo complète », et continue sans quitter Instagram.
+      </p>
+      <p class="article-body">
+        Mosseri l'a expliqué lui-même : l'objectif est que la vidéo courte et la vidéo longue travaillent ensemble, au lieu de se concurrencer. Résultat : plusieurs portes d'entrée vers un seul contenu de fond.
+      </p>
+      <button class="accordion-toggle" onclick="toggleAccordion(this)">
+        <span class="arrow">▼</span> Le parcours qui se dessine pour un coach
+      </button>
+      <div class="accordion-body">
+        <div class="accordion-inner">
+          <p class="article-body"><strong>1. Le Reel attire.</strong> Un extrait de 45 secondes qui répond à un problème précis : « Pourquoi tu reprends du poids après chaque régime ». <strong>2. La vidéo complète approfondit.</strong> La personne regarde ta masterclass de 40 minutes, découvre ta méthode, ta façon d'expliquer. <strong>3. La relation se crée.</strong> Après 40 minutes avec toi, elle ne te voit plus comme un compte parmi d'autres, mais comme quelqu'un qui connaît son sujet.</p>
+          <div class="insight-box">
+            <strong>Exemple :</strong> une masterclass « Reprendre le sport après 40 ans » peut donner 8 Reels, chacun sur une question précise (motivation, douleurs, fréquence, nutrition…), et tous renvoient vers l'intervention complète. Attention : ça ne remplace pas ton espace de formation structuré, avec exercices et suivi. C'est une étape de découverte de plus, pas ton offre.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Article 3 : Series -->
+    <div class="article reveal">
+      <div class="kicker">📺 Series</div>
+      <div class="article-title">Tes Reels bientôt rangés en épisodes, sur ton profil</div>
+      <p class="article-body">
+        En test depuis juin, <strong>Series</strong> permet de regrouper plusieurs Reels, anciens ou nouveaux, en une série. Chaque Reel devient un <span class="g" onclick="toggleGloss(this)">épisode</span><span class="g-def"><strong>Épisode</strong> Ici, un Reel qui fait partie d'une suite numérotée. Le spectateur peut regarder la série dans l'ordre et reprendre là où il s'était arrêté, comme sur une plateforme de streaming.</span>, la série a sa propre page, et un onglet dédié apparaît sur le profil. Quand quelqu'un tombe sur un épisode dans son fil, il peut ouvrir la série complète, l'enregistrer ou la suivre.
+      </p>
+      <p class="article-body">
+        Fin octobre, Instagram a confirmé que Series faisait partie de sa nouvelle stratégie vidéo. Le test reste limité à des créateurs qui publient déjà des contenus en épisodes, et ce n'est pas encore disponible en France.
+      </p>
+      <div class="insight-box">
+        <strong>Bonne nouvelle :</strong> l'exemple donné par Meta, c'est « 10 jours pour une pâtisserie plus saine ». Un format défi, exactement ce que beaucoup de coachs font déjà. Un « 7 jours pour reprendre une routine » publié en Reels numérotés, c'est une série prête à être rangée le jour où l'outil arrive.
+      </div>
+    </div>
+
+    <!-- Article 4 : Instagram for TV -->
+    <div class="article reveal">
+      <div class="kicker">🛋️ Instagram for TV</div>
+      <div class="article-title">Instagram s'installe dans le salon</div>
+      <p class="article-body">
+        Pourquoi la vidéo longue maintenant ? Pour la <span class="g" onclick="toggleGloss(this)">TV connectée</span><span class="g-def"><strong>TV connectée</strong> Un téléviseur relié à Internet, directement ou via un boîtier (Apple TV, Fire TV, Google TV), sur lequel on installe des applications comme Netflix ou YouTube.</span>. Instagram a lancé son application TV en décembre 2025 sur Amazon Fire TV, puis l'a étendue à Google TV en février et aux téléviseurs Samsung en juin. Le 23 octobre, elle est arrivée sur Apple TV, avec les Reels, les vidéos longues et les lives.
+      </p>
+      <p class="article-body">
+        On peut déjà envoyer un Reel de son téléphone vers la télé sur Google TV et Fire TV. Instagram prépare aussi l'utilisation du smartphone comme télécommande. Tessa Lyons a été claire : selon elle, c'est sur grand écran que les vidéos longues seront le plus regardées.
+      </p>
+      <div class="insight-box">
+        <strong>À relativiser :</strong> le déploiement vise d'abord les États-Unis, et aucun calendrier n'est annoncé pour la France. Si tu as vu passer des visuels « Instagram sur ta télé avec des lives », sache que les lives TV sont encore une piste explorée, pas une fonction disponible. L'intérêt business immédiat est faible, mais la direction est claire.
+      </div>
+    </div>
+
+    <!-- SIGNAL STRATÉGIQUE -->
+    <div class="section-header reveal">
+      <div class="bar"></div>
+      <span class="emoji">🗣️</span>
+      <h2>Signal Stratégique</h2>
+    </div>
+
+    <div class="article reveal">
+      <div class="kicker">📣 Parole au CEO</div>
+      <div class="article-title">Le patron d'Instagram change d'avis, et ce n'est pas un détail</div>
+      <div class="quote-box">
+        <blockquote>« Pendant longtemps, j'ai été contre la vidéo longue sur Instagram. »</blockquote>
+        <cite>— Adam Mosseri, Head of Instagram (26 octobre 2026)</cite>
+      </div>
+      <p class="article-body">
+        C'est par cette phrase que Mosseri a ouvert sa vidéo d'annonce. Pendant des années, il a défendu l'inverse : selon lui, une vidéo de 10 ou 20 minutes faisait moins interagir les gens avec leurs amis, et on la partageait moins en message privé. Instagram avait d'ailleurs déjà tenté la vidéo longue avec IGTV, lancé en 2018 et arrêté en 2022.
+      </p>
+      <p class="article-body">
+        Ce qui a changé : Instagram ne pense plus vidéo courte <em>ou</em> vidéo longue, mais vidéo courte <em>puis</em> vidéo longue. Le Reel sert de porte d'entrée, la vidéo complète approfondit. Et Mosseri se dit cette fois très engagé sur le long terme.
+      </p>
+      <div class="insight-box">
+        <strong>Ce que ça change pour toi :</strong> quand le patron d'une plateforme revient publiquement sur une position qu'il défendait depuis des années, c'est un cap, pas une expérience isolée. Le message à retenir : ton contenu court doit donner envie d'aller plus loin avec toi. C'est déjà vrai aujourd'hui, avec ton lien en bio, tes lives et tes DM.
+      </div>
+    </div>
+
+    <!-- OUTILS -->
+    <div class="section-header reveal">
+      <div class="bar"></div>
+      <span class="emoji">🛠️</span>
+      <h2>Outils</h2>
+    </div>
+
+    <div class="article reveal">
+      <div class="kicker">✂️ Découper une vidéo longue</div>
+      <div class="article-title">Edits ou Tella : deux façons de préparer tes extraits</div>
+      <p class="article-body">
+        Pour profiter du parcours « Reel puis vidéo complète », il te faut un outil qui transforme un enregistrement long en extraits courts. Deux options, selon ta façon de travailler.
+      </p>
+      <p class="article-body">
+        <strong>Edits</strong>, l'application de montage gratuite d'Instagram, qu'on t'a présentée au N°08. Idéale si tu tournes au téléphone : tu importes ta vidéo, tu coupes, tu sous-titres et tu publies directement sur Instagram.
+      </p>
+      <p class="article-body">
+        <strong>Tella</strong>, c'est l'outil que j'utilise personnellement pour enregistrer mes vidéos, et il vient de faire un grand bond en avant. Le 29 octobre, Tella a présenté ce qu'il appelle sa plus grosse mise à jour : <strong>Tella Agent</strong>. Tu décris ce que tu veux (couper un passage, zoomer, changer la mise en page), et l'agent fait les modifications sous tes yeux, avec la possibilité d'annuler chaque action. Une seule demande suffit pour générer des clips verticaux à partir d'une vidéo longue, et l'original reste intact.
+      </p>
+      <button class="accordion-toggle" onclick="toggleAccordion(this)">
+        <span class="arrow">▼</span> Ce que Tella apporte de plus (et ses limites)
+      </button>
+      <div class="accordion-body">
+        <div class="accordion-inner">
+          <p class="article-body"><strong>Tella Motion</strong> crée des titres animés, des graphiques et des schémas dans ta vidéo, simplement en les demandant à l'agent. Pratique pour illustrer une méthode en trois étapes sans logiciel de montage. <strong>Important :</strong> l'agent n'invente ni ce que tu as dit, ni de voix off. Ta parole reste la tienne. Côté accès, l'agent demande un abonnement payant, avec un essai gratuit de 7 jours pour tester.</p>
+          <div class="insight-box">
+            <strong>Mon conseil :</strong> tu tournes surtout au téléphone ? Commence par Edits, c'est gratuit et intégré à Instagram. Tu enregistres des masterclasses, des formations ou des visios ? Tella te fera gagner un temps énorme sur le découpage.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INTELLIGENCE ARTIFICIELLE -->
+    <div class="section-header reveal">
+      <div class="bar"></div>
+      <span class="emoji">🤖</span>
+      <h2>Intelligence Artificielle</h2>
+      <span class="pill">NOUVEAU</span>
+    </div>
+    <p class="section-sublabel">Épisode hors-série 2 : utiliser l'IA sans effacer ton expertise</p>
+
+    <div class="article reveal">
+      <div class="kicker">⚠️ Signal d'alerte</div>
+      <div class="article-title">Mosseri prévient : la méfiance envers l'IA va grandir</div>
+      <p class="article-body">
+        Dans une longue interview accordée au podcast Colin and Samir, fin octobre, Mosseri a tenu un discours inhabituel pour un dirigeant de la tech. Il observe davantage d'anxiété, de frustration et de colère autour de l'IA, en particulier dans les métiers créatifs. Et selon lui, ça va continuer de s'aggraver.
+      </p>
+      <p class="article-body">
+        Il reconnaît aussi deux choses importantes. D'abord, Instagram ne va pas interdire les contenus IA, ce n'est pas réaliste. Ensuite, son algorithme ne sait probablement pas encore aussi bien évaluer la qualité d'un contenu IA que celle des autres contenus. Instagram commence d'ailleurs à demander aux comptes IA de se signaler comme tels.
+      </p>
+      <div class="ia-insight-box">
+        <strong>Ce que ça veut dire pour toi :</strong> ton audience va devenir plus attentive à ce qui sonne « fabriqué ». Ta voix, ton visage, tes histoires de séance deviennent ta meilleure protection. L'IA a toute sa place dans ton organisation, pas à la place de ta parole.
+      </div>
+    </div>
+
+    <div class="article reveal">
+      <div class="kicker">🎯 Passage à l'action</div>
+      <div class="article-title">De ta masterclass à 8 extraits, en gardant la main</div>
+      <p class="article-body">Un exercice qui relie tout ce numéro : tu pars d'une vidéo longue que tu as déjà, et tu laisses l'IA faire le travail de repérage. Toi, tu choisis. Compte environ 30 minutes.</p>
+      <div class="ia-step">
+        <div class="ia-step-title">Étape 1 : Récupère la transcription</div>
+        <div class="ia-step-body">Prends une masterclass, un live ou une visio déjà enregistrée. Récupère sa <span class="g" onclick="toggleGloss(this)">transcription</span><span class="g-def"><strong>Transcription</strong> La version écrite, mot pour mot, de tout ce qui est dit dans une vidéo ou un audio. La plupart des outils d'enregistrement (Tella, Zoom, Google Meet…) la génèrent automatiquement.</span> : Tella et la plupart des outils de visio la génèrent automatiquement. Copie le texte dans un document.</div>
+      </div>
+      <div class="ia-step">
+        <div class="ia-step-title">Étape 2 : Donne le contexte à Claude</div>
+        <div class="ia-step-body">Colle la transcription dans Claude avec cette consigne : « Je suis coach [ta spécialité]. Voici la transcription de ma masterclass. Repère les 8 passages de 30 à 60 secondes qui répondent chacun à un problème précis de mes clients. Pour chacun, donne le minutage, le problème traité et une phrase d'accroche. Ne réécris pas mes propos. »</div>
+      </div>
+      <div class="ia-step">
+        <div class="ia-step-title">Étape 3 : Fais le tri toi-même</div>
+        <div class="ia-step-body">Relis les 8 propositions. Garde celles qui reflètent vraiment ta méthode, écarte celles qui sortent une phrase de son contexte. C'est toi l'expert : l'IA a repéré, c'est toi qui valides ce qui représente ton accompagnement.</div>
+      </div>
+      <div class="ia-step">
+        <div class="ia-step-title">Étape 4 : Découpe et publie à ton rythme</div>
+        <div class="ia-step-body">Avec les minutages, découpe tes extraits dans Edits ou Tella. Publie-les comme des Reels classiques, un ou deux par semaine. Le jour où Clips as Reels arrive en France, tu auras déjà ta bibliothèque d'extraits prête à être reliée.</div>
+      </div>
+      <div class="ia-astuce">
+        <strong>Astuce coach :</strong> demande à Claude d'utiliser exactement tes mots, sans reformuler. Une accroche réécrite par l'IA sonne souvent lisse et générique. Une phrase que tu as vraiment dite, avec ton style, c'est ce qui fera s'arrêter ton futur client.
+      </div>
+    </div>
+
+    <!-- TIPS -->
+    <div class="section-header reveal">
+      <div class="bar"></div>
+      <span class="emoji">🧠</span>
+      <h2>Tips &amp; Bonnes Pratiques</h2>
+    </div>
+
+    <div class="reveal">
+      <div class="tip-item">
+        <div class="tip-number">1</div>
+        <div class="tip-content">
+          <div class="tip-title">Filme en pensant aux deux formats</div>
+          <div class="tip-body">Quand tu enregistres une vidéo longue en horizontal, reste bien au centre du cadre. Tu pourras ensuite recadrer en vertical pour tes Reels sans te couper la tête ni les mains.</div>
+        </div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-number">2</div>
+        <div class="tip-content">
+          <div class="tip-title">Construis ta bibliothèque de contenus</div>
+          <div class="tip-body">Range tes masterclasses, lives et interviews dans un seul dossier, avec leur transcription. C'est ton stock pour Instagram, mais aussi pour YouTube, ton site ou ton espace membres. Un contenu bien rangé sert sur plusieurs supports, quel que soit l'avenir de Features.</div>
+        </div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-number">3</div>
+        <div class="tip-content">
+          <div class="tip-title">N'achète rien pour l'instant</div>
+          <div class="tip-body">Pas de nouvelle caméra, pas de studio. Features est en test, sans date pour la France. Ton téléphone, un micro correct et une bonne lumière suffisent largement pour préparer la suite.</div>
+        </div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-number">4</div>
+        <div class="tip-content">
+          <div class="tip-title">Lance une mini-série dès maintenant</div>
+          <div class="tip-body">Pas besoin d'attendre l'outil Series. Publie une suite de Reels numérotés (« Jour 1 », « Jour 2 »…) autour d'un même thème. Ton audience prend l'habitude de te suivre dans la durée, et c'est exactement ce qu'Instagram cherche à encourager.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- À TESTER CETTE SEMAINE -->
+    <div class="section-header reveal">
+      <div class="bar"></div>
+      <span class="emoji">🚀</span>
+      <h2>À tester cette semaine</h2>
+    </div>
+
+    <div class="reveal">
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="tick">✓</span></div>
+        <div class="check-text">
+          <div class="check-title">Repère ta meilleure vidéo longue</div>
+          <div class="check-sub">Fouille tes lives, masterclasses ou visios enregistrées. Choisis celle dont tu es le plus fier et range-la dans un dossier « Bibliothèque ». Environ 10 min.</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="tick">✓</span></div>
+        <div class="check-text">
+          <div class="check-title">Fais l'exercice des 8 extraits avec Claude</div>
+          <div class="check-sub">Récupère la transcription, colle-la dans Claude avec la consigne de l'épisode hors-série 2, puis garde tes 3 meilleurs passages. Environ 20 min.</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="tick">✓</span></div>
+        <div class="check-text">
+          <div class="check-title">Découpe un premier extrait</div>
+          <div class="check-sub">Ouvre Edits (gratuit) ou Tella, importe ta vidéo, coupe au minutage repéré, ajoute les sous-titres. Environ 15 min.</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="tick">✓</span></div>
+        <div class="check-text">
+          <div class="check-title">Planifie ta mini-série de Reels</div>
+          <div class="check-sub">Choisis un thème et 5 épisodes. Note le titre de chacun dans ton outil d'organisation, puis tourne le premier. Environ 15 min.</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="tick">✓</span></div>
+        <div class="check-text">
+          <div class="check-title">Relis tes 3 dernières légendes</div>
+          <div class="check-sub">Si l'une d'elles sonne trop lisse ou générique, réécris la première phrase avec tes mots, comme tu le dirais en séance. Environ 5 min.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- À RETENIR -->
+    <div class="section-header reveal">
+      <div class="bar"></div>
+      <span class="emoji">🎯</span>
+      <h2>À retenir</h2>
+    </div>
+
+    <div class="reveal">
+      <div class="retenir-box">
+        <h3>📌 Les signaux de ce hors-série</h3>
+        <ul class="retenir-list">
+          <li>Instagram teste les vidéos jusqu'à 90 minutes, reliées à 8 Reels maximum. Rien n'est annoncé pour la France.</li>
+          <li>Le nouveau parcours : le Reel attire, la vidéo complète crée la confiance. Mosseri a changé d'avis et s'engage sur le long terme.</li>
+          <li>Instagram s'installe sur les télévisions (Fire TV, Google TV, Samsung, Apple TV), d'abord aux États-Unis.</li>
+          <li>La méfiance envers l'IA va grandir : ta voix et ton expertise deviennent ton meilleur atout.</li>
+        </ul>
+        <div class="retenir-key">Instagram change de format, pas de règle : ce qui fait venir un client, c'est toujours la confiance. Prépare tes contenus de fond, ils serviront partout.</div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-bar"></div>
+    <a href="https://www.skool.com/promentor-labs-6308?c=7c189ec6612642d99818b7c14a3d04b9" class="footer-cta" target="_blank">💬 Une question ? Pose-la dans la communauté</a>
+    <p class="footer-tagline">Le Brief proMENTOR — La veille qui fait gagner du temps aux coachs.</p>
+    <p class="footer-legal">© 2026 proMENTOR / FitCinetik — Michael Boulle — Diffusion gratuite</p>
+  </footer>
+
+</div><!-- /journal -->
+
+<script>
+  // Progress bar
+  window.addEventListener('scroll', () => {
+    const doc = document.documentElement;
+    const scrollTop = doc.scrollTop || document.body.scrollTop;
+    const scrollHeight = doc.scrollHeight - doc.clientHeight;
+    const pct = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+    document.getElementById('progress-bar').style.width = pct + '%';
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  reveals.forEach(r => obs.observe(r));
+
+  // Accordéon Instagram
+  function toggleAccordion(btn) {
+    btn.classList.toggle('open');
+    btn.nextElementSibling.classList.toggle('open');
+  }
+
+  // Accordéon IA
+  function toggleAccordionIA(btn) {
+    btn.classList.toggle('open');
+    btn.nextElementSibling.classList.toggle('open');
+  }
+
+  // Checklist
+  function toggleCheck(item) {
+    item.querySelector('.check-box').classList.toggle('checked');
+    item.classList.toggle('done');
+  }
+
+  // Glossaire
+  function toggleGloss(el) {
+    const def = el.nextElementSibling;
+    const isOpen = def.classList.contains('open');
+    document.querySelectorAll('.g-def.open').forEach(d => {
+      d.classList.remove('open');
+      d.previousElementSibling.classList.remove('active');
+    });
+    if (!isOpen) { def.classList.add('open'); el.classList.add('active'); }
+  }
+</script>
+</body>
+</html>
