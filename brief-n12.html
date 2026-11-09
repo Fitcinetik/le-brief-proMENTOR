@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Le Brief proMENTOR — N°12</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --teal: #48C1BC;
+      --teal-light: #e8f9f8;
+      --teal-dark: #2a8a86;
+      --black: #0D0D0D;
+      --dark: #1A1A1A;
+      --gray: #444444;
+      --gray-light: #f5f5f5;
+      --gray-mid: #e0e0e0;
+      --white: #ffffff;
+      --ia-bg: #0D0D1F;
+      --ia-card: #151525;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #f0eeea;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--gray);
+      font-weight: 400;
+    }
+
+    /* PROGRESS BAR */
+    #progress-bar {
+      position: fixed;
+      top: 0; left: 0;
+      height: 3px;
+      background: var(--teal);
+      width: 0%;
+      z-index: 9999;
+      transition: width 0.1s linear;
+    }
+
+    /* JOURNAL WRAPPER */
+    .journal {
+      max-width: 680px;
+      margin: 0 auto;
+      background: var(--white);
+      box-shadow: 0 4px 40px rgba(0,0,0,0.12);
+    }
+
+    /* MASTHEAD */
+    .masthead {
+      background: var(--black);
+      color: var(--white);
+      padding: 28px 32px 24px;
+    }
+    .masthead-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+    .masthead-logo span { color: var(--teal); }
+    .masthead-meta {
+      font-size: 12px;
+      color: #aaa;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .masthead-meta strong { color: var(--white); }
+    .masthead-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(72,193,188,0.15);
+      border: 1px solid rgba(72,193,188,0.3);
+      color: var(--teal);
+      font-size: 12px;
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+    }
+    .masthead-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .chip {
+      font-size: 11px;
+      font-weight: 500;
+      padding: 4px 12px;
+      border-radius: 20px;
+      border: 1px solid #333;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .chip.active {
+      background: var(--teal);
+      color: var(--black);
+      border-color: var(--teal);
+      font-weight: 600;
+    }
+
+    /* CONTENT */
+    .content {
+      background: var(--white);
+      padding: 32px;
+    }
+
+    /* À LA UNE */
+    .une {
+      margin-bottom: 40px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--gray-mid);
+    }
+    .une-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 12px;
+    }
+    .une h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--black);
+      line-height: 1.25;
+      margin-bottom: 10px;
+    }
+    .une-sub {
+      font-size: 15px;
+      color: #888;
+      line-height: 1.6;
+      margin-bottom: 18px;
+    }
+    .alert-box {
+      background: var(--teal-light);
+      border-left: 3px solid var(--teal);
+      padding: 14px 16px;
+      font-size: 14px;
+      color: var(--teal-dark);
+      line-height: 1.6;
+      border-radius: 0 4px 4px 0;
+    }
+
+    /* SECTION HEADER */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 36px 0 22px;
+    }
+    .section-header .bar {
+      width: 4px;
+      height: 28px;
+      background: var(--teal);
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+    .section-header .emoji { font-size: 18px; }
+    .section-header h2 {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--black);
+    }
+    .section-header .pill {
+      font-size: 10px;
+      font-weight: 600;
+      background: var(--teal);
+      color: var(--black);
+      padding: 2px 8px;
+      border-radius: 10px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .section-sublabel {
+      font-size: 12px;
+      color: #999;
+      margin-top: -14px;
+      margin-bottom: 20px;
+      padding-left: 14px;
+    }
+
+    /* ARTICLE */
+    .article {
+      margin-bottom: 32px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--gray-mid);
+    }
+    .article:last-of-type { border-bottom: none; }
+    .kicker {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 8px;
+    }
+    .article-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--black);
+      line-height: 1.3;
+      margin-bottom: 12px;
+    }
+    .article-body {
+      font-size: 14px;
+      line-height: 1.75;
+      color: var(--gray);
+      margin-bottom: 14px;
+    }
+    .insight-box {
+      background: var(--teal-light);
+      border-left: 3px solid var(--teal);
+      padding: 12px 14px;
+      font-size: 13px;
+      color: var(--teal-dark);
+      line-height: 1.6;
+      border-radius: 0 4px 4px 0;
+      margin-top: 14px;
+    }
+
+    /* ACCORDION */
+    .accordion-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: none;
+      border: 1px solid var(--gray-mid);
+      color: var(--gray);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 9px 14px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 12px;
+      transition: all 0.2s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .accordion-toggle:hover { border-color: var(--teal); color: var(--teal-dark); }
+    .accordion-toggle .arrow { font-size: 10px; transition: transform 0.2s; }
+    .accordion-toggle.open .arrow { transform: rotate(180deg); }
+    .accordion-body { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+    .accordion-body.open { max-height: 800px; }
+    .accordion-inner { padding-top: 14px; }
+
+    /* QUOTE BOX */
+    .quote-box {
+      background: var(--black);
+      border-left: 3px solid var(--teal);
+      padding: 20px 22px;
+      border-radius: 0 6px 6px 0;
+      margin-bottom: 16px;
+    }
+    .quote-box blockquote {
+      font-family: 'Playfair Display', serif;
+      font-size: 17px;
+      color: var(--white);
+      line-height: 1.6;
+      font-style: italic;
+      margin-bottom: 10px;
+    }
+    .quote-box cite {
+      font-size: 12px;
+      color: var(--teal);
+      font-style: normal;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+    }
+
+    /* TIPS */
+    .tip-item {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 20px;
+      align-items: flex-start;
+    }
+    .tip-number {
+      width: 30px;
+      height: 30px;
+      background: var(--teal);
+      color: var(--black);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .tip-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--black);
+      margin-bottom: 5px;
+    }
+    .tip-body {
+      font-size: 13px;
+      line-height: 1.65;
+      color: var(--gray);
+    }
+
+    /* IA SECTION */
+    .ia-step {
+      background: var(--gray-light);
+      border-left: 3px solid var(--teal);
+      padding: 14px 16px;
+      border-radius: 0 6px 6px 0;
+      margin-bottom: 10px;
+    }
+    .ia-step-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--black);
+      margin-bottom: 5px;
+    }
+    .ia-step-body {
+      font-size: 13px;
+      line-height: 1.65;
+      color: var(--gray);
+    }
+    .ia-insight-box {
+      background: var(--teal-light);
+      border-left: 3px solid var(--teal);
+      padding: 12px 14px;
+      font-size: 13px;
+      color: var(--teal-dark);
+      line-height: 1.6;
+      border-radius: 0 4px 4px 0;
+      margin-top: 14px;
+    }
+    .ia-astuce {
+      background: var(--teal-light);
+      border-left: 3px solid var(--teal);
+      padding: 14px 16px;
+      font-size: 13px;
+      color: var(--teal-dark);
+      line-height: 1.65;
+      border-radius: 0 6px 6px 0;
+      margin-top: 16px;
+    }
+    .ia-astuce strong { display: block; margin-bottom: 4px; color: var(--teal-dark); }
+
+    /* CHECKLIST */
+    .check-item {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--gray-mid);
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .check-item:last-child { border-bottom: none; }
+    .check-box {
+      width: 22px;
+      height: 22px;
+      border: 2px solid var(--gray-mid);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+      transition: all 0.2s;
+    }
+    .check-box.checked { background: var(--teal); border-color: var(--teal); }
+    .tick { font-size: 12px; color: white; opacity: 0; transition: opacity 0.2s; }
+    .check-box.checked .tick { opacity: 1; }
+    .check-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--black);
+      margin-bottom: 3px;
+    }
+    .check-sub {
+      font-size: 12px;
+      color: #888;
+      line-height: 1.5;
+    }
+    .check-item.done .check-title { text-decoration: line-through; color: #aaa; }
+    .check-item.done .check-sub { opacity: 0.5; }
+
+    /* À RETENIR */
+    .retenir-box {
+      background: var(--teal);
+      padding: 24px;
+      border-radius: 6px;
+      margin-top: 10px;
+    }
+    .retenir-box h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      color: var(--black);
+      margin-bottom: 14px;
+    }
+    .retenir-list {
+      list-style: none;
+      margin-bottom: 16px;
+    }
+    .retenir-list li {
+      font-size: 13px;
+      color: var(--black);
+      padding: 5px 0;
+      line-height: 1.55;
+    }
+    .retenir-list li::before {
+      content: "→ ";
+      font-weight: 700;
+    }
+    .retenir-key {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--black);
+      border-top: 1px solid rgba(0,0,0,0.15);
+      padding-top: 14px;
+      line-height: 1.5;
+    }
+
+    /* IA SEPARATOR */
+    .ia-separator {
+      height: 3px;
+      background: var(--teal);
+    }
+
+    /* FOOTER */
+    .footer {
+      background: var(--black);
+      padding: 28px 32px;
+      text-align: center;
+    }
+    .footer-bar { height: 3px; background: var(--teal); margin: -28px -32px 24px; }
+    .footer-cta {
+      display: inline-block;
+      background: var(--teal);
+      color: var(--black);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 10px 22px;
+      border-radius: 4px;
+      text-decoration: none;
+      margin-bottom: 14px;
+    }
+    .footer-tagline {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 10px;
+    }
+    .footer-legal {
+      font-size: 11px;
+      color: #444;
+    }
+
+    /* GLOSSAIRE */
+    .g {
+      color: var(--teal);
+      font-weight: 600;
+      text-decoration: underline;
+      text-decoration-style: dotted;
+      text-underline-offset: 3px;
+      cursor: pointer;
+    }
+    .g-def {
+      display: none;
+      background: var(--teal-light);
+      border: 1px solid var(--teal);
+      border-radius: 4px;
+      padding: 10px 13px;
+      font-size: 12px;
+      color: var(--teal-dark);
+      line-height: 1.6;
+      margin: 6px 0 4px;
+    }
+    .g-def.open { display: block; }
+
+    /* SCROLL REVEAL */
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 680px) {
+      .content { padding: 22px 18px; }
+      .masthead { padding: 22px 18px 18px; }
+      .une h1 { font-size: 22px; }
+      .footer { padding: 22px 18px; }
+      .footer-bar { margin: -22px -18px 20px; }
+    }
+  </style>
+</head>
+<body>
+<div id="progress-bar"></div>
+<div class="journal">
+
+  <!-- MASTHEAD -->
+  <header class="masthead">
+    <div class="masthead-logo">Le Brief <span>proMENTOR</span></div>
+    <div class="masthead-meta">
+      9 novembre 2026 — <strong>N°12</strong> — GRATUIT
+    </div>
+    <div class="masthead-badge">⏱ 10 min de lecture</div>
+    <div class="masthead-chips">
+      <span class="chip active">Carrousels</span>
+      <span class="chip active">Edits</span>
+      <span class="chip active">Instagram Live</span>
+      <span class="chip active">LinkedIn</span>
+      <span class="chip active">Claude Design</span>
+    </div>
+  </header>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- À LA UNE -->
+    <section class="une reveal">
+      <div class="une-label">📰 À la une</div>
+      <h1>Le carrousel revient en force. Et tu peux maintenant le créer gratuitement, de A à Z.</h1>
+      <p class="une-sub">Instagram confirme que le format grandit, Edits sait enfin fabriquer des carrousels, et Claude ouvre ses outils de mise en page à tous, même en gratuit.</p>
+      <div class="alert-box">
+        <strong>L'essentiel en une phrase :</strong> le carrousel est le format idéal pour montrer ton expertise étape par étape, et cette semaine, tout ce qu'il faut pour en produire un beau, sans graphiste et sans abonnement, est disponible. Tu écris, les outils mettent en forme.
+      </div>
+    </section>
+
+    <!-- NOUVEAUTÉS INSTAGRAM -->
+    <div class="section-header reveal">
+      <div class="bar"></div>
+      <span class="emoji">🆕</span>
+      <h2>Nouveautés Instagram</h2>
+    </div>
+
+    <!-- Article 1 : Edits carrousel -->
+    <div class="article reveal">
+      <div class="kicker">🎨 Outil de création</div>
+      <div class="article-title">Edits fabrique maintenant tes carrousels</div>
+      <p class="article-body">
+        On t'a présenté Edits au N°09 pour monter tes Reels. Depuis le 7 octobre, l'application gratuite d'Instagram sait aussi créer des <span class="g" onclick="toggleGloss(this)">carrousels</span><span class="g-def"><strong>Carrousel</strong> Publication Instagram composée de plusieurs images ou vidéos que l'on fait défiler horizontalement, comme les pages d'un petit livret.</span>. Tu poses tes photos, tes vidéos et tes textes sur plusieurs diapos, tu choisis une mise en page, tu détoures un élément, et tu peux même faire déborder une photo ou un titre d'une diapo sur la suivante, pour donner envie de faire défiler.
+      </p>
+      <p class="article-body">
+        Le détail qui fait gagner du temps : tes polices, tes couleurs et tes styles enregistrés dans Edits sont repris automatiquement. Ton identité visuelle reste la même d'un carrousel à l'autre. Quand c'est prêt, tu publies directement sur Instagram, sans exporter ni recharger.
+      </p>
+      <p class="article-body">
+        <strong>Statut :</strong> disponible sur iPhone depuis le 7 octobre, en cours de déploiement sur Android depuis fin octobre. Pour le trouver : mets Edits à jour, onglet Projets, bouton « + », puis « Carrousel ». S'il n'apparaît pas encore, regarde dans l'onglet Labs, la zone des fonctions en avant-première.
+      </p>
+      <div class="insight-box">
+        <strong>Idée concrète :</strong> reprends ton dernier post qui a bien marché et transforme-le en carrousel de 5 diapos : une accroche, trois idées, un appel à l'action. Tu recycles un contenu qui a fait ses preuves, dans un format qui se partage.
+      </div>
+    </div>
+
+    <!-- Article 2 : Boost Live -->
+    <div class="article reveal">
+      <div class="kicker">📡 Live</div>
+      <div class="article-title">Tu peux booster ton live avant même de l'avoir lancé</div>
+      <p class="article-body">
+        Jusqu'ici, promouvoir un live passait par le gestionnaire de publicités de Meta, un outil intimidant. Instagram ajoute un bouton <span class="g" onclick="toggleGloss(this)">Booster</span><span class="g-def"><strong>Booster</strong> Payer pour qu'Instagram montre ton contenu à plus de monde, sous forme de publicité. Tu fixes le budget, la durée et le public visé.</span> directement dans l'écran de préparation du live. Tu choisis ton public (ou celui suggéré par Instagram), tu indiques l'heure de début et de fin, et ton live est mis en avant dans le fil, les stories et les Reels pendant toute la diffusion.
+      </p>
+      <button class="accordion-toggle" onclick="toggleAccordion(this)">
+        <span class="arrow">▼</span> Les deux précautions à connaître
+      </button>
+      <div class="accordion-body">
+        <div class="accordion-inner">
+          <p class="article-body"><strong>Anticipe :</strong> Instagram conseille de programmer la promotion au moins deux heures avant le live, pour éviter les retards de diffusion de la publicité. Un boost lancé à la dernière minute risque de démarrer quand tu as déjà fini.</p>
+          <p class="article-body"><strong>Surveille le prix final sur iPhone :</strong> un boost payé depuis l'application iOS peut inclure des frais liés à l'App Store. Vérifie le montant avant de valider, ou lance ta promotion depuis un ordinateur.</p>
+        </div>
+      </div>
+      <div class="insight-box">
+        <strong>Pour qui :</strong> un petit budget sur un live à forte valeur (une masterclass, une séance de questions-réponses, le lancement d'un programme) peut t'amener des personnes qui ne te connaissaient pas. Sur un live improvisé, garde ton argent.
+      </div>
+    </div>
+
+    <!-- Article 3 : Étiquette IA -->
+    <div class="article reveal">
+      <div class="kicker">🏷️ Transparence IA</div>
+      <div class="article-title">Profils créés par IA : la nouvelle règle, et pourquoi elle ne te concerne (presque) pas</div>
+      <p class="article-body">
+        Depuis le 31 août, Instagram demande aux comptes dont la personne montrée a été générée par IA d'activer l'étiquette « Profil généré par IA » (« AI-generated profile » en anglais). Elle vise les influenceurs virtuels, ces personnages qui n'existent pas. Les comptes concernés qui ne l'activent pas voient leur portée limitée : leurs publications ne sont plus recommandées aux personnes qui ne les suivent pas. Ceux qui l'activent d'eux-mêmes ne sont pas pénalisés.
+      </p>
+      <p class="article-body">
+        Rassure-toi : utiliser l'IA pour retoucher une photo, améliorer une légende ou créer un visuel ne demande pas cette étiquette. Tu te filmes toi-même et tu t'aides de l'IA pour tes textes ? Tu n'as rien à faire.
+      </p>
+      <p class="article-body">
+        Un seul cas reste flou : les vidéos créées avec un « clone » de toi, ces outils qui fabriquent un avatar avec ton visage et ta voix à partir de quelques minutes d'enregistrement. La personne existe, mais la vidéo est générée. Instagram n'a pas tranché ce cas précis.
+      </p>
+      <div class="insight-box">
+        <strong>Notre conseil :</strong> si tu utilises un clone vidéo, dis-le simplement en légende. Ta relation avec ton audience repose sur la confiance, et elle vaut bien plus que quelques vues.
+      </div>
+    </div>
+
+    <!-- SIGNAL STRATÉGIQUE -->
+    <div class="section-header reveal">
+      <div class="bar"></div>
+      <span class="emoji">🗣️</span>
+      <h2>Signal Stratégique</h2>
+    </div>
+
+    <div class="article reveal">
+      <div class="kicker">📣 Parole au CEO</div>
+      <div class="article-title">Mosseri relance les carrousels, et explique pourquoi ils marchent</div>
+      <p class="article-body">
+        Lors d'une session de questions-réponses en juillet, on a demandé à Adam Mosseri, le patron d'Instagram, si le carrousel avait encore sa place face aux Reels. Sa réponse : le format est précieux, et il gagne du terrain. 
+      </p>
+      <p class="article-body">
+        Mosseri a déjà expliqué ce qui rend ce format si efficace. Plusieurs diapos, c'est plus d'occasions d'interagir, et plus d'interactions, c'est plus de diffusion. Autre avantage : si quelqu'un passe à côté de ton carrousel, Instagram peut le lui remontrer en commençant par la deuxième diapo. Ton contenu a donc une seconde chance. Enfin, ajouter une musique rend ton carrousel éligible à l'onglet Reels, là où se trouvent les personnes qui ne te suivent pas encore.
+      </p>
+      <p class="article-body">
+        Pour un coach, c'est le format de la pédagogie : une méthode en 5 étapes, les 3 erreurs à éviter. Il se sauvegarde et se partage, deux signaux qui comptent pour l'algorithme.
+      </p>
+      <div class="insight-box">
+        <strong>Ce que ça change pour toi :</strong> alterne Reels et carrousels. Le Reel attire de nouvelles personnes, le carrousel prouve ce que tu sais faire. Et pense à la deuxième diapo : elle doit pouvoir accrocher toute seule, puisqu'elle sert parfois de porte d'entrée.
+      </div>
+    </div>
+
+    <!-- OUTILS -->
+    <div class="section-header reveal">
+      <div class="bar"></div>
+      <span class="emoji">🛠️</span>
+      <h2>Outils</h2>
+    </div>
+
+    <div class="article reveal">
+      <div class="kicker">💼 LinkedIn</div>
+      <div class="article-title">LinkedIn regroupe enfin tout ton travail de créateur au même endroit</div>
+      <p class="article-body">
+        Le 15 octobre, LinkedIn a présenté un nouveau <span class="g" onclick="toggleGloss(this)">dashboard</span><span class="g-def"><strong>Dashboard</strong> Tableau de bord : une page qui rassemble en un coup d'œil tes chiffres et tes outils, pour piloter ton activité sans chercher partout.</span> pour les créateurs. Accessible sur mobile en touchant ta photo de profil, il réunit tes statistiques, tes brouillons, tes posts programmés et ceux déjà publiés.
+      </p>
+      <p class="article-body">
+        <strong>Statut :</strong> déploiement mondial annoncé « dans les semaines à venir ». Les autres nouveautés présentées le même jour (consultations payantes depuis ton profil, mise en relation avec des marques, revenus publicitaires) restent réservées à l'Amérique du Nord pour l'instant. Pour un coach en France, le tableau de bord est la seule nouveauté confirmée.
+      </p>
+      <div class="insight-box">
+        <strong>Cas d'usage coach :</strong> si tu vises les entreprises (bien-être au travail, coaching de dirigeants), prends 10 minutes par mois dans ce tableau de bord : repère tes 3 posts les plus vus et refais-en un dans la même veine.
+      </div>
+    </div>
+
+    <!-- INTELLIGENCE ARTIFICIELLE -->
+    <div class="section-header reveal">
+      <div class="bar"></div>
+      <span class="emoji">🤖</span>
+      <h2>Intelligence Artificielle</h2>
+      <span class="pill">NOUVEAU</span>
+    </div>
+    <p class="section-sublabel">Épisode 12 : tes visuels pros avec Claude, même en version gratuite</p>
+
+    <div class="article reveal">
+      <div class="kicker">✨ Claude</div>
+      <div class="article-title">Claude Docs, Slides et Design sont désormais ouverts à tous, gratuitement</div>
+      <p class="article-body">
+        Le 8 octobre, Anthropic a fait sortir trois outils de leur phase de <span class="g" onclick="toggleGloss(this)">bêta</span><span class="g-def"><strong>Bêta</strong> Phase de test d'un outil avant sa version officielle. Il fonctionne, mais peut encore changer ou être réservé à certains utilisateurs.</span> et les a ouverts à toutes les formules, y compris la version gratuite. <strong>Claude Docs</strong> rédige et met en page des documents, <strong>Claude Slides</strong> crée des présentations, et <strong>Claude Design</strong> produit des visuels : affiches, fiches, et diapos de carrousel. Tout se fait dans une conversation normale avec Claude, et tu peux retoucher le résultat toi-même.
+      </p>
+      <p class="article-body">
+        Une fiche de présentation de ton accompagnement, un guide à offrir, un carrousel à tes couleurs : ce qui demandait un graphiste se fait en quelques échanges. La version gratuite a des limites d'utilisation, mais elle suffit largement pour tester.
+      </p>
+      <div class="ia-insight-box">
+        <strong>Ce que ça veut dire pour toi :</strong> la mise en forme n'est plus une excuse pour ne pas publier. Ton expertise, tes idées et tes mots restent le cœur du contenu. Claude s'occupe de l'habillage, toi tu gardes la main sur le fond.
+      </div>
+    </div>
+
+    <div class="article reveal">
+      <div class="kicker">🎯 Passage à l'action</div>
+      <div class="article-title">Crée ton premier carrousel avec Claude Design et Edits</div>
+      <p class="article-body">Environ 30 minutes, avec un compte Claude gratuit et l'application Edits. Prérequis : avoir sous la main tes couleurs et ta police (ou une capture de ton profil Instagram).</p>
+      <div class="ia-step">
+        <div class="ia-step-title">Étape 1 : Écris ton contenu toi-même</div>
+        <div class="ia-step-body">Choisis un sujet que tes clients te demandent souvent. Rédige 5 à 7 diapos : une accroche, 3 à 5 idées courtes, et un appel à l'action final. C'est ton expertise, c'est toi qui écris. Claude ne fera que la mise en page.</div>
+      </div>
+      <div class="ia-step">
+        <div class="ia-step-title">Étape 2 : Demande la mise en forme à Claude</div>
+        <div class="ia-step-body">Ouvre Claude et colle ton texte avec un <span class="g" onclick="toggleGloss(this)">prompt</span><span class="g-def"><strong>Prompt</strong> L'instruction que tu donnes à une IA. Plus elle est précise (format, style, contraintes), meilleur est le résultat.</span> précis : « Crée un carrousel Instagram de 6 diapos au format portrait 4:5 avec Claude Design. Couleurs : [tes couleurs]. Police : [ta police]. Une idée par diapo, texte très lisible. Ne modifie pas mes textes. »</div>
+      </div>
+      <div class="ia-step">
+        <div class="ia-step-title">Étape 3 : Ajuste jusqu'à ce que ce soit toi</div>
+        <div class="ia-step-body">Demande des corrections précises : « agrandis le titre de la diapo 1 », « mets plus d'espace autour du texte ». Tu peux aussi modifier directement le visuel toi-même. Relis chaque mot : c'est ton nom qui est dessus.</div>
+      </div>
+      <div class="ia-step">
+        <div class="ia-step-title">Étape 4 : Assemble et publie dans Edits</div>
+        <div class="ia-step-body">Télécharge tes diapos en images. Dans Edits, onglet Projets, « + », puis « Carrousel » : importe-les dans l'ordre, ajoute une musique pour être éligible à l'onglet Reels, et publie directement sur Instagram.</div>
+      </div>
+      <div class="ia-astuce">
+        <strong>Astuce coach :</strong> une fois ton premier carrousel réussi, garde-le comme modèle. La semaine suivante, montre-le à Claude et demande-lui de reprendre exactement le même style avec ton nouveau texte. En trois carrousels, ton audience reconnaîtra tes publications au premier coup d'œil.
+      </div>
+    </div>
+
+    <!-- TIPS -->
+    <div class="section-header reveal">
+      <div class="bar"></div>
+      <span class="emoji">🧠</span>
+      <h2>Tips &amp; Bonnes Pratiques</h2>
+    </div>
+
+    <div class="reveal">
+      <div class="tip-item">
+        <div class="tip-number">1</div>
+        <div class="tip-content">
+          <div class="tip-title">Ta première diapo fait tout le travail</div>
+          <div class="tip-body">Une promesse claire, en peu de mots, qui parle d'un problème de ton client : « 3 erreurs qui ruinent ta reprise du sport ». Si la première diapo n'arrête pas le pouce, personne ne verra les suivantes.</div>
+        </div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-number">2</div>
+        <div class="tip-content">
+          <div class="tip-title">Termine toujours par une action</div>
+          <div class="tip-body">La dernière diapo dit quoi faire : sauvegarder le post, l'envoyer à un ami, ou t'écrire un mot précis en message privé. Un carrousel sans appel à l'action, c'est une conversation qui s'arrête au milieu.</div>
+        </div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-number">3</div>
+        <div class="tip-content">
+          <div class="tip-title">Enregistre ton style une bonne fois pour toutes</div>
+          <div class="tip-body">Dans Edits, crée un <span class="g" onclick="toggleGloss(this)">preset</span><span class="g-def"><strong>Preset</strong> Réglage enregistré (couleurs, police, filtre, style de texte) que tu réutilises en un clic pour garder le même rendu partout.</span> avec tes couleurs et ta police. Chaque nouveau carrousel démarre avec ta charte déjà appliquée : tu gagnes du temps et ton compte devient reconnaissable.</div>
+        </div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-number">4</div>
+        <div class="tip-content">
+          <div class="tip-title">Booste seulement ce qui a de la valeur</div>
+          <div class="tip-body">Avant de payer pour un live, demande-toi si quelqu'un qui ne te connaît pas repartira avec quelque chose d'utile. Sinon, mise sur la régularité.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- À TESTER CETTE SEMAINE -->
+    <div class="section-header reveal">
+      <div class="bar"></div>
+      <span class="emoji">🚀</span>
+      <h2>À tester cette semaine</h2>
+    </div>
+
+    <div class="reveal">
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="tick">✓</span></div>
+        <div class="check-text">
+          <div class="check-title">Active l'éditeur de carrousel dans Edits</div>
+          <div class="check-sub">Mets l'application à jour, puis onglet Projets, bouton « + », « Carrousel ». S'il n'y est pas, active-le dans l'onglet Labs. Environ 3 min.</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="tick">✓</span></div>
+        <div class="check-text">
+          <div class="check-title">Crée ton premier carrousel avec Claude Design</div>
+          <div class="check-sub">Écris tes 6 diapos, colle-les dans Claude avec le prompt de l'épisode 12, ajuste, puis télécharge les images. Environ 25 min.</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="tick">✓</span></div>
+        <div class="check-text">
+          <div class="check-title">Publie-le depuis Edits avec une musique</div>
+          <div class="check-sub">Importe tes images dans le carrousel, ajoute une musique pour l'onglet Reels, publie. Regarde les sauvegardes et les partages après 48 h. Environ 5 min.</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="tick">✓</span></div>
+        <div class="check-text">
+          <div class="check-title">Vérifie si le bouton Booster est arrivé dans ton écran de live</div>
+          <div class="check-sub">Ouvre la caméra, glisse jusqu'à « En direct » et regarde les options avant de lancer. Tu n'as rien à payer pour vérifier. Environ 2 min.</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="tick">✓</span></div>
+        <div class="check-text">
+          <div class="check-title">Ouvre ton nouveau tableau de bord LinkedIn</div>
+          <div class="check-sub">Sur mobile, touche ta photo de profil. S'il est disponible, note tes 3 posts les plus vus du mois et leur sujet. Environ 10 min.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- À RETENIR -->
+    <div class="section-header reveal">
+      <div class="bar"></div>
+      <span class="emoji">🎯</span>
+      <h2>À retenir</h2>
+    </div>
+
+    <div class="reveal">
+      <div class="retenir-box">
+        <h3>📌 Les signaux de la semaine</h3>
+        <ul class="retenir-list">
+          <li>Le carrousel gagne du terrain, Mosseri le confirme : c'est le format idéal pour montrer ta méthode.</li>
+          <li>Edits crée maintenant des carrousels gratuitement, avec ton style enregistré et une publication directe.</li>
+          <li>Claude Docs, Slides et Design sont ouverts à tous, même en version gratuite.</li>
+          <li>Tu peux booster un live depuis l'app, et LinkedIn regroupe tes statistiques dans un seul tableau de bord.</li>
+        </ul>
+        <div class="retenir-key">Les outils de mise en forme sont désormais gratuits et à portée de main. Ce qui fera la différence, c'est ce que toi seul peux écrire : ton expérience de coach.</div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-bar"></div>
+    <a href="https://www.skool.com/promentor-labs-6308?c=7c189ec6612642d99818b7c14a3d04b9" class="footer-cta" target="_blank">💬 Une question ? Pose-la dans la communauté</a>
+    <p class="footer-tagline">Le Brief proMENTOR — La veille qui fait gagner du temps aux coachs.</p>
+    <p class="footer-legal">© 2026 proMENTOR / FitCinetik — Michael Boulle — Diffusion gratuite</p>
+  </footer>
+
+</div><!-- /journal -->
+
+<script>
+  // Progress bar
+  window.addEventListener('scroll', () => {
+    const doc = document.documentElement;
+    const scrollTop = doc.scrollTop || document.body.scrollTop;
+    const scrollHeight = doc.scrollHeight - doc.clientHeight;
+    const pct = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+    document.getElementById('progress-bar').style.width = pct + '%';
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  reveals.forEach(r => obs.observe(r));
+
+  // Accordéon Instagram
+  function toggleAccordion(btn) {
+    btn.classList.toggle('open');
+    btn.nextElementSibling.classList.toggle('open');
+  }
+
+  // Accordéon IA
+  function toggleAccordionIA(btn) {
+    btn.classList.toggle('open');
+    btn.nextElementSibling.classList.toggle('open');
+  }
+
+  // Checklist
+  function toggleCheck(item) {
+    item.querySelector('.check-box').classList.toggle('checked');
+    item.classList.toggle('done');
+  }
+
+  // Glossaire
+  function toggleGloss(el) {
+    const def = el.nextElementSibling;
+    const isOpen = def.classList.contains('open');
+    document.querySelectorAll('.g-def.open').forEach(d => {
+      d.classList.remove('open');
+      d.previousElementSibling.classList.remove('active');
+    });
+    if (!isOpen) { def.classList.add('open'); el.classList.add('active'); }
+  }
+</script>
+</body>
+</html>
